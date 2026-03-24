@@ -21,93 +21,103 @@ export function AppDrawer({
   onClose?: () => void;
 }) {
   return (
-    <aside className="rounded-[30px] border border-white/80 bg-white/90 p-4 shadow-[0_22px_50px_rgba(15,31,56,0.12)]">
-      <div className="rounded-[26px] bg-linear-to-br from-surface-strong to-[#17345c] p-4 text-white">
-        <div className="flex items-start justify-between gap-4">
+    <aside className="flex h-full flex-col overflow-hidden rounded-r-[30px] bg-white shadow-[0_22px_50px_rgba(15,31,56,0.12)]">
+      <div className="shrink-0 border-b border-[#eef3f7] bg-white shadow-[0_8px_18px_rgba(15,31,56,0.04)]">
+        <div className="px-4 pb-3 pt-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/16 text-2xl">
+            <div className="flex h-12 w-12 items-center justify-center rounded-[10px] bg-linear-to-br from-primary to-primary-strong text-[22px] text-white shadow-[0_12px_24px_rgba(15,143,176,0.22)]">
               +
             </div>
-            <div>
-              <p className="text-lg font-extrabold leading-5">Auxiliar de Enfermagem</p>
-              <p className="mt-1 text-xs uppercase tracking-[0.28em] text-white/60">Brasil</p>
+            <div className="min-w-0 flex-1">
+              <p className="text-[15px] font-extrabold leading-5 text-foreground">
+                Auxiliar de Enfermagem
+              </p>
+              <p className="text-[15px] font-extrabold leading-5 text-foreground">Brasil</p>
+            </div>
+            <button
+              type="button"
+              aria-label="Fechar menu"
+              onClick={onClose}
+              className="flex h-9 w-9 items-center justify-center rounded-full text-lg text-muted"
+            >
+              x
+            </button>
+          </div>
+
+          <div className="mt-3">
+            <div className="flex rounded-full bg-[#f2f6fb] p-1">
+              <button
+                type="button"
+                className="flex flex-1 items-center justify-center gap-2 rounded-full bg-primary px-4 py-1 text-sm font-extrabold text-white shadow-[0_8px_16px_rgba(15,143,176,0.25)]"
+              >
+                <span className="text-base">&#9638;</span>
+                HOSPITAL
+              </button>
+              <button
+                type="button"
+                className="flex flex-1 items-center justify-center gap-2 rounded-full px-4 py-1 text-sm font-bold text-muted"
+              >
+                <span className="text-base">&#8962;</span>
+                APS
+              </button>
             </div>
           </div>
-          <button
-            type="button"
-            aria-label="Fechar menu"
-            onClick={onClose}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-lg text-white/70"
-          >
-            x
-          </button>
-        </div>
-
-        <div className="mt-5 flex rounded-full bg-white/8 p-1">
-          <button
-            type="button"
-            className="flex-1 rounded-full bg-white px-4 py-2 text-sm font-extrabold text-surface-strong"
-          >
-            Hospital
-          </button>
-          <button
-            type="button"
-            className="flex-1 rounded-full px-4 py-2 text-sm font-bold text-white/66"
-          >
-            APS
-          </button>
         </div>
       </div>
 
-      <nav className="mt-4 space-y-2">
-        {items.map((item) => (
-          <Link
-            key={item.id}
-            href={item.href}
-            onClick={onClose}
-            className={`flex items-center gap-3 rounded-[22px] px-3 py-3 transition-colors ${
-              item.active
-                ? "bg-linear-to-r from-secondary-soft to-primary-soft"
-                : "bg-transparent hover:bg-surface-alt"
-            }`}
-          >
-            <div
-              className={`flex h-11 w-11 items-center justify-center rounded-2xl text-lg ${
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        <nav className="space-y-2 px-4 py-4">
+          {items.map((item) => (
+            <Link
+              key={item.id}
+              href={item.href}
+              onClick={onClose}
+              className={`flex items-center gap-3 rounded-[22px] px-3 py-3 transition-colors ${
                 item.active
-                  ? "bg-white text-primary shadow-[0_10px_24px_rgba(15,143,176,0.15)]"
-                  : "bg-surface-alt text-muted"
+                  ? "bg-linear-to-r from-secondary-soft to-primary-soft"
+                  : "bg-transparent hover:bg-surface-alt"
               }`}
             >
-              {iconMap[item.id] ?? "\u2022"}
+              <div
+                className={`flex h-11 w-11 items-center justify-center rounded-2xl text-lg ${
+                  item.active
+                    ? "bg-white text-primary shadow-[0_10px_24px_rgba(15,143,176,0.15)]"
+                    : "bg-surface-alt text-muted"
+                }`}
+              >
+                {iconMap[item.id] ?? "\u2022"}
+              </div>
+              <div className="flex-1">
+                <p className="text-base font-extrabold text-foreground">{item.label}</p>
+                <p className="text-sm text-muted">{item.description}</p>
+              </div>
+              {item.badge ? (
+                <span className="rounded-full bg-[#ffe3e5] px-2 py-1 text-xs font-extrabold text-danger">
+                  {item.badge}
+                </span>
+              ) : null}
+            </Link>
+          ))}
+        </nav>
+      </div>
+
+      <div className="shrink-0 border-t border-[#eef3f7] bg-white px-4 py-4 shadow-[0_-8px_18px_rgba(15,31,56,0.04)]">
+        <div className="rounded-[24px] bg-linear-to-r from-[#f9fcff] to-[#f1f7fb] p-4 ring-1 ring-border">
+          <div className="flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary-soft text-sm font-extrabold text-primary">
+              N
             </div>
             <div className="flex-1">
-              <p className="text-base font-extrabold text-foreground">{item.label}</p>
-              <p className="text-sm text-muted">{item.description}</p>
+              <p className="text-base font-extrabold text-foreground">Nubio Campos</p>
+              <p className="mt-1 inline-flex rounded-full bg-secondary-soft px-2 py-1 text-xs font-bold text-primary-strong">
+                Enfermeiro(a)
+              </p>
             </div>
-            {item.badge ? (
-              <span className="rounded-full bg-[#ffe3e5] px-2 py-1 text-xs font-extrabold text-danger">
-                {item.badge}
-              </span>
-            ) : null}
-          </Link>
-        ))}
-      </nav>
-
-      <div className="mt-5 rounded-[24px] bg-linear-to-r from-[#f9fcff] to-[#f1f7fb] p-4 ring-1 ring-border">
-        <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary-soft text-sm font-extrabold text-primary">
-            N
           </div>
-          <div className="flex-1">
-            <p className="text-base font-extrabold text-foreground">Nubio Campos</p>
-            <p className="mt-1 inline-flex rounded-full bg-secondary-soft px-2 py-1 text-xs font-bold text-primary-strong">
-              Enfermeiro(a)
-            </p>
+          <div className="mt-4 flex items-center justify-between text-sm text-muted">
+            <span>Maternidade</span>
+            <span className="text-lg text-primary-strong">\u2192</span>
           </div>
-        </div>
-        <div className="mt-4 flex items-center justify-between text-sm text-muted">
-          <span>Maternidade</span>
-          <span className="text-lg text-primary-strong">\u2192</span>
         </div>
       </div>
     </aside>

@@ -16,12 +16,8 @@ export function SectionOverviewView({
   cards: Array<{ title: string; text: string }>;
 }) {
   return (
-    <AppScreen className="space-y-6">
-      <WorkspaceShell
-        items={drawerMenu}
-        title="Painel Assistencial"
-        subtitle="Navegacao modular pronta para expandir o produto"
-      >
+    <AppScreen flush className="space-y-6">
+      <WorkspaceShell items={drawerMenu}>
         <section className="rounded-[30px] bg-white/82 p-5 shadow-[0_18px_36px_rgba(15,31,56,0.08)]">
           <p className="text-sm font-bold uppercase tracking-[0.24em] text-primary-strong">
             {eyebrow}

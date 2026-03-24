@@ -25,12 +25,8 @@ export function DashboardView({
   quickAccess: QuickAccessItem[];
 }) {
   return (
-    <AppScreen className="space-y-6">
-      <WorkspaceShell
-        items={drawerMenu}
-        title="Painel Assistencial"
-        subtitle="Menu mobile real com drawer e rotas internas"
-      >
+    <AppScreen flush className="space-y-6">
+      <WorkspaceShell items={drawerMenu}>
         <section className="rounded-[30px] bg-white/82 p-4 shadow-[0_18px_36px_rgba(15,31,56,0.08)]">
           <div className="flex items-center justify-between gap-3">
             <div>
