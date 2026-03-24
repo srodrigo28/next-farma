@@ -4,7 +4,7 @@ import { ReactNode, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AppDrawer } from "@/shared/components/AppDrawer";
 import { AppNavbar } from "@/shared/components/AppNavbar";
-import { DrawerMenuItem } from "@/shared/types";
+import { DrawerMenuItem, WorkspaceMode } from "@/shared/types";
 
 export function WorkspaceShell({
   children,
@@ -15,6 +15,7 @@ export function WorkspaceShell({
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState<WorkspaceMode>("hospital");
 
   const menuItems = items.map((item) => ({
     ...item,
@@ -23,7 +24,11 @@ export function WorkspaceShell({
 
   return (
     <div>
-      <AppNavbar onOpenMenu={() => setOpen(true)} />
+      <AppNavbar
+        onOpenMenu={() => setOpen(true)}
+        mode={mode}
+        onModeChange={setMode}
+      />
 
       <section className="relative">
         <div
@@ -38,11 +43,16 @@ export function WorkspaceShell({
             open ? "translate-x-0" : "-translate-x-full"
           }`}
         >
-          <AppDrawer items={menuItems} onClose={() => setOpen(false)} />
+          <AppDrawer
+            items={menuItems}
+            onClose={() => setOpen(false)}
+            mode={mode}
+            onModeChange={setMode}
+          />
         </div>
 
         <div className="hidden border-r border-[#eef3f7] bg-white md:fixed md:inset-y-0 md:left-0 md:z-20 md:block md:w-[320px]">
-          <AppDrawer items={menuItems} />
+          <AppDrawer items={menuItems} mode={mode} onModeChange={setMode} />
         </div>
 
         <div className="px-4 pb-4 pt-4 md:ml-[320px]">

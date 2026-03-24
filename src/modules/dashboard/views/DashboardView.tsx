@@ -33,16 +33,16 @@ export function DashboardView({
               <p className="text-sm font-bold uppercase tracking-[0.24em] text-primary-strong">
                 Turno da manha
               </p>
-              <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-foreground">
+              <h1 className="mt-2 text-xl font-extrabold tracking-tight text-foreground">
                 Ola, Nubio
               </h1>
-              <p className="mt-2 text-base leading-6 text-muted">
+              <p className="mt-2 text-sm leading-6 text-muted">
                 Quinta-feira, 19 de marco de 2026. Hospital · Maternidade
               </p>
             </div>
-            <div className="rounded-[24px] bg-linear-to-br from-primary-soft to-secondary-soft px-4 py-3 text-right">
-              <p className="text-sm font-bold text-muted">Setor ativo</p>
-              <p className="text-lg font-extrabold text-foreground">Hospital</p>
+            <div className="rounded-[24px] bg-linear-to-br from-primary-soft to-secondary-soft px-4 py-2 text-right">
+              <p className="text-sm font-bold text-muted text-center">Setor ativo</p>
+              <p className="text-md font-extrabold text-foreground">Hospital</p>
             </div>
           </div>
         </section>

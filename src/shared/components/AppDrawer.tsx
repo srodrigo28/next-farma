@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { DrawerMenuItem } from "@/shared/types";
+import { WorkspaceModeToggle } from "@/shared/components/WorkspaceModeToggle";
+import { DrawerMenuItem, WorkspaceMode } from "@/shared/types";
 
 const iconMap: Record<string, string> = {
   overview: "\u25A6",
@@ -16,9 +17,13 @@ const iconMap: Record<string, string> = {
 export function AppDrawer({
   items,
   onClose,
+  mode,
+  onModeChange,
 }: {
   items: DrawerMenuItem[];
   onClose?: () => void;
+  mode: WorkspaceMode;
+  onModeChange: (mode: WorkspaceMode) => void;
 }) {
   return (
     <aside className="flex h-full flex-col overflow-hidden rounded-r-[30px] bg-white shadow-[0_22px_50px_rgba(15,31,56,0.12)]">
@@ -45,22 +50,7 @@ export function AppDrawer({
           </div>
 
           <div className="mt-3">
-            <div className="flex rounded-full bg-[#f2f6fb] p-1">
-              <button
-                type="button"
-                className="flex flex-1 items-center justify-center gap-2 rounded-full bg-primary px-4 py-1 text-sm font-extrabold text-white shadow-[0_8px_16px_rgba(15,143,176,0.25)]"
-              >
-                <span className="text-base">&#9638;</span>
-                HOSPITAL
-              </button>
-              <button
-                type="button"
-                className="flex flex-1 items-center justify-center gap-2 rounded-full px-4 py-1 text-sm font-bold text-muted"
-              >
-                <span className="text-base">&#8962;</span>
-                APS
-              </button>
-            </div>
+            <WorkspaceModeToggle value={mode} onChange={onModeChange} compact />
           </div>
         </div>
       </div>
