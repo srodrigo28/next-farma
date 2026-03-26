@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AppScreen } from "@/shared/components/AppScreen";
+import { GoogleIcon } from "@/shared/components/AppIcons";
 import { BrandMark } from "@/shared/components/BrandMark";
 import { PrimaryButton } from "@/shared/components/PrimaryButton";
 import { TextField } from "@/shared/components/TextField";
@@ -18,16 +19,16 @@ export function LoginView({
         <div className="flex flex-col items-center gap-5 text-center">
           <BrandMark compact />
           <div className="space-y-2">
-            <h1 className="text-4xl font-extrabold tracking-tight text-foreground">
+            <h1 className="text-4xl font-bold tracking-tight text-foreground">
               Bem-vindo ao Next Farma
             </h1>
-            <p className="text-lg text-muted">Entre para continuar seu plantao.</p>
+            <p className="text-lg text-muted">Entre para continuar seu plantão.</p>
           </div>
         </div>
 
         <div className="space-y-4">
-          <PrimaryButton href="/dashboard" variant="ghost" className="gap-3 font-bold">
-            <span className="text-xl">G</span>
+          <PrimaryButton href="/dashboard" variant="ghost" className="gap-3">
+            <GoogleIcon className="h-5 w-5" />
             Continuar com Google
           </PrimaryButton>
           <div className="flex items-center gap-3 text-sm font-bold uppercase tracking-[0.24em] text-muted">
@@ -36,7 +37,7 @@ export function LoginView({
             <span className="h-px flex-1 bg-border" />
           </div>
           <div className="space-y-4">
-            <TextField label="Email" placeholder={credentials.email} type="email" />
+            <TextField label="E-mail" placeholder={credentials.email} type="email" />
             <TextField
               label="Senha"
               placeholder={credentials.password}
@@ -46,7 +47,7 @@ export function LoginView({
         </div>
 
         <div className="space-y-4">
-          <PrimaryButton href="/dashboard">Entrar</PrimaryButton>
+          <PrimaryButton href="/dashboard">Acessar painel</PrimaryButton>
           <div className="flex items-center justify-between gap-4 text-sm font-bold text-muted">
             <Link href={links[0].href}>{links[0].label}</Link>
             <Link href={links[1].href}>{links[1].label}</Link>

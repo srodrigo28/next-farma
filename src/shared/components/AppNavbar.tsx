@@ -1,3 +1,4 @@
+import { MenuIcon } from "@/shared/components/AppIcons";
 import Link from "next/link";
 import { WorkspaceModeToggle } from "@/shared/components/WorkspaceModeToggle";
 import { WorkspaceMode } from "@/shared/types";
@@ -21,14 +22,14 @@ export function AppNavbar({
             onClick={onOpenMenu}
             className="flex h-9 w-10 items-center justify-center text-[30px] font-light text-foreground"
           >
-            &#9776;
+            <MenuIcon className="h-7 w-7" />
           </button>
           <Link href="/dashboard" className="flex min-w-0 flex-1 items-center gap-3">
             <div className="min-w-0">
-              <p className="text-[14px] font-extrabold leading-5 text-foreground">
-                Auxiliar de Enfermagem
+              <p className="text-sm font-semibold leading-5 text-foreground">
+                Enfermagem assistencial
               </p>
-              <p className="text-[14px] font-extrabold leading-5 text-foreground">
+              <p className="text-xs uppercase tracking-[0.16em] text-muted">
                 Brasil
               </p>
             </div>

@@ -5,15 +5,15 @@ export default function AlertasPage() {
     <SectionOverviewController
       eyebrow="Alertas"
       title="Central de alertas"
-      description="Canal central para vencimentos, itens criticos, lembretes de plantao e eventos que exigem acao imediata."
+      description="Acompanhe vencimentos, itens críticos, lembretes do plantão e eventos que exigem ação imediata."
       cards={[
         {
-          title: "Notificacoes criticas",
-          text: "Vencimento de medicacao, risco de atraso e tarefas sensiveis ao tempo.",
+          title: "Notificações críticas",
+          text: "Veja vencimentos de medicação, risco de atraso e tarefas sensíveis ao tempo.",
         },
         {
           title: "Triagem inteligente",
-          text: "Separar por criticidade, unidade e tipo de ocorrencia para agir rapido.",
+          text: "Separe por criticidade, unidade e tipo de ocorrência para agir rápido.",
         },
       ]}
     />

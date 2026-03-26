@@ -1,22 +1,33 @@
+import { ArrowRightIcon, CheckIcon, CircleIcon } from "@/shared/components/AppIcons";
 import { SelectOption } from "@/shared/types";
 
 export function OptionCard({ option }: { option: SelectOption }) {
   const selectedClassName = option.selected
-    ? "border-primary bg-primary-soft"
+    ? "border-primary bg-primary-soft shadow-[0_16px_30px_rgba(15,143,176,0.10)]"
     : "border-border bg-white";
 
   return (
     <div
-      className={`flex items-center gap-4 rounded-[22px] border p-4 shadow-[0_8px_25px_rgba(16,33,62,0.05)] ${selectedClassName}`}
+      className={`flex items-center gap-4 rounded-[22px] border p-4 shadow-[0_8px_25px_rgba(16,33,62,0.05)] transition-colors ${selectedClassName}`}
     >
-      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-surface-alt text-xl text-primary">
-        {option.selected ? "\u2713" : "\u25A6"}
+      <div
+        className={`flex h-12 w-12 items-center justify-center rounded-2xl ${
+          option.selected ? "bg-primary text-white" : "bg-surface-alt text-primary"
+        }`}
+      >
+        {option.selected ? (
+          <CheckIcon className="h-5 w-5" />
+        ) : (
+          <CircleIcon className="h-5 w-5" />
+        )}
       </div>
       <div className="flex-1">
-        <p className="text-xl font-extrabold text-foreground">{option.title}</p>
+        <p className="text-lg font-semibold text-foreground">{option.title}</p>
         <p className="text-sm leading-5 text-muted">{option.description}</p>
       </div>
-      <div className="text-2xl text-muted">{option.selected ? "" : "\u203A"}</div>
+      <div className="text-muted">
+        {!option.selected ? <ArrowRightIcon className="h-5 w-5" /> : null}
+      </div>
     </div>
   );
 }

@@ -23,23 +23,25 @@ export function WorkspaceShell({
   }));
 
   return (
-    <div>
-      <AppNavbar
-        onOpenMenu={() => setOpen(true)}
-        mode={mode}
-        onModeChange={setMode}
-      />
+    <div className="flex h-screen flex-col overflow-hidden md:h-[calc(100vh-40px)]">
+      <div className="shrink-0">
+        <AppNavbar
+          onOpenMenu={() => setOpen((value) => !value)}
+          mode={mode}
+          onModeChange={setMode}
+        />
+      </div>
 
-      <section className="relative">
+      <section className="relative min-h-0 flex-1 overflow-hidden">
         <div
-          className={`fixed inset-0 z-40 bg-[#0e1c34]/24 transition-opacity md:hidden ${
+          className={`fixed inset-0 z-40 bg-[#0e1c34]/24 transition-opacity ${
             open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
           }`}
           onClick={() => setOpen(false)}
         />
 
         <div
-          className={`fixed inset-y-0 left-0 z-50 w-[84vw] max-w-[320px] transition-transform duration-300 md:hidden ${
+          className={`fixed inset-y-0 left-0 z-50 w-[84vw] max-w-[320px] transition-transform duration-300 ${
             open ? "translate-x-0" : "-translate-x-full"
           }`}
         >
@@ -51,11 +53,7 @@ export function WorkspaceShell({
           />
         </div>
 
-        <div className="hidden border-r border-[#eef3f7] bg-white md:fixed md:inset-y-0 md:left-0 md:z-20 md:block md:w-[320px]">
-          <AppDrawer items={menuItems} mode={mode} onModeChange={setMode} />
-        </div>
-
-        <div className="px-4 pb-4 pt-4 md:ml-[320px]">
+        <div className="h-full overflow-y-auto px-4 pb-6 pt-4">
           {children}
         </div>
       </section>

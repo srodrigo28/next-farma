@@ -5,15 +5,15 @@ export default function ProtocolosPage() {
     <SectionOverviewController
       eyebrow="Protocolos"
       title="Biblioteca de protocolos"
-      description="Sessao pensada para agrupar condutas, fluxos institucionais e material de apoio para consulta rapida durante o atendimento."
+      description="Agrupe condutas, fluxos institucionais e materiais de apoio para consulta rápida durante o atendimento."
       cards={[
         {
           title: "Protocolos por tema",
-          text: "Urgencia, maternidade, clinica medica, oncologia e mais.",
+          text: "Urgência, maternidade, clínica médica, oncologia e mais.",
         },
         {
-          title: "Busca veloz",
-          text: "Base ideal para pesquisa textual e filtros por unidade ou perfil.",
+          title: "Busca rápida",
+          text: "Pesquise por texto e aplique filtros por unidade, perfil ou contexto clínico.",
         },
       ]}
     />

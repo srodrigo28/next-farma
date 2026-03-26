@@ -4,16 +4,16 @@ export default function MedicamentosPage() {
   return (
     <SectionOverviewController
       eyebrow="Medicamentos"
-      title="Rotina de medicacoes"
-      description="Espaco preparado para aprazamento, checagem de horario, validacao de dose e acompanhamento de administracoes vencidas."
+      title="Rotina de medicações"
+      description="Organize aprazamento, checagem de horário, validação de dose e acompanhamento das administrações."
       cards={[
         {
           title: "Aprazamento",
-          text: "Visualize horarios por turno e destaque itens com prioridade clinica.",
+          text: "Visualize horários por turno e destaque itens com prioridade clínica.",
         },
         {
-          title: "Seguranca",
-          text: "Base para validacao de 9 certos, dupla checagem e alertas de interacao.",
+          title: "Segurança",
+          text: "Apoie a validação dos 9 certos, a dupla checagem e os alertas de interação.",
         },
       ]}
     />

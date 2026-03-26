@@ -3,17 +3,17 @@ import { SectionOverviewController } from "@/modules/workspace/controllers/Secti
 export default function LegislacaoPage() {
   return (
     <SectionOverviewController
-      eyebrow="Legislacao"
+      eyebrow="Legislação"
       title="Base normativa"
-      description="Area preparada para resolucoes, notas tecnicas, guias do COREN e referencias legais relevantes para o dia a dia."
+      description="Área preparada para resoluções, notas técnicas, guias do COREN e referências legais relevantes para o dia a dia."
       cards={[
         {
-          title: "Normas e resolucoes",
-          text: "Repositorio para diretrizes oficiais e referencias atualizadas.",
+          title: "Normas e resoluções",
+          text: "Repositório para diretrizes oficiais e referências atualizadas.",
         },
         {
           title: "Consulta contextual",
-          text: "Relacionar regras com procedimento, unidade e perfil profissional.",
+          text: "Relacione regras com procedimento, unidade e perfil profissional.",
         },
       ]}
     />

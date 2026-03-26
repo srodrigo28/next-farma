@@ -4,16 +4,16 @@ export default function PacientesPage() {
   return (
     <SectionOverviewController
       eyebrow="Pacientes"
-      title="Gestao de pacientes"
-      description="Area pronta para listar pacientes internados, filtros de risco e atalhos para evolucao e administracao segura."
+      title="Gestão de pacientes"
+      description="Visualize pacientes internados, filtros de risco e atalhos para uma rotina assistencial mais segura."
       cards={[
         {
           title: "Lista assistencial",
-          text: "Organize internados por leito, prioridade, unidade e status clinico.",
+          text: "Organize pacientes por leito, prioridade, unidade e status clínico.",
         },
         {
-          title: "Risco e observacao",
-          text: "Destacar alergias, pendencias e alertas de seguranca do paciente.",
+          title: "Risco e observações",
+          text: "Destaque alergias, pendências e alertas de segurança do paciente.",
         },
       ]}
     />

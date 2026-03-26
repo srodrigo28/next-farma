@@ -4,16 +4,16 @@ export default function OsPage() {
   return (
     <SectionOverviewController
       eyebrow="OS"
-      title="Solicitacoes operacionais"
-      description="Aqui entraremos com ordens de servico, chamados internos e acompanhamento do que a unidade precisa resolver no plantao."
+      title="Solicitações operacionais"
+      description="Aqui entram ordens de serviço, chamados internos e o acompanhamento do que a unidade precisa resolver no plantão."
       cards={[
         {
           title: "Chamados da unidade",
-          text: "Registro de manutencao, equipamentos, transporte e apoio.",
+          text: "Registro de manutenção, equipamentos, transporte e apoio.",
         },
         {
           title: "Fila priorizada",
-          text: "Separacao por urgencia, setor responsavel e SLA interno.",
+          text: "Separação por urgência, setor responsável e SLA interno.",
         },
       ]}
     />

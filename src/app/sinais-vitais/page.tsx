@@ -5,15 +5,15 @@ export default function SinaisVitaisPage() {
     <SectionOverviewController
       eyebrow="Sinais vitais"
       title="Monitoramento assistencial"
-      description="Preparado para registrar e acompanhar PA, FC, FR, temperatura, saturacao e score de alerta precoce."
+      description="Registre e acompanhe PA, FC, FR, temperatura, saturação e score de alerta precoce."
       cards={[
         {
-          title: "Lancamento rapido",
-          text: "Formulario pensado para uso rapido no leito, com foco em mobile.",
+          title: "Lançamento rápido",
+          text: "Formulário pensado para uso ágil no leito, com foco em mobile.",
         },
         {
-          title: "Tendencias",
-          text: "Comparacao de valores e alertas quando houver deterioracao clinica.",
+          title: "Tendências",
+          text: "Compare valores e receba alertas quando houver deterioração clínica.",
         },
       ]}
     />

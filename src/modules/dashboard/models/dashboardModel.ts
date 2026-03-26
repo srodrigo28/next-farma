@@ -4,23 +4,23 @@ export function getDashboardStats(): DashboardStat[] {
   return [
     {
       id: "medicacoes",
-      label: "Medicacoes (2h)",
+      label: "Medicações em 2h",
       value: 0,
-      helper: "Proximas administracoes",
+      helper: "Próximas administrações",
       tone: "primary",
     },
     {
       id: "vencidas",
-      label: "Medicacoes vencidas",
+      label: "Medicações vencidas",
       value: 12,
-      helper: "Atencao imediata",
+      helper: "Requer atenção imediata",
       tone: "danger",
     },
     {
       id: "pendencias",
-      label: "Pendentes",
+      label: "Pendências",
       value: 0,
-      helper: "Neste plantao",
+      helper: "Neste plantão",
       tone: "warning",
     },
     {
@@ -37,18 +37,18 @@ export function getQuickAccess(): QuickAccessItem[] {
   return [
     {
       id: "prescricao",
-      title: "Nova prescricao",
-      description: "Acesse medicamentos, protocolos e observacoes.",
+      title: "Nova prescrição",
+      description: "Registre medicamentos, protocolos e observações do cuidado.",
     },
     {
       id: "plantao",
-      title: "Passagem de plantao",
-      description: "Registre pendencias e alinhe o turno com a equipe.",
+      title: "Passagem de plantão",
+      description: "Organize pendências e alinhe o turno com segurança.",
     },
     {
       id: "alertas",
-      title: "Alertas clinicos",
-      description: "Acompanhe vencimentos, riscos e medicacoes prioritarias.",
+      title: "Alertas clínicos",
+      description: "Acompanhe vencimentos, riscos e itens prioritários.",
     },
   ];
 }
@@ -57,57 +57,57 @@ export function getDrawerMenu(): DrawerMenuItem[] {
   return [
     {
       id: "overview",
-      label: "Nao se trata de uma questao de...",
-      description: "Painel principal e prioridades do turno.",
+      label: "Visão geral",
+      description: "Painel principal com prioridades do turno.",
       href: "/dashboard",
     },
     {
       id: "patients",
       label: "Pacientes",
-      description: "Internados, triagem e historico rapido.",
+      description: "Internados, triagem e histórico resumido.",
       href: "/pacientes",
     },
     {
       id: "medications",
       label: "Medicamentos",
-      description: "Aprazamento, checagem e administracao.",
+      description: "Aprazamento, checagem e administração segura.",
       href: "/medicamentos",
     },
     {
       id: "os",
-      label: "OS",
-      description: "Solicitacoes operacionais da unidade.",
+      label: "Ordens de serviço",
+      description: "Solicitações operacionais e chamados da unidade.",
       href: "/os",
     },
     {
       id: "vitals",
-      label: "Sinais Vitais",
-      description: "Lancamentos e acompanhamento em tempo real.",
+      label: "Sinais vitais",
+      description: "Lançamentos e acompanhamento em tempo real.",
       href: "/sinais-vitais",
     },
     {
       id: "alerts",
       label: "Alertas",
-      description: "Ocorrencias e itens que exigem atencao.",
+      description: "Ocorrências e itens que exigem atenção imediata.",
       href: "/alertas",
       badge: "3",
     },
     {
       id: "protocols",
       label: "Protocolos",
-      description: "Padroes assistenciais e condutas.",
+      description: "Padrões assistenciais e condutas.",
       href: "/protocolos",
     },
     {
       id: "legal",
-      label: "Legislacao",
-      description: "Normas, regras e referencias tecnicas.",
+      label: "Legislação",
+      description: "Normas, regras e referências técnicas.",
       href: "/legislacao",
     },
     {
       id: "handoff",
-      label: "Passagem Plantao",
-      description: "Resumo do turno e comunicacao segura.",
+      label: "Passagem de plantão",
+      description: "Resumo do turno e comunicação segura da equipe.",
       href: "/passagem-plantao",
     },
   ];
