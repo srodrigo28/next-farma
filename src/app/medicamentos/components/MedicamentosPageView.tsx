@@ -1,4 +1,9 @@
-import { MedicationsIcon, PlusIcon } from "@/shared/components/AppIcons";
+import {
+  CalendarClockIcon,
+  MedicationsIcon,
+  PlusIcon,
+  SyringeIcon,
+} from "@/shared/components/AppIcons";
 import { AppScreen } from "@/shared/components/AppScreen";
 import { PrimaryButton } from "@/shared/components/PrimaryButton";
 import { WorkspaceShell } from "@/shared/components/WorkspaceShell";
@@ -36,9 +41,19 @@ function MedicationList({ items }: { items: MedicationScheduleItem[] }) {
     <section className="space-y-4">
       {items.map((item) => (
         <article key={item.id} className="rounded-[24px] border border-white/70 bg-white/92 p-4 shadow-[0_14px_28px_rgba(15,31,56,0.05)]">
-          <p className="text-lg font-semibold text-foreground">{item.medicationName}</p>
-          <p className="mt-1 text-sm text-muted">{item.patientName} · {item.doseLabel}</p>
-          <p className="mt-2 text-sm text-muted">Agendado para {item.scheduledFor}</p>
+          <div className="flex items-start gap-3">
+            <div className="mt-1 flex h-11 w-11 items-center justify-center rounded-2xl bg-primary-soft text-primary-strong">
+              <SyringeIcon className="h-5 w-5" />
+            </div>
+            <div className="flex-1">
+              <p className="text-lg font-semibold text-foreground">{item.medicationName}</p>
+              <p className="mt-1 text-sm text-muted">{item.patientName} · {item.doseLabel}</p>
+              <div className="mt-2 inline-flex items-center gap-2 text-sm text-muted">
+                <CalendarClockIcon className="h-4 w-4" />
+                <span>Agendado para {item.scheduledFor}</span>
+              </div>
+            </div>
+          </div>
         </article>
       ))}
     </section>

@@ -1,14 +1,25 @@
-import { PlusIcon } from "@/shared/components/AppIcons";
+import { LungsIcon, OxygenIcon, PainIcon, PlusIcon, ThermometerIcon } from "@/shared/components/AppIcons";
 import { AppScreen } from "@/shared/components/AppScreen";
 import { PrimaryButton } from "@/shared/components/PrimaryButton";
 import { WorkspaceShell } from "@/shared/components/WorkspaceShell";
 import { getDrawerMenu } from "@/app/dashboard/data";
 import { VitalRecordItem } from "../types";
 
-function MetricCard({ label, value }: { label: string; value: string }) {
+function MetricCard({
+  label,
+  value,
+  icon,
+}: {
+  label: string;
+  value: string;
+  icon: React.ReactNode;
+}) {
   return (
     <div className="rounded-2xl bg-[#fff7f7] px-4 py-3 text-center">
-      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted">{label}</p>
+      <div className="mx-auto flex h-8 w-8 items-center justify-center rounded-full bg-white text-danger shadow-[0_6px_14px_rgba(15,31,56,0.05)]">
+        {icon}
+      </div>
+      <p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted">{label}</p>
       <p className="mt-1 text-2xl font-bold text-danger">{value}</p>
     </div>
   );
@@ -30,10 +41,10 @@ function VitalRecordCard({ record }: { record: VitalRecordItem }) {
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
-        {record.temperature ? <MetricCard label="Temp" value={record.temperature} /> : null}
-        {record.pain ? <MetricCard label="Dor" value={record.pain} /> : null}
-        {record.respiratoryRate ? <MetricCard label="FR" value={record.respiratoryRate} /> : null}
-        {record.spo2 ? <MetricCard label="SpO2" value={record.spo2} /> : null}
+        {record.temperature ? <MetricCard label="Temp" value={record.temperature} icon={<ThermometerIcon className="h-4 w-4" />} /> : null}
+        {record.pain ? <MetricCard label="Dor" value={record.pain} icon={<PainIcon className="h-4 w-4" />} /> : null}
+        {record.respiratoryRate ? <MetricCard label="FR" value={record.respiratoryRate} icon={<LungsIcon className="h-4 w-4" />} /> : null}
+        {record.spo2 ? <MetricCard label="SpO2" value={record.spo2} icon={<OxygenIcon className="h-4 w-4" />} /> : null}
       </div>
 
       {record.note ? <p className="mt-4 text-sm text-muted">{record.note}</p> : null}

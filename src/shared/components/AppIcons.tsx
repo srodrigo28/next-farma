@@ -235,3 +235,65 @@ export function AlertTriangleIcon(props: IconProps) {
     </BaseIcon>
   );
 }
+
+export function ThermometerIcon(props: IconProps) {
+  return (
+    <BaseIcon {...props}>
+      <path d="M10 6a2 2 0 1 1 4 0v7.5a4 4 0 1 1-4 0V6z" />
+      <path d="M12 10v7" />
+    </BaseIcon>
+  );
+}
+
+export function LungsIcon(props: IconProps) {
+  return (
+    <BaseIcon {...props}>
+      <path d="M12 5v14" />
+      <path d="M12 11c-1.5-2-3-3-4.5-3-2 0-3.5 1.8-3.5 4.2C4 15.8 6 19 9.5 19c1.2 0 2-.4 2.5-1" />
+      <path d="M12 11c1.5-2 3-3 4.5-3 2 0 3.5 1.8 3.5 4.2 0 3.6-2 6.8-5.5 6.8-1.2 0-2-.4-2.5-1" />
+    </BaseIcon>
+  );
+}
+
+export function OxygenIcon(props: IconProps) {
+  return (
+    <BaseIcon {...props}>
+      <path d="M12 4c3.2 3.6 5 6 5 8.5A5 5 0 1 1 7 12.5C7 10 8.8 7.6 12 4z" />
+      <path d="M10 13a2 2 0 0 0 4 0" />
+    </BaseIcon>
+  );
+}
+
+export function PainIcon(props: IconProps) {
+  return (
+    <BaseIcon {...props}>
+      <path d="M12 20s-6-3.6-6-9a3.5 3.5 0 0 1 6-2.3A3.5 3.5 0 0 1 18 11c0 5.4-6 9-6 9z" />
+      <path d="M12 9.5l-1.2 2.2h1.8l-1 2.8" />
+    </BaseIcon>
+  );
+}
+
+export function SyringeIcon(props: IconProps) {
+  return (
+    <BaseIcon {...props}>
+      <path d="M14 6l4 4" />
+      <path d="M5 19l8-8" />
+      <path d="M8 16l-3 3" />
+      <path d="M11 5l8 8" />
+      <path d="M13 3l2 2" />
+    </BaseIcon>
+  );
+}
+
+export function CalendarClockIcon(props: IconProps) {
+  return (
+    <BaseIcon {...props}>
+      <rect x="4" y="5" width="16" height="15" rx="2" />
+      <path d="M8 3v4" />
+      <path d="M16 3v4" />
+      <path d="M4 9h16" />
+      <path d="M12 13v2l1.5 1" />
+      <circle cx="12" cy="15" r="3.5" />
+    </BaseIcon>
+  );
+}
