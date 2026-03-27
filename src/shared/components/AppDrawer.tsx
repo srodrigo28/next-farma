@@ -26,6 +26,7 @@ const iconMap = {
   protocols: BookIcon,
   legal: ScaleIcon,
   handoff: HandoffIcon,
+  tasks: ClipboardIcon,
 };
 
 export function AppDrawer({
@@ -133,3 +134,4 @@ export function AppDrawer({
     </aside>
   );
 }
+

@@ -110,5 +110,11 @@ export function getDrawerMenu(): DrawerMenuItem[] {
       description: "Resumo do turno e comunicação segura da equipe.",
       href: "/passagem-plantao",
     },
+    {
+      id: "tasks",
+      label: "Tarefas",
+      description: "Pendências operacionais e assistenciais da equipe.",
+      href: "/tarefas",
+    },
   ];
 }
