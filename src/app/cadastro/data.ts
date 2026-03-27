@@ -1,4 +1,4 @@
-import { OnboardingStep } from "@/shared/types";
+import { OnboardingStep } from "./types";
 
 export function getOnboardingSteps(): OnboardingStep[] {
   return [

@@ -1,5 +1,12 @@
-import { DashboardController } from "@/modules/dashboard/controllers/DashboardController";
+import { DashboardPageView } from "./components/DashboardPageView";
+import { getDashboardStats, getDrawerMenu, getQuickAccess } from "./data";
 
 export default function DashboardPage() {
-  return <DashboardController />;
+  return (
+    <DashboardPageView
+      drawerMenu={getDrawerMenu()}
+      stats={getDashboardStats()}
+      quickAccess={getQuickAccess()}
+    />
+  );
 }

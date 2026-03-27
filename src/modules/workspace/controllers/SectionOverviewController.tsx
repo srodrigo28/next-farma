@@ -1,4 +1,4 @@
-import { getDrawerMenu } from "@/modules/dashboard/models/dashboardModel";
+import { getDrawerMenu } from "@/app/dashboard/data";
 import { SectionOverviewView } from "../views/SectionOverviewView";
 
 export function SectionOverviewController({

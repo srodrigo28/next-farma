@@ -1,4 +1,4 @@
-import { LoginCredentials, LoginOption } from "@/shared/types";
+import { LoginCredentials, LoginOption } from "./types";
 
 export function getDefaultCredentials(): LoginCredentials {
   return {

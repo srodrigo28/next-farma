@@ -4,9 +4,9 @@ import { GoogleIcon } from "@/shared/components/AppIcons";
 import { BrandMark } from "@/shared/components/BrandMark";
 import { PrimaryButton } from "@/shared/components/PrimaryButton";
 import { TextField } from "@/shared/components/TextField";
-import { LoginCredentials, LoginOption } from "@/shared/types";
+import { LoginCredentials, LoginOption } from "../types";
 
-export function LoginView({
+export function LoginPageView({
   credentials,
   links,
 }: {
@@ -38,11 +38,7 @@ export function LoginView({
           </div>
           <div className="space-y-4">
             <TextField label="E-mail" placeholder={credentials.email} type="email" />
-            <TextField
-              label="Senha"
-              placeholder={credentials.password}
-              type="password"
-            />
+            <TextField label="Senha" placeholder={credentials.password} type="password" />
           </div>
         </div>
 

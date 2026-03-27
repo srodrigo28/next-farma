@@ -1,5 +1,6 @@
-import { LoginController } from "@/modules/auth/controllers/LoginController";
+import { LoginPageView } from "./components/LoginPageView";
+import { getDefaultCredentials, getLoginLinks } from "./data";
 
 export default function LoginPage() {
-  return <LoginController />;
+  return <LoginPageView credentials={getDefaultCredentials()} links={getLoginLinks()} />;
 }

@@ -1,5 +1,6 @@
-import { OnboardingController } from "@/modules/onboarding/controllers/OnboardingController";
+import { CadastroPageView } from "./components/CadastroPageView";
+import { getOnboardingSteps } from "./data";
 
 export default function CadastroPage() {
-  return <OnboardingController />;
+  return <CadastroPageView steps={getOnboardingSteps()} />;
 }

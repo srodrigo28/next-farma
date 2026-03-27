@@ -7,7 +7,7 @@ import {
 } from "@/shared/components/AppIcons";
 import { AppScreen } from "@/shared/components/AppScreen";
 import { WorkspaceShell } from "@/shared/components/WorkspaceShell";
-import { DashboardStat, DrawerMenuItem, QuickAccessItem } from "@/shared/types";
+import { DashboardStat, DrawerMenuItem, QuickAccessItem } from "../types";
 
 function toneClassMap(tone: DashboardStat["tone"]) {
   switch (tone) {
@@ -30,7 +30,7 @@ function getStatIcon(id: string, tone: DashboardStat["tone"]) {
   return HeartbeatIcon;
 }
 
-export function DashboardView({
+export function DashboardPageView({
   drawerMenu,
   stats,
   quickAccess,
@@ -94,8 +94,8 @@ export function DashboardView({
         </section>
 
         <section className="space-y-4 pb-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-foreground mt-7">Acesso rápido</h2>
+          <div className="mt-7 flex items-center justify-between">
+            <h2 className="text-2xl font-bold text-foreground">Acesso rápido</h2>
             <span className="rounded-full bg-accent-soft px-3 py-1 text-sm font-semibold text-[#9c6a17]">
               Atalhos
             </span>

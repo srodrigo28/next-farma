@@ -1,4 +1,4 @@
-import { DashboardStat, DrawerMenuItem, QuickAccessItem } from "@/shared/types";
+import { DashboardStat, DrawerMenuItem, QuickAccessItem } from "./types";
 
 export function getDashboardStats(): DashboardStat[] {
   return [

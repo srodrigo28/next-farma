@@ -8,9 +8,9 @@ import { OptionCard } from "@/shared/components/OptionCard";
 import { PrimaryButton } from "@/shared/components/PrimaryButton";
 import { StepIndicator } from "@/shared/components/StepIndicator";
 import { TextField } from "@/shared/components/TextField";
-import { OnboardingStep } from "@/shared/types";
+import { OnboardingStep } from "../types";
 
-export function OnboardingView({ steps }: { steps: OnboardingStep[] }) {
+export function CadastroPageView({ steps }: { steps: OnboardingStep[] }) {
   const [currentStep, setCurrentStep] = useState(0);
   const step = steps[currentStep];
   const isFirstStep = currentStep === 0;
