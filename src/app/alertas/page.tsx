@@ -1,6 +1,8 @@
 import { AlertasPageView } from "./components/AlertasPageView";
 import { getAlerts } from "./data";
 
-export default function AlertasPage() {
-  return <AlertasPageView alerts={getAlerts()} />;
+export default async function AlertasPage() {
+  const alerts = await getAlerts();
+
+  return <AlertasPageView alerts={alerts} />;
 }

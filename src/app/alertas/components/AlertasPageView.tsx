@@ -26,13 +26,14 @@ function AlertCard({
             <div>
               <p className="text-lg font-semibold text-foreground">{alert.medicationName}</p>
               <p className="mt-1 text-sm text-muted">
-                {alert.patientName} · {alert.doseLabel} · {alert.scheduleLabel}
+                {alert.patientName} - {alert.doseLabel} - {alert.scheduleLabel}
               </p>
+              <p className="mt-1 text-sm font-semibold text-foreground">{alert.category}</p>
               {alert.priority ? (
-                <p className="mt-1 text-sm font-semibold text-foreground">{alert.priority}</p>
+                <p className="mt-1 text-sm font-semibold text-danger">{alert.priority}</p>
               ) : null}
             </div>
-            <p className="text-right text-lg font-bold text-danger">{alert.delayLabel}</p>
+            <p className="text-right text-sm font-bold text-danger">{alert.delayLabel}</p>
           </div>
 
           <button
@@ -48,6 +49,15 @@ function AlertCard({
   );
 }
 
+function EmptyState() {
+  return (
+    <div className="rounded-[24px] border border-white/70 bg-white/92 px-6 py-10 text-center shadow-[0_14px_28px_rgba(15,31,56,0.05)]">
+      <p className="text-lg font-semibold text-foreground">Nenhum alerta clinico no momento.</p>
+      <p className="mt-2 text-sm text-muted">As proximas medicacoes e prioridades vao aparecer aqui.</p>
+    </div>
+  );
+}
+
 export function AlertasPageView({ alerts }: { alerts: AlertItem[] }) {
   const [feedback, setFeedback] = useState("");
 
@@ -55,6 +65,8 @@ export function AlertasPageView({ alerts }: { alerts: AlertItem[] }) {
     const result = await snoozeAlert(alertId);
     if (result.ok) setFeedback(result.message);
   }
+
+  const highPriorityCount = alerts.filter((alert) => Boolean(alert.priority)).length;
 
   return (
     <AppScreen flush>
@@ -65,20 +77,25 @@ export function AlertasPageView({ alerts }: { alerts: AlertItem[] }) {
               <BellIcon className="h-8 w-8 text-danger" />
               <h1 className="text-4xl font-bold tracking-tight text-foreground">Alertas</h1>
             </div>
-            <p className="text-sm text-muted">{alerts.length} alertas ativos</p>
+            <p className="text-sm text-muted">
+              {alerts.length} alerta(s) ativo(s)
+              {highPriorityCount ? ` - ${highPriorityCount} de alta vigilancia` : ""}
+            </p>
           </div>
 
           <div className="space-y-2">
             <p className="text-lg font-semibold uppercase tracking-[0.12em] text-danger">
-              Medicações vencidas ({alerts.length})
+              Monitoramento clinico
             </p>
             {feedback ? <p className="text-sm font-medium text-primary">{feedback}</p> : null}
           </div>
 
           <section className="space-y-4">
-            {alerts.map((alert) => (
-              <AlertCard key={alert.id} alert={alert} onSnooze={handleSnooze} />
-            ))}
+            {alerts.length ? (
+              alerts.map((alert) => <AlertCard key={alert.id} alert={alert} onSnooze={handleSnooze} />)
+            ) : (
+              <EmptyState />
+            )}
           </section>
         </section>
       </WorkspaceShell>

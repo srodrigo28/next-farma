@@ -1,53 +1,50 @@
+import { apiGet } from "@/shared/lib/api";
 import { AlertItem } from "./types";
 
-export function getAlerts(): AlertItem[] {
-  return [
-    {
-      id: "alert-1",
-      medicationName: "Amoxicilina",
-      patientName: "Mario",
-      doseLabel: "0,07 mg",
-      scheduleLabel: "Agendada 04:47",
-      delayLabel: "20 dias atrás",
-      category: "Medicações vencidas",
-    },
-    {
-      id: "alert-2",
-      medicationName: "Insulina Regular",
-      patientName: "José",
-      doseLabel: "10 UI",
-      scheduleLabel: "Agendada 06:47",
-      priority: "Alto risco",
-      delayLabel: "20 dias atrás",
-      category: "Medicações vencidas",
-    },
-    {
-      id: "alert-3",
-      medicationName: "Paracetamol",
-      patientName: "José",
-      doseLabel: "1 mg",
-      scheduleLabel: "Agendada 06:56",
-      delayLabel: "20 dias atrás",
-      category: "Medicações vencidas",
-    },
-    {
-      id: "alert-4",
-      medicationName: "Amoxicilina",
-      patientName: "Mario",
-      doseLabel: "0,07 mg",
-      scheduleLabel: "Agendada 12:47",
-      delayLabel: "20 dias atrás",
-      category: "Medicações vencidas",
-    },
-    {
-      id: "alert-5",
-      medicationName: "Insulina Regular",
-      patientName: "José",
-      doseLabel: "10 UI",
-      scheduleLabel: "Agendada 14:47",
-      priority: "Alto risco",
-      delayLabel: "20 dias atrás",
-      category: "Medicações vencidas",
-    },
-  ];
+interface ApiMedicationScheduleItem {
+  id: string | number;
+  patient_name: string;
+  medication_name: string;
+  dose_label: string;
+  scheduled_for: string;
+  priority?: string;
+}
+
+interface ApiMedicationSchedule {
+  window: string;
+  items: ApiMedicationScheduleItem[];
+}
+
+function buildDelayLabel(priority?: string) {
+  if (priority) {
+    return priority;
+  }
+
+  return "Proxima administracao";
+}
+
+function buildCategory(priority?: string) {
+  if (priority) {
+    return "Alta vigilancia";
+  }
+
+  return "Medicacoes nas proximas 2h";
+}
+
+export async function getAlerts(): Promise<AlertItem[]> {
+  const payload = await apiGet<ApiMedicationSchedule>("/api/v1/medications/schedule?window=2h");
+  if (!payload) {
+    return [];
+  }
+
+  return payload.data.items.map((item) => ({
+    id: String(item.id),
+    medicationName: item.medication_name,
+    patientName: item.patient_name,
+    doseLabel: item.dose_label,
+    scheduleLabel: `Agendada ${item.scheduled_for}`,
+    priority: item.priority,
+    delayLabel: buildDelayLabel(item.priority),
+    category: buildCategory(item.priority),
+  }));
 }
