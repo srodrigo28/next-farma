@@ -1,42 +1,42 @@
-import { OnboardingStep } from "./types";
+import { OnboardingStep, RegisterFormData } from "./types";
 
 export function getOnboardingSteps(): OnboardingStep[] {
   return [
     {
       id: "profile",
-      title: "Qual é o seu perfil profissional?",
+      title: "Qual e o seu perfil profissional?",
       subtitle: "Selecione o perfil que melhor representa sua rotina de trabalho.",
       options: [
         {
           id: "enfermeiro",
           title: "Enfermeiro(a)",
-          description: "COREN ativo e acesso completo aos fluxos clínicos.",
+          description: "COREN ativo e acesso completo aos fluxos clinicos.",
         },
         {
           id: "tecnico",
-          title: "Técnico(a) de Enfermagem",
-          description: "Rotinas operacionais, medicações e checklist assistencial.",
+          title: "Tecnico(a) de Enfermagem",
+          description: "Rotinas operacionais, medicacoes e checklist assistencial.",
         },
         {
           id: "estudante",
           title: "Estudante",
-          description: "Treinamento, protocolos e simulações guiadas.",
+          description: "Treinamento, protocolos e simulacoes guiadas.",
         },
       ],
     },
     {
       id: "context",
-      title: "Onde você atua com mais frequência?",
+      title: "Onde voce atua com mais frequencia?",
       subtitle: "Esse contexto ajuda a personalizar o painel e os atalhos iniciais.",
       options: [
         {
           id: "hospital",
-          title: "Hospital / UTI / Urgência",
-          description: "Internação, UTI, pronto-socorro e setores críticos.",
+          title: "Hospital / UTI / Urgencia",
+          description: "Internacao, UTI, pronto-socorro e setores criticos.",
         },
         {
           id: "aps",
-          title: "Atenção Primária / Domicílio",
+          title: "Atencao Primaria / Domicilio",
           description: "UBS, ESF, visitas domiciliares e acompanhamento local.",
         },
       ],
@@ -49,18 +49,18 @@ export function getOnboardingSteps(): OnboardingStep[] {
         {
           id: "maternidade",
           title: "Maternidade",
-          description: "Obstetrícia e neonatologia.",
+          description: "Obstetricia e neonatologia.",
         },
         {
           id: "pronto-socorro",
           title: "Pronto-Socorro",
-          description: "Atendimento de urgência e emergência.",
+          description: "Atendimento de urgencia e emergencia.",
           selected: true,
         },
         {
           id: "oncologia",
           title: "Oncologia",
-          description: "Internação oncológica e protocolos especializados.",
+          description: "Internacao oncologica e protocolos especializados.",
         },
         {
           id: "uti-adulto",
@@ -69,10 +69,20 @@ export function getOnboardingSteps(): OnboardingStep[] {
         },
         {
           id: "clinica-medica",
-          title: "Clínica Médica",
-          description: "Internação clínica geral e acompanhamento contínuo.",
+          title: "Clinica Medica",
+          description: "Internacao clinica geral e acompanhamento continuo.",
         },
       ],
     },
   ];
+}
+
+export function getInitialRegisterFormData(): RegisterFormData {
+  return {
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    coren: "",
+  };
 }

@@ -1,41 +1,51 @@
+import { apiGet } from "@/shared/lib/api";
 import { NewVitalRecordFormData, PatientOption, VitalRecordItem } from "./types";
 
-export function getVitalRecords(): VitalRecordItem[] {
-  return [
-    {
-      id: "maria-1",
-      patientName: "Maria",
-      recordedAt: "26/02/2026 21:03",
-      note: "Ôioio",
-      alerts: ["Temperatura alterada"],
-      temperature: "40 °C",
-      pain: "6/10",
-    },
-    {
-      id: "maria-2",
-      patientName: "Maria",
-      recordedAt: "26/02/2026 21:02",
-      note: "OK",
-      alerts: [],
-    },
-    {
-      id: "mario-1",
-      patientName: "Mario",
-      recordedAt: "26/02/2026 20:53",
-      note: "",
-      alerts: ["Temperatura alterada", "FR alterada"],
-      temperature: "38,5 °C",
-      respiratoryRate: "50 irpm",
-      spo2: "93 %",
-    },
-  ];
+interface ApiVitalRecord {
+  id: string;
+  patient_name: string;
+  recorded_at: string;
+  note: string;
+  alerts: string[];
+  temperature?: string | null;
+  pain?: string | null;
+  respiratory_rate?: string | null;
+  spo2?: string | null;
 }
 
-export function getVitalPatientOptions(): PatientOption[] {
+interface ApiPatient {
+  id: number;
+  full_name: string;
+}
+
+export async function getVitalRecords(): Promise<VitalRecordItem[]> {
+  const payload = await apiGet<ApiVitalRecord[]>("/api/v1/vital-signs");
+  if (!payload) {
+    return [];
+  }
+
+  return payload.data.map((record) => ({
+    id: String(record.id),
+    patientName: record.patient_name,
+    recordedAt: record.recorded_at,
+    note: record.note,
+    alerts: record.alerts,
+    temperature: record.temperature ?? undefined,
+    pain: record.pain ?? undefined,
+    respiratoryRate: record.respiratory_rate ?? undefined,
+    spo2: record.spo2 ?? undefined,
+  }));
+}
+
+export async function getVitalPatientOptions(): Promise<PatientOption[]> {
+  const payload = await apiGet<ApiPatient[]>("/api/v1/patients");
+  if (!payload) {
+    return [{ value: "", label: "Selecionar" }];
+  }
+
   return [
     { value: "", label: "Selecionar" },
-    { value: "maria", label: "Maria" },
-    { value: "mario", label: "Mario" },
+    ...payload.data.map((patient) => ({ value: String(patient.id), label: patient.full_name })),
   ];
 }
 

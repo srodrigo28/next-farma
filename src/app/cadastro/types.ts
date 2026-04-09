@@ -11,3 +11,13 @@ export interface OnboardingStep {
   subtitle: string;
   options: SelectOption[];
 }
+
+export interface RegisterFormData {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  coren: string;
+}
+
+export type RegisterFormErrors = Partial<Record<keyof RegisterFormData, string>>;

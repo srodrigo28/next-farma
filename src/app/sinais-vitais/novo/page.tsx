@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { AppScreen } from "@/shared/components/AppScreen";
 import { PrimaryButton } from "@/shared/components/PrimaryButton";
 import { submitVitalRecord } from "../actions";
@@ -54,7 +54,24 @@ export default function NovoSinalVitalPage() {
   const [errors, setErrors] = useState<NewVitalRecordErrors>({});
   const [feedback, setFeedback] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const patientOptions = getVitalPatientOptions();
+  const [patientOptions, setPatientOptions] = useState<PatientOption[]>([{ value: "", label: "Selecionar" }]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadPatients() {
+      const options = await getVitalPatientOptions();
+      if (isMounted) {
+        setPatientOptions(options);
+      }
+    }
+
+    void loadPatients();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   function updateField<Key extends keyof NewVitalRecordFormData>(key: Key, value: NewVitalRecordFormData[Key]) {
     setForm((current) => ({ ...current, [key]: value }));

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { AppScreen } from "@/shared/components/AppScreen";
 import { PrimaryButton } from "@/shared/components/PrimaryButton";
 import { submitPrescription } from "../../actions";
@@ -62,6 +62,30 @@ export default function NovaPrescricaoPage() {
   const [errors, setErrors] = useState<PrescriptionFormErrors>({});
   const [feedback, setFeedback] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [patientOptions, setPatientOptions] = useState<MedicationOption[]>([{ value: "", label: "Selecionar paciente" }]);
+  const [medicationOptions, setMedicationOptions] = useState<MedicationOption[]>([{ value: "", label: "Selecionar medicamento" }]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadOptions() {
+      const [patients, medications] = await Promise.all([
+        getPrescriptionPatientOptions(),
+        getPrescriptionMedicationOptions(),
+      ]);
+
+      if (isMounted) {
+        setPatientOptions(patients);
+        setMedicationOptions(medications);
+      }
+    }
+
+    void loadOptions();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   function updateField<Key extends keyof PrescriptionFormData>(key: Key, value: PrescriptionFormData[Key]) {
     setForm((current) => ({ ...current, [key]: value }));
@@ -91,8 +115,8 @@ export default function NovaPrescricaoPage() {
       <form onSubmit={handleSubmit} className="space-y-6">
         <section className="rounded-[28px] border border-white/70 bg-white/85 p-5 shadow-[0_16px_32px_rgba(16,33,62,0.06)]">
           <div className="space-y-4">
-            <SelectField label="Paciente *" value={form.patientId} options={getPrescriptionPatientOptions()} error={errors.patientId} onChange={(event) => updateField("patientId", event.target.value)} />
-            <SelectField label="Medicamento *" value={form.medicationId} options={getPrescriptionMedicationOptions()} error={errors.medicationId} onChange={(event) => updateField("medicationId", event.target.value)} />
+            <SelectField label="Paciente *" value={form.patientId} options={patientOptions} error={errors.patientId} onChange={(event) => updateField("patientId", event.target.value)} />
+            <SelectField label="Medicamento *" value={form.medicationId} options={medicationOptions} error={errors.medicationId} onChange={(event) => updateField("medicationId", event.target.value)} />
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <TextInput label="Dose *" value={form.dose} error={errors.dose} onChange={(event) => updateField("dose", event.target.value)} />

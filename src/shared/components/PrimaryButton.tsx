@@ -6,6 +6,8 @@ interface PrimaryButtonProps {
   href?: string;
   variant?: "solid" | "secondary" | "ghost";
   className?: string;
+  type?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
+  disabled?: boolean;
   onClick?: ButtonHTMLAttributes<HTMLButtonElement>["onClick"];
 }
 
@@ -17,6 +19,8 @@ export function PrimaryButton({
   href,
   variant = "solid",
   className = "",
+  type = "button",
+  disabled = false,
   onClick,
 }: PrimaryButtonProps) {
   const variantClassName =
@@ -36,9 +40,10 @@ export function PrimaryButton({
 
   return (
     <button
-      type="button"
+      type={type}
+      disabled={disabled}
       onClick={onClick}
-      className={`${baseClassName} ${variantClassName} ${className}`}
+      className={`${baseClassName} ${variantClassName} ${disabled ? "cursor-not-allowed opacity-60 hover:translate-y-0" : ""} ${className}`}
     >
       {children}
     </button>

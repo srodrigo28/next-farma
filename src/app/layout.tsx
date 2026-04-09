@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Next Farma",
-  description: "Aplicação mobile-first para fluxos de enfermagem e farmácia.",
+  description: "App de Enfermagem",
 };
 
 export default function RootLayout({

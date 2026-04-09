@@ -1,26 +1,38 @@
+import { apiGet } from "@/shared/lib/api";
 import { DashboardStat, DrawerMenuItem, QuickAccessItem } from "./types";
 
-export function getDashboardStats(): DashboardStat[] {
+interface CountPayload {
+  total: number;
+}
+
+interface ApiMedicationSchedule {
+  window: string;
+  items: Array<{
+    id: string | number;
+  }>;
+}
+
+function getFallbackDashboardStats(): DashboardStat[] {
   return [
     {
       id: "medicacoes",
-      label: "Medicações em 2h",
+      label: "Medicacoes em 2h",
       value: 0,
-      helper: "Próximas administrações",
+      helper: "Proximas administracoes",
       tone: "primary",
     },
     {
-      id: "vencidas",
-      label: "Medicações vencidas",
-      value: 12,
-      helper: "Requer atenção imediata",
+      id: "prescricoes",
+      label: "Prescricoes",
+      value: 0,
+      helper: "Ativas no sistema",
       tone: "danger",
     },
     {
-      id: "pendencias",
-      label: "Pendências",
+      id: "sinais",
+      label: "Sinais vitais",
       value: 0,
-      helper: "Neste plantão",
+      helper: "Registros monitorados",
       tone: "warning",
     },
     {
@@ -33,22 +45,66 @@ export function getDashboardStats(): DashboardStat[] {
   ];
 }
 
+export async function getDashboardStats(): Promise<DashboardStat[]> {
+  const [schedulePayload, prescriptionsPayload, vitalSignsPayload, patientsPayload] = await Promise.all([
+    apiGet<ApiMedicationSchedule>("/api/v1/medications/schedule?window=2h"),
+    apiGet<CountPayload>("/api/v1/prescriptions/count"),
+    apiGet<CountPayload>("/api/v1/vital-signs/count"),
+    apiGet<CountPayload>("/api/v1/patients/count"),
+  ]);
+
+  if (!schedulePayload || !prescriptionsPayload || !vitalSignsPayload || !patientsPayload) {
+    return getFallbackDashboardStats();
+  }
+
+  return [
+    {
+      id: "medicacoes",
+      label: "Medicacoes em 2h",
+      value: schedulePayload.data.items.length,
+      helper: "Proximas administracoes",
+      tone: "primary",
+    },
+    {
+      id: "prescricoes",
+      label: "Prescricoes",
+      value: prescriptionsPayload.data.total,
+      helper: "Ativas no sistema",
+      tone: "danger",
+    },
+    {
+      id: "sinais",
+      label: "Sinais vitais",
+      value: vitalSignsPayload.data.total,
+      helper: "Registros monitorados",
+      tone: "warning",
+    },
+    {
+      id: "pacientes",
+      label: "Pacientes",
+      value: patientsPayload.data.total,
+      helper: "Internados",
+      tone: "info",
+    },
+  ];
+}
+
 export function getQuickAccess(): QuickAccessItem[] {
   return [
     {
       id: "prescricao",
-      title: "Nova prescrição",
-      description: "Registre medicamentos, protocolos e observações do cuidado.",
+      title: "Nova prescricao",
+      description: "Registre medicamentos, protocolos e observacoes do cuidado.",
     },
     {
       id: "plantao",
-      title: "Passagem de plantão",
-      description: "Organize pendências e alinhe o turno com segurança.",
+      title: "Passagem de plantao",
+      description: "Organize pendencias e alinhe o turno com seguranca.",
     },
     {
       id: "alertas",
-      title: "Alertas clínicos",
-      description: "Acompanhe vencimentos, riscos e itens prioritários.",
+      title: "Alertas clinicos",
+      description: "Acompanhe vencimentos, riscos e itens prioritarios.",
     },
   ];
 }
@@ -57,63 +113,63 @@ export function getDrawerMenu(): DrawerMenuItem[] {
   return [
     {
       id: "overview",
-      label: "Visão geral",
+      label: "Visao geral",
       description: "Painel principal com prioridades do turno.",
       href: "/dashboard",
     },
     {
       id: "patients",
       label: "Pacientes",
-      description: "Internados, triagem e histórico resumido.",
+      description: "Internados, triagem e historico resumido.",
       href: "/pacientes",
     },
     {
       id: "medications",
       label: "Medicamentos",
-      description: "Aprazamento, checagem e administração segura.",
+      description: "Aprazamento, checagem e administracao segura.",
       href: "/medicamentos",
     },
     {
       id: "os",
-      label: "Ordens de serviço",
-      description: "Solicitações operacionais e chamados da unidade.",
+      label: "Ordens de servico",
+      description: "Solicitacoes operacionais e chamados da unidade.",
       href: "/os",
     },
     {
       id: "vitals",
       label: "Sinais vitais",
-      description: "Lançamentos e acompanhamento em tempo real.",
+      description: "Lancamentos e acompanhamento em tempo real.",
       href: "/sinais-vitais",
     },
     {
       id: "alerts",
       label: "Alertas",
-      description: "Ocorrências e itens que exigem atenção imediata.",
+      description: "Ocorrencias e itens que exigem atencao imediata.",
       href: "/alertas",
       badge: "3",
     },
     {
       id: "protocols",
       label: "Protocolos",
-      description: "Padrões assistenciais e condutas.",
+      description: "Padroes assistenciais e condutas.",
       href: "/protocolos",
     },
     {
       id: "legal",
-      label: "Legislação",
-      description: "Normas, regras e referências técnicas.",
+      label: "Legislacao",
+      description: "Normas, regras e referencias tecnicas.",
       href: "/legislacao",
     },
     {
       id: "handoff",
-      label: "Passagem de plantão",
-      description: "Resumo do turno e comunicação segura da equipe.",
+      label: "Passagem de plantao",
+      description: "Resumo do turno e comunicacao segura da equipe.",
       href: "/passagem-plantao",
     },
     {
       id: "tasks",
       label: "Tarefas",
-      description: "Pendências operacionais e assistenciais da equipe.",
+      description: "Pendencias operacionais e assistenciais da equipe.",
       href: "/tarefas",
     },
   ];

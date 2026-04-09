@@ -1,9 +1,10 @@
 "use client";
 
-import { ReactNode, useState } from "react";
-import { usePathname } from "next/navigation";
+import { ReactNode, useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { AppDrawer } from "@/shared/components/AppDrawer";
 import { AppNavbar } from "@/shared/components/AppNavbar";
+import { AuthSession, clearAuthSession, getAuthSession, validateAuthSession } from "@/shared/lib/auth";
 import { DrawerMenuItem, WorkspaceMode } from "@/shared/types";
 
 export function WorkspaceShell({
@@ -14,13 +15,64 @@ export function WorkspaceShell({
   items: DrawerMenuItem[];
 }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<WorkspaceMode>("hospital");
+  const [session, setSession] = useState<AuthSession | null>(() => getAuthSession());
+  const [isCheckingSession, setIsCheckingSession] = useState(true);
+  const sessionAccessToken = session?.accessToken;
+
+  useEffect(() => {
+    let active = true;
+
+    async function checkSession() {
+      if (!session) {
+        if (active) {
+          setIsCheckingSession(false);
+          router.replace("/login");
+        }
+        return;
+      }
+
+      const validatedSession = await validateAuthSession();
+      if (!active) return;
+
+      if (!validatedSession) {
+        setSession(null);
+        setIsCheckingSession(false);
+        router.replace("/login");
+        return;
+      }
+
+      setSession(validatedSession);
+      setIsCheckingSession(false);
+    }
+
+    void checkSession();
+
+    return () => {
+      active = false;
+    };
+  }, [router, session, sessionAccessToken]);
+
+  function handleLogout() {
+    clearAuthSession();
+    setSession(null);
+    router.replace("/login");
+  }
 
   const menuItems = items.map((item) => ({
     ...item,
     active: pathname === item.href,
   }));
+
+  if (isCheckingSession || !session) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#f4f8fb] text-sm font-semibold text-muted">
+        Carregando sessao...
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen flex-col overflow-hidden md:h-[calc(100vh-40px)]">
@@ -29,6 +81,8 @@ export function WorkspaceShell({
           onOpenMenu={() => setOpen((value) => !value)}
           mode={mode}
           onModeChange={setMode}
+          userName={session.user.name}
+          onLogout={handleLogout}
         />
       </div>
 
@@ -50,12 +104,14 @@ export function WorkspaceShell({
             onClose={() => setOpen(false)}
             mode={mode}
             onModeChange={setMode}
+            userName={session.user.name}
+            userRole="Enfermagem"
+            userUnit="Hospital"
+            onLogout={handleLogout}
           />
         </div>
 
-        <div className="h-full overflow-y-auto px-4 pb-6 pt-4">
-          {children}
-        </div>
+        <div className="h-full overflow-y-auto px-4 pb-6 pt-4">{children}</div>
       </section>
     </div>
   );

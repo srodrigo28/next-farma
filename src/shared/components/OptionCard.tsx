@@ -1,14 +1,22 @@
 import { ArrowRightIcon, CheckIcon, CircleIcon } from "@/shared/components/AppIcons";
 import { SelectOption } from "@/shared/types";
 
-export function OptionCard({ option }: { option: SelectOption }) {
+export function OptionCard({
+  option,
+  onSelect,
+}: {
+  option: SelectOption;
+  onSelect?: (optionId: string) => void;
+}) {
   const selectedClassName = option.selected
     ? "border-primary bg-primary-soft shadow-[0_16px_30px_rgba(15,143,176,0.10)]"
     : "border-border bg-white";
 
   return (
-    <div
-      className={`flex items-center gap-4 rounded-[22px] border p-4 shadow-[0_8px_25px_rgba(16,33,62,0.05)] transition-colors ${selectedClassName}`}
+    <button
+      type="button"
+      onClick={() => onSelect?.(option.id)}
+      className={`flex w-full items-center gap-4 rounded-[22px] border p-4 text-left shadow-[0_8px_25px_rgba(16,33,62,0.05)] transition-colors ${selectedClassName}`}
     >
       <div
         className={`flex h-12 w-12 items-center justify-center rounded-2xl ${
@@ -28,6 +36,6 @@ export function OptionCard({ option }: { option: SelectOption }) {
       <div className="text-muted">
         {!option.selected ? <ArrowRightIcon className="h-5 w-5" /> : null}
       </div>
-    </div>
+    </button>
   );
 }

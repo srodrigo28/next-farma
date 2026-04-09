@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { AppScreen } from "@/shared/components/AppScreen";
 import { PrimaryButton } from "@/shared/components/PrimaryButton";
 import {
@@ -128,8 +128,25 @@ export default function NovoPacientePage() {
   const [errors, setErrors] = useState<NewPatientFormErrors>({});
   const [feedback, setFeedback] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [unitOptions, setUnitOptions] = useState<PatientSelectOption[]>([{ value: "", label: "Selecionar" }]);
   const sexOptions = getPatientSexOptions();
-  const unitOptions = getPatientFormUnitOptions();
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadUnitOptions() {
+      const options = await getPatientFormUnitOptions();
+      if (isMounted) {
+        setUnitOptions(options);
+      }
+    }
+
+    void loadUnitOptions();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   function updateField<Key extends keyof NewPatientFormData>(key: Key, value: NewPatientFormData[Key]) {
     setForm((current) => ({ ...current, [key]: value }));
@@ -151,6 +168,8 @@ export default function NovoPacientePage() {
       setForm(getNewPatientInitialData());
     }
   }
+
+  const hasErrors = Object.keys(errors).length > 0;
 
   return (
     <AppScreen className="space-y-6">
@@ -253,7 +272,7 @@ export default function NovoPacientePage() {
         </section>
 
         {feedback ? (
-          <p className={`text-sm font-medium ${errors.fullName || errors.sex || errors.admissionDate || errors.unit ? "text-danger" : "text-success"}`}>
+          <p className={`text-sm font-medium ${hasErrors ? "text-danger" : "text-success"}`}>
             {feedback}
           </p>
         ) : null}

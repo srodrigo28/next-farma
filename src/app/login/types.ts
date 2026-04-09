@@ -7,3 +7,5 @@ export interface LoginOption {
   label: string;
   href: string;
 }
+
+export type LoginErrors = Partial<Record<keyof LoginCredentials, string>>;

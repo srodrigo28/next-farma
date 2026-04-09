@@ -73,7 +73,7 @@ export function MedicamentosPageView({
         <section className="space-y-5 pb-4">
           <div>
             <h1 className="text-4xl font-bold tracking-tight text-foreground">Medicações</h1>
-            <p className="mt-1 text-sm text-muted">0 pendentes nas próximas 2h</p>
+            <p className="mt-1 text-sm text-muted">{schedules.length} pendente(s) nas próximas 2h</p>
           </div>
 
           <div className="flex items-center gap-3">

@@ -1,6 +1,8 @@
 import { SinaisVitaisPageView } from "./components/SinaisVitaisPageView";
 import { getVitalRecords } from "./data";
 
-export default function SinaisVitaisPage() {
-  return <SinaisVitaisPageView records={getVitalRecords()} />;
+export default async function SinaisVitaisPage() {
+  const records = await getVitalRecords();
+
+  return <SinaisVitaisPageView records={records} />;
 }

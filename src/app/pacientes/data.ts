@@ -1,25 +1,62 @@
+import { apiGet } from "@/shared/lib/api";
 import { NewPatientFormData, PatientListItem, PatientSelectOption, PatientUnitOption } from "./types";
 
-export function getPatientUnits(): PatientUnitOption[] {
+interface ApiPatient {
+  id: number;
+  full_name: string;
+  sex: string;
+  bed: string;
+  admission_date: string;
+  unit: string;
+}
+
+interface ApiUnit {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+function getFallbackUnits(): PatientUnitOption[] {
   return [
     { id: "all", label: "Todas as unidades", selected: true },
-    { id: "maternidade", label: "Maternidade" },
+    { id: "internado", label: "Internado" },
     { id: "uti-adulto", label: "UTI Adulto" },
-    { id: "clinica-medica", label: "Clínica Médica" },
   ];
 }
 
-export function getPatients(): PatientListItem[] {
+function formatPatientMetaLabel(sex: string) {
+  if (sex === "male") return "Masculino";
+  if (sex === "female") return "Feminino";
+  if (sex === "other") return "Outro";
+  return "Nao informado";
+}
+
+export async function getPatientUnits(): Promise<PatientUnitOption[]> {
+  const payload = await apiGet<ApiUnit[]>("/api/v1/units");
+  if (!payload) {
+    return getFallbackUnits();
+  }
+
   return [
-    {
-      id: "mario-silva",
-      name: "Mario",
-      bed: "20",
-      ageLabel: "m",
-      admissionDate: "02/02/26",
-      unit: "Internado",
-    },
+    { id: "all", label: "Todas as unidades", selected: true },
+    ...payload.data.map((unit) => ({ id: unit.slug, label: unit.name })),
   ];
+}
+
+export async function getPatients(): Promise<PatientListItem[]> {
+  const payload = await apiGet<ApiPatient[]>("/api/v1/patients");
+  if (!payload) {
+    return [];
+  }
+
+  return payload.data.map((patient) => ({
+    id: String(patient.id),
+    name: patient.full_name,
+    bed: patient.bed,
+    ageLabel: formatPatientMetaLabel(patient.sex),
+    admissionDate: patient.admission_date,
+    unit: patient.unit,
+  }));
 }
 
 export function getPatientSexOptions(): PatientSelectOption[] {
@@ -31,13 +68,15 @@ export function getPatientSexOptions(): PatientSelectOption[] {
   ];
 }
 
-export function getPatientFormUnitOptions(): PatientSelectOption[] {
+export async function getPatientFormUnitOptions(): Promise<PatientSelectOption[]> {
+  const payload = await apiGet<ApiUnit[]>("/api/v1/units");
+  if (!payload) {
+    return [{ value: "", label: "Selecionar" }];
+  }
+
   return [
     { value: "", label: "Selecionar" },
-    { value: "maternidade", label: "Maternidade" },
-    { value: "uti-adulto", label: "UTI Adulto" },
-    { value: "clinica-medica", label: "Clínica Médica" },
-    { value: "pronto-socorro", label: "Pronto-Socorro" },
+    ...payload.data.map((unit) => ({ value: unit.name, label: unit.name })),
   ];
 }
 

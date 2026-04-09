@@ -1,5 +1,6 @@
 import { MenuIcon } from "@/shared/components/AppIcons";
 import Link from "next/link";
+import { ApiStatusBadge } from "@/shared/components/ApiStatusBadge";
 import { WorkspaceModeToggle } from "@/shared/components/WorkspaceModeToggle";
 import { WorkspaceMode } from "@/shared/types";
 
@@ -7,10 +8,14 @@ export function AppNavbar({
   onOpenMenu,
   mode,
   onModeChange,
+  userName,
+  onLogout,
 }: {
   onOpenMenu: () => void;
   mode: WorkspaceMode;
   onModeChange: (mode: WorkspaceMode) => void;
+  userName?: string;
+  onLogout?: () => void;
 }) {
   return (
     <header className="sticky top-0 z-30 bg-white">
@@ -30,14 +35,29 @@ export function AppNavbar({
                 Enfermagem assistencial
               </p>
               <p className="text-xs uppercase tracking-[0.16em] text-muted">
-                Brasil
+                {userName || "Brasil"}
               </p>
             </div>
           </Link>
+          <div className="hidden sm:block">
+            <ApiStatusBadge />
+          </div>
+          {onLogout ? (
+            <button
+              type="button"
+              onClick={onLogout}
+              className="rounded-xl border border-border px-3 py-2 text-xs font-bold uppercase tracking-[0.12em] text-muted"
+            >
+              Sair
+            </button>
+          ) : null}
         </div>
 
-        <div className="mt-3">
+        <div className="mt-3 flex items-center justify-between gap-3">
           <WorkspaceModeToggle value={mode} onChange={onModeChange} compact />
+          <div className="sm:hidden">
+            <ApiStatusBadge />
+          </div>
         </div>
       </div>
     </header>

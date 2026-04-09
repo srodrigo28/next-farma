@@ -34,11 +34,19 @@ export function AppDrawer({
   onClose,
   mode,
   onModeChange,
+  userName,
+  userRole,
+  userUnit,
+  onLogout,
 }: {
   items: DrawerMenuItem[];
   onClose?: () => void;
   mode: WorkspaceMode;
   onModeChange: (mode: WorkspaceMode) => void;
+  userName?: string;
+  userRole?: string;
+  userUnit?: string;
+  onLogout?: () => void;
 }) {
   return (
     <aside className="flex h-full flex-col overflow-hidden rounded-r-[30px] bg-white shadow-[0_22px_50px_rgba(15,31,56,0.12)]">
@@ -116,22 +124,28 @@ export function AppDrawer({
         <div className="rounded-[24px] bg-linear-to-r from-[#f9fcff] to-[#f1f7fb] p-4 ring-1 ring-border">
           <div className="flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary-soft text-sm font-extrabold text-primary">
-              N
+              {(userName || "N").charAt(0).toUpperCase()}
             </div>
             <div className="flex-1">
-              <p className="text-base font-semibold text-foreground">Nubio Campos</p>
+              <p className="text-base font-semibold text-foreground">{userName || "Profissional"}</p>
               <p className="mt-1 inline-flex rounded-full bg-secondary-soft px-2 py-1 text-xs font-semibold text-primary-strong">
-                Enfermeiro(a)
+                {userRole || "Enfermagem"}
               </p>
             </div>
           </div>
           <div className="mt-4 flex items-center justify-between text-sm text-muted">
-            <span>Maternidade</span>
-            <ArrowRightIcon className="h-4 w-4 text-primary-strong" />
+            <span>{userUnit || "Hospital"}</span>
+            <div className="flex items-center gap-3">
+              {onLogout ? (
+                <button type="button" onClick={onLogout} className="font-semibold text-primary-strong">
+                  Sair
+                </button>
+              ) : null}
+              <ArrowRightIcon className="h-4 w-4 text-primary-strong" />
+            </div>
           </div>
         </div>
       </div>
     </aside>
   );
 }
-
