@@ -1,4 +1,4 @@
-import { apiRequest } from "@/shared/lib/api";
+import { apiRequest, getApiBaseUrl } from "@/shared/lib/api";
 import { ApiErrorResponse } from "@/shared/types/api";
 import { RegisterFormData, RegisterFormErrors } from "./types";
 
@@ -110,7 +110,9 @@ export async function submitRegister(data: RegisterFormData) {
     return {
       ok: false,
       errors: (payload?.errors as RegisterFormErrors | undefined) || {},
-      message: payload?.message || "Nao foi possivel concluir o cadastro. Verifique se a API local esta online em http://127.0.0.1:5000.",
+      message:
+        payload?.message ||
+        `Nao foi possivel concluir o cadastro. Verifique a API configurada em ${getApiBaseUrl()}.`,
     };
   }
 

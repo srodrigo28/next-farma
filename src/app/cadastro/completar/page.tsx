@@ -7,7 +7,7 @@ import { AppScreen } from "@/shared/components/AppScreen";
 import { PrimaryButton } from "@/shared/components/PrimaryButton";
 import { StepIndicator } from "@/shared/components/StepIndicator";
 import { TextField } from "@/shared/components/TextField";
-import { apiGet, apiRequest } from "@/shared/lib/api";
+import { apiGet, apiRequest, getApiBaseUrl } from "@/shared/lib/api";
 import { clearAuthSession, getAuthSession, needsProfileCompletion, saveAuthSession } from "@/shared/lib/auth";
 
 interface CompletionFormData {
@@ -357,7 +357,7 @@ export default function CompleteCadastroPage() {
         const payload = response.payload as ApiErrorPayload | null;
         setErrors(payload?.errors || {});
         setMessageTone("error");
-        setMessage(payload?.message || "Nao foi possivel concluir seu cadastro. Verifique se a API local esta online em http://127.0.0.1:5000.");
+        setMessage(payload?.message || `Nao foi possivel concluir seu cadastro. Verifique a API configurada em ${getApiBaseUrl()}.`);
         return;
       }
 
