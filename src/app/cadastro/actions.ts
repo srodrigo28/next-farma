@@ -110,7 +110,7 @@ export async function submitRegister(data: RegisterFormData) {
     return {
       ok: false,
       errors: (payload?.errors as RegisterFormErrors | undefined) || {},
-      message: payload?.message || "Nao foi possivel concluir o cadastro.",
+      message: payload?.message || "Nao foi possivel concluir o cadastro. Verifique se a API local esta online em http://127.0.0.1:5000.",
     };
   }
 

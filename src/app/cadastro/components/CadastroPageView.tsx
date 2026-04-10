@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { AlertTriangleIcon, BrandPillIcon, CheckIcon, SearchIcon } from "@/shared/components/AppIcons";
 import { AppScreen } from "@/shared/components/AppScreen";
@@ -24,6 +25,8 @@ interface ViaCepPayload {
   estado?: string;
   erro?: boolean;
 }
+
+const CHOICE_AUTO_ADVANCE_MS = 4000;
 
 function updateSelectedOption(steps: RegisterStep[], stepId: string, optionId: string) {
   return steps.map((step) => {
@@ -106,7 +109,7 @@ function validateAddressStep(data: RegisterFormData) {
     errors.street = "Informe a rua.";
   }
   if (!data.number.trim()) {
-    errors.number = "Informe o numero.";
+    errors.number = "Informe o número.";
   }
   if (!data.neighborhood.trim()) {
     errors.neighborhood = "Informe o bairro.";
@@ -182,6 +185,7 @@ function ValidationIcon({
 
 export function CadastroPageView({ steps }: { steps: RegisterStep[] }) {
   const router = useRouter();
+  const autoAdvanceTimeoutRef = useRef<number | null>(null);
   const [isPending, startTransition] = useTransition();
   const [currentStep, setCurrentStep] = useState(0);
   const [wizardSteps, setWizardSteps] = useState(steps);
@@ -192,20 +196,27 @@ export function CadastroPageView({ steps }: { steps: RegisterStep[] }) {
   const [messageTone, setMessageTone] = useState<"error" | "success">("error");
   const [cepStatus, setCepStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [lastCepLookup, setLastCepLookup] = useState("");
+  const [autoAdvanceOptionId, setAutoAdvanceOptionId] = useState<string | null>(null);
   const step = wizardSteps[currentStep];
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep === wizardSteps.length - 1;
   const isChoiceStep = Boolean(step.options?.length);
   const isAccountStep = step.id === "account";
   const isAddressStep = step.id === "address";
-  const selectedOption = step.options?.find((option) => option.selected);
-  const canAdvance = isChoiceStep ? Boolean(selectedOption) : true;
 
   useEffect(() => {
     if (getAuthSession()) {
       router.replace("/dashboard");
     }
   }, [router]);
+
+  useEffect(() => {
+    return () => {
+      if (autoAdvanceTimeoutRef.current) {
+        window.clearTimeout(autoAdvanceTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const cepDigits = form.cep.replace(/\D/g, "");
@@ -287,8 +298,14 @@ export function CadastroPageView({ steps }: { steps: RegisterStep[] }) {
     };
     const fieldName = formFieldByStep[step.id];
 
-    setMessage(null);
+    if (autoAdvanceTimeoutRef.current) {
+      window.clearTimeout(autoAdvanceTimeoutRef.current);
+    }
+
+    setMessageTone("success");
+    setMessage("Opção selecionada. Avançando automaticamente em 4 segundos...");
     setWizardSteps((current) => updateSelectedOption(current, step.id, optionId));
+    setAutoAdvanceOptionId(optionId);
 
     if (fieldName) {
       setForm((current) => ({
@@ -296,6 +313,13 @@ export function CadastroPageView({ steps }: { steps: RegisterStep[] }) {
         [fieldName]: optionId,
       }));
     }
+
+    autoAdvanceTimeoutRef.current = window.setTimeout(() => {
+      setMessage(null);
+      setAutoAdvanceOptionId(null);
+      setCurrentStep((value) => value + 1);
+      autoAdvanceTimeoutRef.current = null;
+    }, CHOICE_AUTO_ADVANCE_MS);
   }
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -338,14 +362,6 @@ export function CadastroPageView({ steps }: { steps: RegisterStep[] }) {
     event.preventDefault();
 
     if (isChoiceStep) {
-      if (!selectedOption) {
-        setMessageTone("error");
-        setMessage("Selecione uma opção para continuar.");
-        return;
-      }
-
-      setMessage(null);
-      setCurrentStep((value) => value + 1);
       return;
     }
 
@@ -431,187 +447,204 @@ export function CadastroPageView({ steps }: { steps: RegisterStep[] }) {
           <div className="space-y-5">
             <StepIndicator current={currentStep} total={wizardSteps.length} />
 
-            <div className="space-y-1 text-center">
-              <h2 className="text-3xl font-bold text-foreground">{step.title}</h2>
-              <p className="text-base leading-6 text-muted">{step.subtitle}</p>
-            </div>
-
-            {isChoiceStep ? (
-              <div className="space-y-4">
-                {step.options?.map((option) => (
-                  <OptionCard key={option.id} option={option} onSelect={handleSelect} />
-                ))}
-              </div>
-            ) : null}
-
-            {step.id === "unit" ? (
-              <div className="space-y-4 pt-2">
-                <TextField
-                  label="Número do COREN (opcional)"
-                  name="coren"
-                  placeholder="Ex: COREN-SP 123456 TE"
-                  value={form.coren}
-                  error={errors.coren}
-                  rightAdornment={getAdornment("coren")}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-              </div>
-            ) : null}
-
-            {isAccountStep ? (
-              <div className="space-y-4 pt-2">
-                <TextField
-                  label="Nome completo"
-                  name="name"
-                  placeholder="Seu nome"
-                  value={form.name}
-                  error={errors.name}
-                  autoComplete="name"
-                  rightAdornment={getAdornment("name")}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <TextField
-                  label="E-mail"
-                  name="email"
-                  type="email"
-                  placeholder="voce@nextfarma.com"
-                  value={form.email}
-                  error={errors.email}
-                  autoComplete="email"
-                  rightAdornment={getAdornment("email")}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <TextField
-                  label="Telefone"
-                  name="phone"
-                  placeholder="(11) 99999-9999"
-                  value={form.phone}
-                  error={errors.phone}
-                  autoComplete="tel"
-                  inputMode="tel"
-                  maxLength={15}
-                  rightAdornment={getAdornment("phone")}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <div className="grid gap-4 min-[360px]:grid-cols-2">
-                  <TextField
-                    label="Senha"
-                    name="password"
-                    type="password"
-                    placeholder="Mínimo de 8 caracteres"
-                    value={form.password}
-                    error={errors.password}
-                    autoComplete="new-password"
-                    rightAdornment={getAdornment("password")}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  <TextField
-                    label="Confirmar senha"
-                    name="confirmPassword"
-                    type="password"
-                    placeholder="Repita a senha"
-                    value={form.confirmPassword}
-                    error={errors.confirmPassword}
-                    autoComplete="new-password"
-                    rightAdornment={getAdornment("confirmPassword")}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={step.id}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.28, ease: "easeOut" }}
+                className="space-y-5"
+              >
+                <div className="space-y-1 text-center">
+                  <h2 className="text-3xl font-bold text-foreground">{step.title}</h2>
+                  <p className="text-base leading-6 text-muted">{step.subtitle}</p>
                 </div>
-              </div>
-            ) : null}
 
-            {isAddressStep ? (
-              <div className="space-y-4 pt-2">
-                <TextField
-                  label="CEP"
-                  name="cep"
-                  placeholder="00000-000"
-                  value={form.cep}
-                  error={errors.cep}
-                  inputMode="numeric"
-                  maxLength={9}
-                  rightAdornment={getAdornment("cep")}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <TextField
-                  label="Rua"
-                  name="street"
-                  placeholder="Rua, avenida ou travessa"
-                  value={form.street}
-                  error={errors.street}
-                  autoComplete="address-line1"
-                  rightAdornment={getAdornment("street")}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <div className="grid gap-4 min-[360px]:grid-cols-[1fr_1fr]">
-                  <TextField
-                    label="Numero"
-                    name="number"
-                    placeholder="123"
-                    value={form.number}
-                    error={errors.number}
-                    inputMode="numeric"
-                    rightAdornment={getAdornment("number")}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  <TextField
-                    label="Complemento"
-                    name="complement"
-                    placeholder="Apto, bloco, referência"
-                    value={form.complement}
-                    error={errors.complement}
-                    rightAdornment={getAdornment("complement")}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </div>
-                <TextField
-                  label="Bairro"
-                  name="neighborhood"
-                  placeholder="Seu bairro"
-                  value={form.neighborhood}
-                  error={errors.neighborhood}
-                  autoComplete="address-level2"
-                  rightAdornment={getAdornment("neighborhood")}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <div className="grid gap-4 min-[360px]:grid-cols-[1.4fr_0.8fr]">
-                  <TextField
-                    label="Cidade"
-                    name="city"
-                    placeholder="Sua cidade"
-                    value={form.city}
-                    error={errors.city}
-                    autoComplete="address-level1"
-                    rightAdornment={getAdornment("city")}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  <TextField
-                    label="UF"
-                    name="state"
-                    placeholder="SP"
-                    value={form.state}
-                    error={errors.state}
-                    autoComplete="address-level1"
-                    maxLength={2}
-                    rightAdornment={getAdornment("state")}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </div>
-              </div>
-            ) : null}
+                {isChoiceStep ? (
+                  <div className="space-y-4">
+                    {step.options?.map((option) => (
+                      <OptionCard
+                        key={option.id}
+                        option={option}
+                        onSelect={handleSelect}
+                        isAdvancing={autoAdvanceOptionId === option.id}
+                        advanceDurationMs={CHOICE_AUTO_ADVANCE_MS}
+                      />
+                    ))}
+                  </div>
+                ) : null}
+
+                {step.id === "unit" ? (
+                  <div className="space-y-4 pt-2">
+                    <TextField
+                      label="Número do COREN (opcional)"
+                      name="coren"
+                      placeholder="Ex: COREN-SP 123456 TE"
+                      value={form.coren}
+                      error={errors.coren}
+                      rightAdornment={getAdornment("coren")}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  </div>
+                ) : null}
+
+                {isAccountStep ? (
+                  <div className="space-y-4 pt-2">
+                    <TextField
+                      label="Nome completo"
+                      name="name"
+                      placeholder="Seu nome"
+                      value={form.name}
+                      error={errors.name}
+                      autoComplete="name"
+                      rightAdornment={getAdornment("name")}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <TextField
+                      label="E-mail"
+                      name="email"
+                      type="email"
+                      placeholder="voce@nextfarma.com"
+                      value={form.email}
+                      error={errors.email}
+                      autoComplete="email"
+                      rightAdornment={getAdornment("email")}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <TextField
+                      label="Telefone"
+                      name="phone"
+                      placeholder="(11) 99999-9999"
+                      value={form.phone}
+                      error={errors.phone}
+                      autoComplete="tel"
+                      inputMode="tel"
+                      maxLength={15}
+                      rightAdornment={getAdornment("phone")}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <div className="grid gap-4 min-[360px]:grid-cols-2">
+                      <TextField
+                        label="Senha"
+                        name="password"
+                        type="password"
+                        placeholder="Mínimo de 8 caracteres"
+                        value={form.password}
+                        error={errors.password}
+                        autoComplete="new-password"
+                        rightAdornment={getAdornment("password")}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      <TextField
+                        label="Confirmar senha"
+                        name="confirmPassword"
+                        type="password"
+                        placeholder="Repita a senha"
+                        value={form.confirmPassword}
+                        error={errors.confirmPassword}
+                        autoComplete="new-password"
+                        rightAdornment={getAdornment("confirmPassword")}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                  </div>
+                ) : null}
+
+                {isAddressStep ? (
+                  <div className="space-y-4 pt-2">
+                    <TextField
+                      label="CEP"
+                      name="cep"
+                      placeholder="00000-000"
+                      value={form.cep}
+                      error={errors.cep}
+                      inputMode="numeric"
+                      maxLength={9}
+                      rightAdornment={getAdornment("cep")}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <TextField
+                      label="Rua"
+                      name="street"
+                      placeholder="Rua, avenida ou travessa"
+                      value={form.street}
+                      error={errors.street}
+                      autoComplete="address-line1"
+                      rightAdornment={getAdornment("street")}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <div className="grid gap-4 min-[360px]:grid-cols-[1fr_1fr]">
+                      <TextField
+                        label="Número"
+                        name="number"
+                        placeholder="123"
+                        value={form.number}
+                        error={errors.number}
+                        inputMode="numeric"
+                        rightAdornment={getAdornment("number")}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      <TextField
+                        label="Complemento"
+                        name="complement"
+                        placeholder="Apto, bloco, referência"
+                        value={form.complement}
+                        error={errors.complement}
+                        rightAdornment={getAdornment("complement")}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                    <TextField
+                      label="Bairro"
+                      name="neighborhood"
+                      placeholder="Seu bairro"
+                      value={form.neighborhood}
+                      error={errors.neighborhood}
+                      autoComplete="address-level2"
+                      rightAdornment={getAdornment("neighborhood")}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <div className="grid gap-4 min-[360px]:grid-cols-[1.4fr_0.8fr]">
+                      <TextField
+                        label="Cidade"
+                        name="city"
+                        placeholder="Sua cidade"
+                        value={form.city}
+                        error={errors.city}
+                        autoComplete="address-level1"
+                        rightAdornment={getAdornment("city")}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      <TextField
+                        label="UF"
+                        name="state"
+                        placeholder="SP"
+                        value={form.state}
+                        error={errors.state}
+                        autoComplete="address-level1"
+                        maxLength={2}
+                        rightAdornment={getAdornment("state")}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                  </div>
+                ) : null}
+              </motion.div>
+            </AnimatePresence>
 
             {message ? (
               <p className={`text-sm font-medium ${messageTone === "success" ? "text-[#159a74]" : "text-[#c65349]"}`}>
@@ -620,13 +653,15 @@ export function CadastroPageView({ steps }: { steps: RegisterStep[] }) {
             ) : null}
 
             <div className="space-y-3 pt-2">
-              <PrimaryButton type="submit" disabled={isPending || !canAdvance}>
-                {isLastStep
-                  ? isPending
-                    ? "Concluindo..."
-                    : "Concluir configuração"
-                  : "Próximo"}
-              </PrimaryButton>
+              {!isChoiceStep ? (
+                <PrimaryButton type="submit" disabled={isPending}>
+                  {isLastStep
+                    ? isPending
+                      ? "Concluindo..."
+                      : "Concluir configuração"
+                    : "Próximo"}
+                </PrimaryButton>
+              ) : null}
 
               {!isFirstStep ? (
                 <PrimaryButton
@@ -650,6 +685,3 @@ export function CadastroPageView({ steps }: { steps: RegisterStep[] }) {
     </AppScreen>
   );
 }
-
-
-

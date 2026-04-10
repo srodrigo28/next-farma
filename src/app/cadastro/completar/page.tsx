@@ -357,7 +357,7 @@ export default function CompleteCadastroPage() {
         const payload = response.payload as ApiErrorPayload | null;
         setErrors(payload?.errors || {});
         setMessageTone("error");
-        setMessage(payload?.message || "Nao foi possivel concluir seu cadastro.");
+        setMessage(payload?.message || "Nao foi possivel concluir seu cadastro. Verifique se a API local esta online em http://127.0.0.1:5000.");
         return;
       }
 
