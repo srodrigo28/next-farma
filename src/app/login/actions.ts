@@ -12,6 +12,19 @@ interface LoginSuccessData {
   refresh_token: string;
 }
 
+type SubmitLoginResult =
+  | {
+      ok: false;
+      errors: LoginErrors;
+      message: string;
+    }
+  | {
+      ok: true;
+      errors: LoginErrors;
+      message: string;
+      data: LoginSuccessData;
+    };
+
 function validateLoginForm(data: LoginCredentials) {
   const errors: LoginErrors = {};
 
@@ -29,7 +42,7 @@ function validateLoginForm(data: LoginCredentials) {
   };
 }
 
-export async function submitLogin(data: LoginCredentials) {
+export async function submitLogin(data: LoginCredentials): Promise<SubmitLoginResult> {
   const result = validateLoginForm(data);
   if (!result.isValid) {
     return {

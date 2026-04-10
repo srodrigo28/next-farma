@@ -1,66 +1,65 @@
-import { OnboardingStep, RegisterFormData } from "./types";
+import { OnboardingStep, RegisterFormData, RegisterStep } from "./types";
 
 export function getOnboardingSteps(): OnboardingStep[] {
   return [
     {
       id: "profile",
-      title: "Qual e o seu perfil profissional?",
-      subtitle: "Selecione o perfil que melhor representa sua rotina de trabalho.",
+      title: "Bem-vindo(a)!",
+      subtitle: "Qual é o seu perfil profissional?",
       options: [
         {
           id: "enfermeiro",
           title: "Enfermeiro(a)",
-          description: "COREN ativo e acesso completo aos fluxos clinicos.",
+          description: "COREN ativo e acesso completo aos fluxos clínicos.",
         },
         {
           id: "tecnico",
-          title: "Tecnico(a) de Enfermagem",
-          description: "Rotinas operacionais, medicacoes e checklist assistencial.",
+          title: "Técnico(a) de Enfermagem",
+          description: "Registro operacional de cuidados e rotinas assistenciais.",
         },
         {
           id: "estudante",
           title: "Estudante",
-          description: "Treinamento, protocolos e simulacoes guiadas.",
+          description: "Protocolos, simulação e apoio ao aprendizado supervisionado.",
         },
       ],
     },
     {
       id: "context",
-      title: "Onde voce atua com mais frequencia?",
-      subtitle: "Esse contexto ajuda a personalizar o painel e os atalhos iniciais.",
+      title: "Contexto de trabalho",
+      subtitle: "Onde você atua habitualmente?",
       options: [
         {
           id: "hospital",
-          title: "Hospital / UTI / Urgencia",
-          description: "Internacao, UTI, pronto-socorro e setores criticos.",
+          title: "Hospital / UTI / Urgência",
+          description: "Internação, UTI, pronto-socorro e setores críticos.",
         },
         {
           id: "aps",
-          title: "Atencao Primaria / Domicilio",
+          title: "Atenção Primária / Domicílio",
           description: "UBS, ESF, visitas domiciliares e acompanhamento local.",
         },
       ],
     },
     {
       id: "unit",
-      title: "Selecione a unidade ou setor",
-      subtitle: "Escolha o ambiente principal para destacar fluxos e prioridades.",
+      title: "Sua unidade",
+      subtitle: "Selecione a unidade ou o setor",
       options: [
         {
           id: "maternidade",
           title: "Maternidade",
-          description: "Obstetricia e neonatologia.",
+          description: "Obstetrícia e neonatologia.",
         },
         {
           id: "pronto-socorro",
           title: "Pronto-Socorro",
-          description: "Atendimento de urgencia e emergencia.",
-          selected: true,
+          description: "Atendimento de urgência e emergência.",
         },
         {
           id: "oncologia",
           title: "Oncologia",
-          description: "Internacao oncologica e protocolos especializados.",
+          description: "Internação oncológica e protocolos especializados.",
         },
         {
           id: "uti-adulto",
@@ -69,10 +68,26 @@ export function getOnboardingSteps(): OnboardingStep[] {
         },
         {
           id: "clinica-medica",
-          title: "Clinica Medica",
-          description: "Internacao clinica geral e acompanhamento continuo.",
+          title: "Clínica Médica",
+          description: "Internação clínica geral e acompanhamento contínuo.",
         },
       ],
+    },
+  ];
+}
+
+export function getRegisterSteps(): RegisterStep[] {
+  return [
+    ...getOnboardingSteps(),
+    {
+      id: "account",
+      title: "Crie sua conta",
+      subtitle: "Informe seus dados de acesso e contato para continuar.",
+    },
+    {
+      id: "address",
+      title: "Seu endereço",
+      subtitle: "Digite o CEP para completar o endereço e finalizar seu cadastro.",
     },
   ];
 }
@@ -81,8 +96,19 @@ export function getInitialRegisterFormData(): RegisterFormData {
   return {
     name: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: "",
     coren: "",
+    professionalProfile: "",
+    workContext: "",
+    primaryUnit: "",
+    cep: "",
+    street: "",
+    number: "",
+    neighborhood: "",
+    city: "",
+    state: "",
+    complement: "",
   };
 }

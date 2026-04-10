@@ -1,5 +1,5 @@
-import { SplashController } from "@/modules/splash/controllers/SplashController";
+import { redirect } from "next/navigation";
 
 export default function SplashPage() {
-  return <SplashController />;
+  redirect("/");
 }

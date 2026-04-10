@@ -25,7 +25,7 @@ export function PrimaryButton({
 }: PrimaryButtonProps) {
   const variantClassName =
     variant === "solid"
-      ? "bg-primary text-white shadow-[0_16px_30px_rgba(15,143,176,0.24)] hover:bg-primary-strong"
+      ? "bg-primary !text-white shadow-[0_16px_30px_rgba(15,143,176,0.24)] hover:bg-primary-strong"
       : variant === "secondary"
         ? "bg-secondary-soft text-primary-strong ring-1 ring-[#cdeee7] hover:bg-[#dbf7f1]"
         : "bg-white text-foreground ring-1 ring-border hover:bg-surface-alt";

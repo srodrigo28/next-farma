@@ -118,6 +118,12 @@ export function getDrawerMenu(): DrawerMenuItem[] {
       href: "/dashboard",
     },
     {
+      id: "onboarding",
+      label: "Meu onboarding",
+      description: "Perfil, contexto e unidade principal salvos.",
+      href: "/onboarding",
+    },
+    {
       id: "patients",
       label: "Pacientes",
       description: "Internados, triagem e historico resumido.",

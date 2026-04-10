@@ -15,12 +15,15 @@ export function OptionCard({
   return (
     <button
       type="button"
+      aria-pressed={option.selected}
       onClick={() => onSelect?.(option.id)}
-      className={`flex w-full items-center gap-4 rounded-[22px] border p-4 text-left shadow-[0_8px_25px_rgba(16,33,62,0.05)] transition-colors ${selectedClassName}`}
+      className={`flex w-full items-center gap-4 rounded-[22px] border p-4 text-left shadow-[0_8px_25px_rgba(16,33,62,0.05)] transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/15 ${selectedClassName}`}
     >
       <div
         className={`flex h-12 w-12 items-center justify-center rounded-2xl ${
-          option.selected ? "bg-primary text-white" : "bg-surface-alt text-primary"
+          option.selected
+            ? "bg-primary text-white shadow-[0_12px_24px_rgba(15,143,176,0.24)]"
+            : "bg-surface-alt text-primary"
         }`}
       >
         {option.selected ? (
@@ -33,9 +36,7 @@ export function OptionCard({
         <p className="text-lg font-semibold text-foreground">{option.title}</p>
         <p className="text-sm leading-5 text-muted">{option.description}</p>
       </div>
-      <div className="text-muted">
-        {!option.selected ? <ArrowRightIcon className="h-5 w-5" /> : null}
-      </div>
+      <div className="text-muted">{!option.selected ? <ArrowRightIcon className="h-5 w-5" /> : null}</div>
     </button>
   );
 }

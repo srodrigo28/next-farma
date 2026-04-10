@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Next Farma",
-  description: "App de Enfermagem",
+  title: "Gestão de Escalas",
+  description: "Passagem de plantão sem stress",
 };
 
 export default function RootLayout({

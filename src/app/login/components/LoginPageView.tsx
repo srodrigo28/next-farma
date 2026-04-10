@@ -8,7 +8,7 @@ import { GoogleIcon } from "@/shared/components/AppIcons";
 import { BrandMark } from "@/shared/components/BrandMark";
 import { PrimaryButton } from "@/shared/components/PrimaryButton";
 import { TextField } from "@/shared/components/TextField";
-import { getAuthSession, saveAuthSession } from "@/shared/lib/auth";
+import { getAuthSession, needsProfileCompletion, saveAuthSession } from "@/shared/lib/auth";
 import { submitLogin } from "../actions";
 import { LoginCredentials, LoginErrors, LoginOption } from "../types";
 
@@ -26,9 +26,10 @@ export function LoginPageView({
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    if (getAuthSession()) {
-      router.replace("/dashboard");
-    }
+    const session = getAuthSession();
+    if (!session) return;
+
+    router.replace(needsProfileCompletion(session.user) ? "/cadastro/completar" : "/dashboard");
   }, [router]);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -50,7 +51,7 @@ export function LoginPageView({
       }
 
       saveAuthSession(result.data.access_token, result.data.user);
-      router.push("/dashboard");
+      router.push(needsProfileCompletion(result.data.user) ? "/cadastro/completar" : "/dashboard");
     });
   }
 
@@ -68,7 +69,7 @@ export function LoginPageView({
         </div>
 
         <div className="space-y-4">
-          <PrimaryButton href="/dashboard" variant="ghost" className="gap-3">
+          <PrimaryButton type="button" variant="ghost" className="gap-3" onClick={() => setMessage("Login com Google em breve.")}>
             <GoogleIcon className="h-5 w-5" />
             Continuar com Google
           </PrimaryButton>

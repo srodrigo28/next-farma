@@ -1,6 +1,6 @@
 import { CadastroPageView } from "./components/CadastroPageView";
-import { getOnboardingSteps } from "./data";
+import { getRegisterSteps } from "./data";
 
 export default function CadastroPage() {
-  return <CadastroPageView steps={getOnboardingSteps()} />;
+  return <CadastroPageView steps={getRegisterSteps()} />;
 }

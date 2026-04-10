@@ -7,6 +7,15 @@ export interface AuthUser {
   id: number;
   name: string;
   email: string;
+  phone?: string | null;
+  coren?: string | null;
+  cep?: string | null;
+  street?: string | null;
+  number?: string | null;
+  neighborhood?: string | null;
+  city?: string | null;
+  state?: string | null;
+  complement?: string | null;
 }
 
 export interface AuthSession {
@@ -44,6 +53,14 @@ export function getAuthSession(): AuthSession | null {
     clearAuthSession();
     return null;
   }
+}
+
+export function needsProfileCompletion(user: AuthUser | null | undefined) {
+  if (!user) return false;
+
+  return [user.name, user.phone, user.cep, user.street, user.number, user.neighborhood, user.city, user.state].some(
+    (value) => !String(value || "").trim(),
+  );
 }
 
 export async function validateAuthSession() {

@@ -10,6 +10,8 @@ interface RegisterSuccessData {
 
 function validateRegisterForm(data: RegisterFormData) {
   const errors: RegisterFormErrors = {};
+  const phoneDigits = data.phone.replace(/\D/g, "");
+  const cepDigits = data.cep.replace(/\D/g, "");
 
   if (!data.name.trim()) {
     errors.name = "Informe seu nome.";
@@ -17,6 +19,12 @@ function validateRegisterForm(data: RegisterFormData) {
 
   if (!data.email.trim()) {
     errors.email = "Informe seu e-mail.";
+  }
+
+  if (!phoneDigits) {
+    errors.phone = "Informe seu telefone.";
+  } else if (phoneDigits.length < 10) {
+    errors.phone = "Informe um telefone valido.";
   }
 
   if (!data.password.trim()) {
@@ -29,6 +37,32 @@ function validateRegisterForm(data: RegisterFormData) {
     errors.confirmPassword = "Confirme sua senha.";
   } else if (data.confirmPassword !== data.password) {
     errors.confirmPassword = "As senhas precisam ser iguais.";
+  }
+
+  if (!cepDigits) {
+    errors.cep = "Informe o CEP.";
+  } else if (cepDigits.length !== 8) {
+    errors.cep = "Informe um CEP valido.";
+  }
+
+  if (!data.street.trim()) {
+    errors.street = "Informe a rua.";
+  }
+
+  if (!data.number.trim()) {
+    errors.number = "Informe o numero.";
+  }
+
+  if (!data.neighborhood.trim()) {
+    errors.neighborhood = "Informe o bairro.";
+  }
+
+  if (!data.city.trim()) {
+    errors.city = "Informe a cidade.";
+  }
+
+  if (!data.state.trim()) {
+    errors.state = "Informe o estado.";
   }
 
   return {
@@ -55,7 +89,19 @@ export async function submitRegister(data: RegisterFormData) {
     body: JSON.stringify({
       name: data.name,
       email: data.email,
+      phone: data.phone,
       password: data.password,
+      coren: data.coren,
+      professional_profile: data.professionalProfile,
+      work_context: data.workContext,
+      primary_unit: data.primaryUnit,
+      cep: data.cep,
+      street: data.street,
+      number: data.number,
+      neighborhood: data.neighborhood,
+      city: data.city,
+      state: data.state,
+      complement: data.complement,
     }),
   });
 
@@ -63,7 +109,7 @@ export async function submitRegister(data: RegisterFormData) {
     const payload = response.payload as ApiErrorResponse | null;
     return {
       ok: false,
-      errors: {},
+      errors: (payload?.errors as RegisterFormErrors | undefined) || {},
       message: payload?.message || "Nao foi possivel concluir o cadastro.",
     };
   }

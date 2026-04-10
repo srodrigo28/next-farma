@@ -18,6 +18,7 @@ import { DrawerMenuItem, WorkspaceMode } from "@/shared/types";
 
 const iconMap = {
   overview: OverviewIcon,
+  onboarding: BookIcon,
   patients: PatientsIcon,
   medications: MedicationsIcon,
   os: ClipboardIcon,

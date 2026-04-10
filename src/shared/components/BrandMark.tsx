@@ -8,11 +8,11 @@ export function BrandMark({ compact = false }: { compact?: boolean }) {
       </div>
       {!compact ? (
         <div className="text-center">
-          <p className="text-3xl font-bold tracking-tight text-foreground">
-            Next Farma
+          <p className="py-10 text-3xl font-bold tracking-tight text-foreground">
+            Passagem de plantão sem estresse
           </p>
           <p className="text-base text-muted">
-            Plataforma mobile-first para rotinas clínicas e assistenciais
+            Chega do caos na hora de assumir o plantão. Tenha mais controle sobre a sua rotina diária.
           </p>
         </div>
       ) : null}

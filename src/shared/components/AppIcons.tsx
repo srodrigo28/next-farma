@@ -40,10 +40,13 @@ export function CloseIcon(props: IconProps) {
 
 export function BrandPillIcon(props: IconProps) {
   return (
-    <BaseIcon {...props}>
-      <rect x="5" y="5" width="14" height="14" rx="7" />
-      <path d="M8.5 15.5l7-7" />
-    </BaseIcon>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" aria-hidden="true" {...props}>
+      <g transform="rotate(45 50 50)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="26" y="10" width="48" height="80" rx="24" />
+        <rect x="36" y="20" width="28" height="60" rx="14" />
+        <line x1="36" y1="50" x2="64" y2="50" />
+      </g>
+    </svg>
   );
 }
 
