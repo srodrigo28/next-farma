@@ -1,7 +1,7 @@
 import { ApiErrorResponse, ApiResponse } from "@/shared/types/api";
 import { getAuthSession } from "@/shared/lib/auth";
 
-const DEFAULT_API_BASE_URL = "http://127.0.0.1:5000";
+const DEFAULT_API_BASE_URL = "https://99dev.pro/api-farma";
 
 export function getApiBaseUrl() {
   const configuredBaseUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
