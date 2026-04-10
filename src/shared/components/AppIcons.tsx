@@ -8,7 +8,7 @@ function BaseIcon({ children, ...props }: IconProps) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.8"
+      strokeWidth="1.9"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
@@ -207,6 +207,32 @@ export function CircleIcon(props: IconProps) {
   return (
     <BaseIcon {...props}>
       <circle cx="12" cy="12" r="7" />
+    </BaseIcon>
+  );
+}
+
+export function ShieldIcon(props: IconProps) {
+  return (
+    <BaseIcon {...props}>
+      <path d="M12 4.5c1.6 1.2 3.4 2 5.5 2.4v4.4c0 4-2 6.7-5.5 8.3-3.5-1.6-5.5-4.3-5.5-8.3V6.9c2.1-.4 3.9-1.2 5.5-2.4z" />
+    </BaseIcon>
+  );
+}
+
+export function WrenchIcon(props: IconProps) {
+  return (
+    <BaseIcon {...props}>
+      <path d="M14.8 6.2a3.3 3.3 0 0 0 4 4l-2 2-4-4 2-2z" /><path d="M11.8 9.2l3 3" /><path d="M7 19a1.9 1.9 0 1 1 2.7-2.7" /><path d="M8.3 17.7l6.6-6.6" />
+    </BaseIcon>
+  );
+}
+
+export function GraduationCapIcon(props: IconProps) {
+  return (
+    <BaseIcon {...props}>
+      <path d="M3.5 9.5L12 5l8.5 4.5L12 14 3.5 9.5z" />
+      <path d="M7 12.5V16c2.6 1.8 7.4 1.8 10 0v-3.5" />
+      <path d="M20.5 10v4" />
     </BaseIcon>
   );
 }

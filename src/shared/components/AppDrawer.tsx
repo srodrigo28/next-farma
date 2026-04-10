@@ -1,33 +1,31 @@
-import {
-  ArrowRightIcon,
-  BellIcon,
-  BookIcon,
-  BrandPillIcon,
-  ClipboardIcon,
-  CloseIcon,
-  HandoffIcon,
-  HeartbeatIcon,
-  MedicationsIcon,
-  OverviewIcon,
-  PatientsIcon,
-  ScaleIcon,
-} from "@/shared/components/AppIcons";
+import { ArrowRightIcon, BrandPillIcon, CloseIcon } from "@/shared/components/AppIcons";
 import Link from "next/link";
+import { GrConfigure, GrOverview } from "react-icons/gr";
+import {
+  HiOutlineBellAlert,
+  HiOutlineClipboardDocumentList,
+  HiOutlineDocumentText,
+  HiOutlineHeart,
+  HiOutlineQueueList,
+  HiOutlineScale,
+  HiOutlineUserGroup,
+} from "react-icons/hi2";
+import { PiArrowsLeftRightLight, PiPillLight } from "react-icons/pi";
 import { WorkspaceModeToggle } from "@/shared/components/WorkspaceModeToggle";
 import { DrawerMenuItem, WorkspaceMode } from "@/shared/types";
 
 const iconMap = {
-  overview: OverviewIcon,
-  onboarding: BookIcon,
-  patients: PatientsIcon,
-  medications: MedicationsIcon,
-  os: ClipboardIcon,
-  vitals: HeartbeatIcon,
-  alerts: BellIcon,
-  protocols: BookIcon,
-  legal: ScaleIcon,
-  handoff: HandoffIcon,
-  tasks: ClipboardIcon,
+  overview: { icon: GrOverview, className: "h-[18px] w-[18px]" },
+  onboarding: { icon: GrConfigure, className: "h-[18px] w-[18px]" },
+  patients: { icon: HiOutlineUserGroup, className: "h-[22px] w-[22px]" },
+  medications: { icon: PiPillLight, className: "h-[21px] w-[21px]" },
+  os: { icon: HiOutlineClipboardDocumentList, className: "h-[22px] w-[22px]" },
+  vitals: { icon: HiOutlineHeart, className: "h-[21px] w-[21px]" },
+  alerts: { icon: HiOutlineBellAlert, className: "h-[22px] w-[22px]" },
+  protocols: { icon: HiOutlineDocumentText, className: "h-[21px] w-[21px]" },
+  legal: { icon: HiOutlineScale, className: "h-[21px] w-[21px]" },
+  handoff: { icon: PiArrowsLeftRightLight, className: "h-[22px] w-[22px]" },
+  tasks: { icon: HiOutlineQueueList, className: "h-[22px] w-[22px]" },
 };
 
 export function AppDrawer({
@@ -83,7 +81,8 @@ export function AppDrawer({
         <nav className="space-y-2 px-4 py-4">
           {items.map((item) =>
             (() => {
-              const Icon = iconMap[item.id as keyof typeof iconMap] ?? OverviewIcon;
+              const iconEntry = iconMap[item.id as keyof typeof iconMap] ?? iconMap.overview;
+              const Icon = iconEntry.icon;
 
               return (
                 <Link
@@ -103,7 +102,7 @@ export function AppDrawer({
                         : "bg-surface-alt text-muted"
                     }`}
                   >
-                    <Icon className="h-5 w-5" />
+                    <Icon className={iconEntry.className} />
                   </div>
                   <div className="flex-1">
                     <p className="text-base font-semibold text-foreground">{item.label}</p>

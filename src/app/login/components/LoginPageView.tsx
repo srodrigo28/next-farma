@@ -61,10 +61,10 @@ export function LoginPageView({
         <div className="flex flex-col items-center gap-5 text-center">
           <BrandMark compact />
           <div className="space-y-2">
-            <h1 className="text-4xl font-bold tracking-tight text-foreground">
-              Bem-vindo ao Next Farma
+            <h1 className="text-4xl py-7 font-bold tracking-tight text-foreground">
+              Bem-vindo
             </h1>
-            <p className="text-lg text-muted">Entre para continuar seu plantao.</p>
+            <p className="text-lg text-muted">Entre para continuar seu plantão.</p>
           </div>
         </div>
 
