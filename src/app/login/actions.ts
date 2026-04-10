@@ -7,6 +7,15 @@ interface LoginSuccessData {
     id: number;
     name: string;
     email: string;
+    phone?: string | null;
+    coren?: string | null;
+    cep?: string | null;
+    street?: string | null;
+    number?: string | null;
+    neighborhood?: string | null;
+    city?: string | null;
+    state?: string | null;
+    complement?: string | null;
   };
   access_token: string;
   refresh_token: string;
@@ -42,6 +51,14 @@ function validateLoginForm(data: LoginCredentials) {
   };
 }
 
+function buildErrorResult(payload: ApiErrorResponse | null, fallbackMessage: string): SubmitLoginResult {
+  return {
+    ok: false,
+    errors: {},
+    message: payload?.message || fallbackMessage,
+  };
+}
+
 export async function submitLogin(data: LoginCredentials): Promise<SubmitLoginResult> {
   const result = validateLoginForm(data);
   if (!result.isValid) {
@@ -64,12 +81,28 @@ export async function submitLogin(data: LoginCredentials): Promise<SubmitLoginRe
   });
 
   if (!response.ok) {
-    const payload = response.payload as ApiErrorResponse | null;
-    return {
-      ok: false,
-      errors: {},
-      message: payload?.message || "Nao foi possivel entrar agora.",
-    };
+    return buildErrorResult(response.payload as ApiErrorResponse | null, "Nao foi possivel entrar agora.");
+  }
+
+  return {
+    ok: true,
+    errors: {},
+    message: response.payload.message,
+    data: response.payload.data,
+  };
+}
+
+export async function submitGoogleLogin(credential: string): Promise<SubmitLoginResult> {
+  const response = await apiRequest<LoginSuccessData>("/api/v1/auth/google", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ credential }),
+  });
+
+  if (!response.ok) {
+    return buildErrorResult(response.payload as ApiErrorResponse | null, "Nao foi possivel entrar com Google agora.");
   }
 
   return {

@@ -42,15 +42,7 @@ export function AppNavbar({
           <div className="hidden sm:block">
             <ApiStatusBadge />
           </div>
-          {onLogout ? (
-            <button
-              type="button"
-              onClick={onLogout}
-              className="rounded-xl border border-border px-3 py-2 text-xs font-bold uppercase tracking-[0.12em] text-muted"
-            >
-              Sair
-            </button>
-          ) : null}
+          
         </div>
 
         <div className="mt-3 flex items-center justify-between gap-3">
