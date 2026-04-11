@@ -9,8 +9,8 @@
 - o bloqueio nao era apenas ausencia de variavel
 - tambem havia desencontro de convencao entre a configuracao antiga de `next-auth` e o fluxo atual
 - o frontend implementado hoje usa `NEXT_PUBLIC_GOOGLE_CLIENT_ID`
-- o arquivo `web/.env` ainda estava com `AUTH_GOOGLE_ID` e `AUTH_GOOGLE_SECRET`, que nao sao lidos pelo fluxo atual
-- a API tambem estava sem `GOOGLE_CLIENT_ID`
+- variaveis como `AUTH_GOOGLE_ID` e `AUTH_GOOGLE_SECRET` nao sao lidas pelo fluxo atual da tela de login
+- a API precisa de `GOOGLE_CLIENT_ID`
 - a correcao aplicada foi alinhar os envs reais da web e da API para o mesmo client id Web do Google
 
 ## Objetivo desta anotacao
@@ -24,9 +24,9 @@ A integracao de Google Auth foi implementada no codigo e a base de dados foi pre
 O bloqueio atual nao e de banco.
 O bloqueio principal encontrado foi de configuracao local de variaveis de ambiente:
 
-- `api/.env` existia sem `GOOGLE_CLIENT_ID`
-- `web/.env` existia, mas ainda seguia o padrao antigo de `next-auth`
-- o fluxo atual da web precisa de `NEXT_PUBLIC_GOOGLE_CLIENT_ID`
+- `api/.env` precisa de `GOOGLE_CLIENT_ID`
+- `web/.env` precisa de `NEXT_PUBLIC_GOOGLE_CLIENT_ID`
+- o fluxo atual da web nao usa `AUTH_GOOGLE_ID` nem `AUTH_GOOGLE_SECRET`
 
 ## O que foi implementado
 
@@ -93,7 +93,7 @@ Implementacoes feitas:
 
 Comandos executados:
 
-- `python -m pytest api	ests	est_auth.py`
+- `python -m pytest api\tests\test_auth.py`
 - `python -m pytest`
 
 Resultados:
@@ -110,7 +110,7 @@ Comandos executados:
 
 Resultados:
 
-- lint OK com 1 warning antigo e nao relacionado em `web/src/shared/components/AppNavbar.tsx`
+- lint OK
 - build OK
 
 ### Dependencias e migration
@@ -135,49 +135,26 @@ Checagens executadas:
 
 Resultado das checagens:
 
-- `GOOGLE_CLIENT_ID_SET=False`
-- `NEXT_PUBLIC_GOOGLE_CLIENT_ID_SET=False`
+- a API precisa expor `GOOGLE_CLIENT_ID`
+- a web precisa expor `NEXT_PUBLIC_GOOGLE_CLIENT_ID`
 - rota `POST /api/v1/auth/google` registrada corretamente
-
-Detalhe encontrado:
-
-### `api/.env`
-
-O arquivo existe, mas no estado anterior continha somente chaves gerais da API e banco.
-Nao continha a chave:
-
-- `GOOGLE_CLIENT_ID=<client id web do Google>`
-
-### `web/.env`
-
-O arquivo existe no ambiente local atual.
-Mas no estado anterior continha apenas as chaves antigas:
-
-- `AUTH_GOOGLE_ID`
-- `AUTH_GOOGLE_SECRET`
-
-Essas chaves nao sao lidas pelo fluxo atual do login Google.
-Por isso a web nao estava carregando:
-
-- `NEXT_PUBLIC_GOOGLE_CLIENT_ID=<client id web do Google>`
 
 ## Onde paramos
 
 O codigo segue pronto, testado e com migration aplicada.
-Ajustamos tambem a configuracao local para o nome correto das variaveis usadas pelo fluxo atual.
+A configuracao correta das variaveis ficou definida e sem dependencia do padrao antigo.
 
 ## Proximo passo quando voltarmos
 
-1. Adicionar `GOOGLE_CLIENT_ID` em `api/.env`
-2. Criar `web/.env.local`
-3. Adicionar `NEXT_PUBLIC_GOOGLE_CLIENT_ID` em `web/.env.local`
-4. Subir a API local
-5. Subir a web local
-6. Testar login Google real na tela `/login`
-7. Validar o redirecionamento para `/cadastro/completar` ou `/dashboard`
-8. Se tudo funcionar localmente, repetir a configuracao no ambiente online
+1. Garantir `GOOGLE_CLIENT_ID` em `api/.env`
+2. Garantir `NEXT_PUBLIC_GOOGLE_CLIENT_ID` em `web/.env`
+3. Subir a API local
+4. Subir a web local
+5. Testar login Google real na tela `/login`
+6. Validar o redirecionamento para `/cadastro/completar` ou `/dashboard`
+7. Se tudo funcionar localmente, repetir a configuracao no ambiente online
 
 ## Observacao importante
 
-O problema final nao foi de implementacao do fluxo.
-O problema final foi apenas a ausencia das variaveis locais do Google no momento da validacao.
+O fluxo atual do login Google nao depende de `next-auth`.
+No frontend, a variavel correta e apenas `NEXT_PUBLIC_GOOGLE_CLIENT_ID`.

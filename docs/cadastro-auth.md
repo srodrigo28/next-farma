@@ -10,7 +10,7 @@ Organizar a entrega do fluxo de autenticacao e cadastro nesta ordem:
 
 1. estabilizar o backend online
 2. garantir cadastro normal e completar cadastro antes do dashboard
-3. implementar login/cadastro com Google via NextAuth
+3. implementar login/cadastro com Google via Google Identity Services + API JWT
 
 ## Estado atual
 
@@ -145,7 +145,7 @@ A fase 1 so termina quando:
 - [ ] `/cadastro/completar` salva com sucesso
 - [ ] o dashboard continua bloqueado enquanto faltarem dados obrigatorios
 
-## Fase 2: NextAuth depois
+## Fase 2: Google login depois
 
 ### Meta
 
@@ -153,7 +153,7 @@ Implementar login/cadastro com Google sem quebrar a regra de completar cadastro 
 
 ### Direcao recomendada
 
-Usar NextAuth apenas como entrada OAuth Google e, depois do callback:
+Usar Google Identity Services no frontend e, depois da resposta da API:
 - se o usuario estiver incompleto -> `/cadastro/completar`
 - se o usuario estiver completo -> `/dashboard`
 
@@ -182,7 +182,7 @@ Usar NextAuth apenas como entrada OAuth Google e, depois do callback:
 - [x] Reiniciar a API online
 - [ ] Validar cadastro normal
 - [ ] Validar completar cadastro antes do dashboard
-- [ ] Implementar NextAuth com Google
+- [ ] Validar login Google com Google Identity Services
 - [ ] Validar jornada completa Google -> completar cadastro -> dashboard
 
 ## Scripts de diagnostico
@@ -223,7 +223,7 @@ O reparo faz:
 API (`api/.env`):
 - `GOOGLE_CLIENT_ID=<client id web do Google>`
 
-Web (`web/.env.local`):
+Web (`web/.env` ou `web/.env.local`):
 - `NEXT_PUBLIC_GOOGLE_CLIENT_ID=<client id web do Google>`
 - `NEXT_PUBLIC_API_URL=https://99dev.pro/api-farma`
 

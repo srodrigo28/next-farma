@@ -82,7 +82,6 @@ export function WorkspaceShell({
           mode={mode}
           onModeChange={setMode}
           userName={session.user.name}
-          onLogout={handleLogout}
         />
       </div>
 

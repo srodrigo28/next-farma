@@ -48,5 +48,5 @@ src/
 ## Proximas etapas
 
 1. Trocar mocks por estados reais e formularios controlados.
-2. Integrar login Google com `next-auth` ou autenticao propria.
+2. Integrar login Google com Google Identity Services no frontend e autenticacao propria na API.
 3. Criar API Flask para autenticacao, usuarios, unidades e dashboard.

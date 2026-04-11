@@ -9,13 +9,11 @@ export function AppNavbar({
   mode,
   onModeChange,
   userName,
-  onLogout,
 }: {
   onOpenMenu: () => void;
   mode: WorkspaceMode;
   onModeChange: (mode: WorkspaceMode) => void;
   userName?: string;
-  onLogout?: () => void;
 }) {
   return (
     <header className="sticky top-0 z-30 bg-white">

@@ -13,21 +13,29 @@
 Use no arquivo `.env`:
 
 ```env
+NEXT_PUBLIC_API_URL="https://99dev.pro/api-farma"
+NEXT_PUBLIC_GOOGLE_CLIENT_ID="seu-google-client-id-web.apps.googleusercontent.com"
+```
+
+Para usar a API local, troque para:
+
+```env
 NEXT_PUBLIC_API_URL="http://127.0.0.1:5000"
 NEXT_PUBLIC_GOOGLE_CLIENT_ID="seu-google-client-id-web.apps.googleusercontent.com"
 ```
 
-Para usar a API online, troque para algo como:
+## Google Login
 
-```env
-NEXT_PUBLIC_API_URL="https://sua-api-online-aqui"
-```
+O fluxo atual nao usa `next-auth` para login Google.
+A web abre o Google Identity Services no navegador e envia a `credential` para a API.
+Por isso a variavel obrigatoria no frontend e `NEXT_PUBLIC_GOOGLE_CLIENT_ID`.
 
 ## Como validar rapido
 
 - Abra a web em `http://localhost:3000`
 - Veja o selo `API online` ou `API indisponivel` no topo
 - Teste login, dashboard, pacientes, medicacoes e sinais vitais
+- Teste `Continuar com Google`
 
 ## Scripts
 
@@ -36,3 +44,4 @@ npm run dev
 npm run lint
 npm run build
 ```
+
