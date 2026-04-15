@@ -14,6 +14,7 @@ interface ApiUnit {
   id: number;
   name: string;
   slug: string;
+  icon?: string;
 }
 
 function asArray<T>(value: unknown): T[] {
@@ -23,9 +24,18 @@ function asArray<T>(value: unknown): T[] {
 function getFallbackUnits(): PatientUnitOption[] {
   return [
     { id: "all", label: "Todas as unidades", selected: true },
-    { id: "internado", label: "Internado" },
-    { id: "uti-adulto", label: "UTI Adulto" },
+    { id: "unidade-emergencia", icon: "🏥", label: "Unidade de Emergência" },
+    { id: "unidade-internacao", icon: "🛏️", label: "Unidade de Internação" },
+    { id: "unidade-terapia-intensiva", icon: "❤️", label: "Unidade de Terapia Intensiva (UTI)" },
+    { id: "unidade-consulta-externa", icon: "👩‍⚕️", label: "Unidade de Consulta Externa" },
+    { id: "unidade-saude-mental", icon: "🧠", label: "Unidade de Saúde Mental" },
+    { id: "maternidade-uti-neonatal", icon: "👶", label: "Maternidade e U.T.I neonatal" },
+    { id: "centro-cirurgico", icon: "🧑‍⚕️", label: "Centro Cirúrgico" },
   ];
+}
+
+function getUnitLabel(unit: Pick<ApiUnit, "name" | "icon">) {
+  return unit.icon ? `${unit.icon} ${unit.name}` : unit.name;
 }
 
 function formatPatientMetaLabel(sex: string) {
@@ -45,7 +55,7 @@ export async function getPatientUnits(): Promise<PatientUnitOption[]> {
 
   return [
     { id: "all", label: "Todas as unidades", selected: true },
-    ...units.map((unit) => ({ id: unit.slug, label: unit.name })),
+    ...units.map((unit) => ({ id: unit.slug, icon: unit.icon, label: getUnitLabel(unit) })),
   ];
 }
 
@@ -86,7 +96,7 @@ export async function getPatientFormUnitOptions(): Promise<PatientSelectOption[]
 
   return [
     { value: "", label: "Selecionar" },
-    ...units.map((unit) => ({ value: unit.name, label: unit.name })),
+    ...units.map((unit) => ({ value: unit.name, icon: unit.icon, label: getUnitLabel(unit) })),
   ];
 }
 

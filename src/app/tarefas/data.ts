@@ -1,4 +1,16 @@
+import { apiGet } from "@/shared/lib/api";
 import { NewTaskFormData, TaskFilterOption, TaskItem, TaskSelectOption } from "./types";
+
+interface ApiTask {
+  id: number;
+  title: string;
+  category: string;
+  patient_name?: string;
+  unit: string;
+  due_at: string;
+  status: "pending" | "completed";
+  notes?: string;
+}
 
 export function getTaskTabs(): TaskFilterOption[] {
   return [
@@ -8,8 +20,20 @@ export function getTaskTabs(): TaskFilterOption[] {
   ];
 }
 
-export function getTasks(): TaskItem[] {
-  return [];
+export async function getTasks(): Promise<TaskItem[]> {
+  const payload = await apiGet<ApiTask[]>("/api/v1/tasks");
+  if (!payload || !Array.isArray(payload.data)) return [];
+
+  return payload.data.map((task) => ({
+    id: String(task.id),
+    title: task.title,
+    category: task.category,
+    patientName: task.patient_name || undefined,
+    unit: task.unit,
+    dueAt: task.due_at,
+    status: task.status,
+    notes: task.notes || undefined,
+  }));
 }
 
 export function getTaskCategoryOptions(): TaskSelectOption[] {
@@ -23,12 +47,7 @@ export function getTaskCategoryOptions(): TaskSelectOption[] {
 }
 
 export function getTaskPatientOptions(): TaskSelectOption[] {
-  return [
-    { value: "", label: "Sem paciente vinculado" },
-    { value: "p-ana-clara", label: "Ana Clara Santos" },
-    { value: "p-maria-oliveira", label: "Maria Oliveira" },
-    { value: "p-joao-pedro", label: "João Pedro Lima" },
-  ];
+  return [{ value: "", label: "Sem paciente vinculado" }];
 }
 
 export function getTaskUnitOptions(): TaskSelectOption[] {

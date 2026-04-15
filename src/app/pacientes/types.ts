@@ -10,12 +10,14 @@ export interface PatientListItem {
 export interface PatientUnitOption {
   id: string;
   label: string;
+  icon?: string;
   selected?: boolean;
 }
 
 export interface PatientSelectOption {
   value: string;
   label: string;
+  icon?: string;
 }
 
 export interface NewPatientFormData {
@@ -32,3 +34,4 @@ export interface NewPatientFormData {
 }
 
 export type NewPatientFormErrors = Partial<Record<keyof NewPatientFormData, string>>;
+

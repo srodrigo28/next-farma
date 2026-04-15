@@ -2,6 +2,7 @@ import { SearchIcon } from "@/shared/components/AppIcons";
 import { AppScreen } from "@/shared/components/AppScreen";
 import { WorkspaceShell } from "@/shared/components/WorkspaceShell";
 import { getDrawerMenu } from "@/app/dashboard/data";
+import { apiGet } from "@/shared/lib/api";
 
 const themeOptions = [
   { value: "all", label: "Todas", selected: true },
@@ -15,37 +16,26 @@ const statusOptions = [
   { value: "archived", label: "Arquivado" },
 ];
 
-const protocols = [
-  {
-    id: "avc-ativacao",
-    badge: "EM",
-    category: "AVC",
-    title: "AVC - Reconhecimento e Protocolo de Ativação",
-    subtitle: "Linha de Cuidado AVC - MS 2012",
-    views: 0,
-    revision: "01/2021",
-  },
-  {
-    id: "pcr-bls-acls",
-    badge: "CFM",
-    category: "PCR",
-    title: "PCR - Suporte Básico e Avançado de Vida (BLS/ACLS)",
-    subtitle: "Diretrizes AHA 2020 - adaptadas ILCOR",
-    views: 0,
-    revision: "11/2023",
-  },
-  {
-    id: "curativo-ferida-cirurgica",
-    badge: "COFEN",
-    category: "Curativos",
-    title: "Cuidados com Curativo de Ferida Cirúrgica",
-    subtitle: "Resolução COFEN 567/2018",
-    views: 0,
-    revision: "05/2024",
-  },
-];
+interface ApiProtocol {
+  id: number;
+  slug: string;
+  badge: string;
+  category: string;
+  title: string;
+  subtitle: string;
+  views: number;
+  revision: string;
+}
 
-export default function ProtocolosPage() {
+async function getProtocols() {
+  const payload = await apiGet<ApiProtocol[]>("/api/v1/protocols");
+  if (!payload || !Array.isArray(payload.data)) return [];
+  return payload.data;
+}
+
+export default async function ProtocolosPage() {
+  const protocols = await getProtocols();
+
   return (
     <AppScreen flush>
       <WorkspaceShell items={getDrawerMenu()}>

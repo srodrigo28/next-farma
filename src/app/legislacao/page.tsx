@@ -2,6 +2,7 @@ import { BookIcon, ScaleIcon } from "@/shared/components/AppIcons";
 import { AppScreen } from "@/shared/components/AppScreen";
 import { WorkspaceShell } from "@/shared/components/WorkspaceShell";
 import { getDrawerMenu } from "@/app/dashboard/data";
+import { apiGet } from "@/shared/lib/api";
 
 const categories = [
   { id: "all", label: "Todas" },
@@ -10,26 +11,24 @@ const categories = [
   { id: "seguranca", label: "Segurança do paciente" },
 ];
 
-const items = [
-  {
-    id: "legal-1",
-    category: "COREN/COFEN",
-    title: "Exercício profissional e responsabilidades da equipe",
-    summary: "Base de consulta para condutas, atribuições e limites técnicos no cuidado assistencial.",
-    source: "Conselho Federal de Enfermagem",
-    updatedAt: "Atualizado em 12/03/2026",
-  },
-  {
-    id: "legal-2",
-    category: "Segurança do paciente",
-    title: "Protocolos institucionais e referências regulatórias",
-    summary: "Organize normas internas e documentos oficiais usados na rotina da unidade.",
-    source: "Núcleo de qualidade",
-    updatedAt: "Atualizado em 08/03/2026",
-  },
-];
+interface ApiLegalDocument {
+  id: number;
+  category: string;
+  title: string;
+  summary: string;
+  source: string;
+  updated_at: string;
+}
 
-export default function LegislaçãoPage() {
+async function getLegalDocuments() {
+  const payload = await apiGet<ApiLegalDocument[]>("/api/v1/legal-documents");
+  if (!payload || !Array.isArray(payload.data)) return [];
+  return payload.data;
+}
+
+export default async function LegislacaoPage() {
+  const items = await getLegalDocuments();
+
   return (
     <AppScreen flush>
       <WorkspaceShell items={getDrawerMenu()}>
@@ -71,7 +70,7 @@ export default function LegislaçãoPage() {
                   <p className="text-sm leading-6 text-muted">{item.summary}</p>
                   <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted">
                     <span>{item.source}</span>
-                    <span>{item.updatedAt}</span>
+                    <span>{item.updated_at}</span>
                   </div>
                 </div>
               </article>

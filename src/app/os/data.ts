@@ -1,4 +1,15 @@
+import { apiGet } from "@/shared/lib/api";
 import { ServiceOrderFilterOption, ServiceOrderItem } from "./types";
+
+interface ApiServiceOrder {
+  id: number;
+  title: string;
+  sector: string;
+  priority: "Alta" | "Média" | "Media" | "Baixa";
+  owner: string;
+  status: string;
+  opened_at: string;
+}
 
 export function getServiceOrderFilters(): ServiceOrderFilterOption[] {
   return [
@@ -9,25 +20,22 @@ export function getServiceOrderFilters(): ServiceOrderFilterOption[] {
   ];
 }
 
-export function getServiceOrders(): ServiceOrderItem[] {
-  return [
-    {
-      id: "os-1",
-      title: "Solicitar manutenção do monitor multiparamétrico",
-      sector: "UTI adulto",
-      priority: "Alta",
-      owner: "Engenharia clínica",
-      status: "Em aberto",
-      openedAt: "Aberta às 07:40",
-    },
-    {
-      id: "os-2",
-      title: "Reposição de bombas de infusão na maternidade",
-      sector: "Maternidade",
-      priority: "Média",
-      owner: "Central de equipamentos",
-      status: "Em andamento",
-      openedAt: "Aberta às 09:10",
-    },
-  ];
+function normalizePriority(priority: ApiServiceOrder["priority"]): ServiceOrderItem["priority"] {
+  if (priority === "Alta" || priority === "Baixa") return priority;
+  return "Média";
+}
+
+export async function getServiceOrders(): Promise<ServiceOrderItem[]> {
+  const payload = await apiGet<ApiServiceOrder[]>("/api/v1/service-orders");
+  if (!payload || !Array.isArray(payload.data)) return [];
+
+  return payload.data.map((item) => ({
+    id: String(item.id),
+    title: item.title,
+    sector: item.sector,
+    priority: normalizePriority(item.priority),
+    owner: item.owner,
+    status: item.status,
+    openedAt: item.opened_at,
+  }));
 }
