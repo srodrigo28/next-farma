@@ -20,12 +20,15 @@ export function WorkspaceShell({
   const [mode, setMode] = useState<WorkspaceMode>("hospital");
   const [session, setSession] = useState<AuthSession | null>(() => getAuthSession());
   const [isCheckingSession, setIsCheckingSession] = useState(true);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const sessionAccessToken = session?.accessToken;
 
   useEffect(() => {
     let active = true;
 
     async function checkSession() {
+      if (isLoggingOut) return;
+
       if (!session) {
         if (active) {
           setIsCheckingSession(false);
@@ -53,18 +56,28 @@ export function WorkspaceShell({
     return () => {
       active = false;
     };
-  }, [router, session, sessionAccessToken]);
+  }, [isLoggingOut, router, session, sessionAccessToken]);
 
   function handleLogout() {
+    setIsLoggingOut(true);
+    setOpen(false);
     clearAuthSession();
     setSession(null);
-    router.replace("/login");
+    window.location.replace("/login");
   }
 
   const menuItems = items.map((item) => ({
     ...item,
     active: pathname === item.href,
   }));
+
+  if (isLoggingOut) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#f4f8fb] text-sm font-semibold text-muted">
+        Saindo...
+      </div>
+    );
+  }
 
   if (isCheckingSession || !session) {
     return (
@@ -115,3 +128,4 @@ export function WorkspaceShell({
     </div>
   );
 }
+
