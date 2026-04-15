@@ -5,6 +5,7 @@ import {
   MedicationsIcon,
   PatientsIcon,
 } from "@/shared/components/AppIcons";
+import Link from "next/link";
 import { AppScreen } from "@/shared/components/AppScreen";
 import { WorkspaceShell } from "@/shared/components/WorkspaceShell";
 import { AuthUser } from "@/shared/lib/auth";
@@ -141,13 +142,17 @@ export function DashboardPageView({
             </span>
           </div>
           {quickAccess.map((item) => (
-            <article
+            <Link
               key={item.id}
-              className="rounded-[24px] border border-white/70 bg-white/92 p-4 shadow-[0_14px_28px_rgba(15,31,56,0.05)]"
+              href={item.href}
+              className="group block rounded-[24px] border border-white/70 bg-white/92 p-4 shadow-[0_14px_28px_rgba(15,31,56,0.05)] transition duration-200 hover:-translate-y-0.5 hover:border-primary/20 hover:shadow-[0_18px_34px_rgba(15,31,56,0.09)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
             >
-              <p className="text-lg font-semibold text-foreground">{item.title}</p>
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-lg font-semibold text-foreground">{item.title}</p>
+                <span className="text-lg font-semibold text-primary-strong opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">→</span>
+              </div>
               <p className="mt-1 text-sm leading-6 text-muted">{item.description}</p>
-            </article>
+            </Link>
           ))}
         </section>
       </WorkspaceShell>

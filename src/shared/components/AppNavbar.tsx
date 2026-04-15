@@ -1,19 +1,40 @@
 import { MenuIcon } from "@/shared/components/AppIcons";
 import Link from "next/link";
-import { ApiStatusBadge } from "@/shared/components/ApiStatusBadge";
 import { WorkspaceModeToggle } from "@/shared/components/WorkspaceModeToggle";
 import { WorkspaceMode } from "@/shared/types";
+
+function getPlanLabel(plan?: string | null) {
+  if (plan === "plano1") return "Pro";
+  if (plan === "plano2") return "Vip Plus";
+  return "Free";
+}
+
+function getPlanClassName(plan?: string | null) {
+  if (plan === "plano2") return "bg-[#fff4d8] text-[#8a5a00] ring-[#f0cf78]";
+  if (plan === "plano1") return "bg-[#e8fff6] text-[#087a5d] ring-[#b7ead8]";
+  return "bg-[#eef3f7] text-[#456070] ring-[#dce7ee]";
+}
+
+function PlanBadge({ plan }: { plan?: string | null }) {
+  return (
+    <span className={`inline-flex min-h-8 items-center rounded-full px-4 text-xs font-extrabold uppercase tracking-[0.18em] ring-1 ${getPlanClassName(plan)}`}>
+      {getPlanLabel(plan)}
+    </span>
+  );
+}
 
 export function AppNavbar({
   onOpenMenu,
   mode,
   onModeChange,
   userName,
+  subscriptionPlan,
 }: {
   onOpenMenu: () => void;
   mode: WorkspaceMode;
   onModeChange: (mode: WorkspaceMode) => void;
   userName?: string;
+  subscriptionPlan?: string | null;
 }) {
   return (
     <header className="sticky top-0 z-30 bg-white">
@@ -38,15 +59,14 @@ export function AppNavbar({
             </div>
           </Link>
           <div className="hidden sm:block">
-            <ApiStatusBadge />
+            <PlanBadge plan={subscriptionPlan} />
           </div>
-          
         </div>
 
         <div className="mt-3 flex items-center justify-between gap-3">
           <WorkspaceModeToggle value={mode} onChange={onModeChange} compact />
           <div className="sm:hidden">
-            <ApiStatusBadge />
+            <PlanBadge plan={subscriptionPlan} />
           </div>
         </div>
       </div>

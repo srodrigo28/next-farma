@@ -95,6 +95,7 @@ export function WorkspaceShell({
           mode={mode}
           onModeChange={setMode}
           userName={session.user.name}
+          subscriptionPlan={session.user.subscription_plan}
         />
       </div>
 
@@ -128,4 +129,5 @@ export function WorkspaceShell({
     </div>
   );
 }
+
 

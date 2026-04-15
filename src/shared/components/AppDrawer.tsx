@@ -1,6 +1,6 @@
 import { ArrowRightIcon, BrandPillIcon, CloseIcon } from "@/shared/components/AppIcons";
 import Link from "next/link";
-import { GrConfigure, GrOverview } from "react-icons/gr";
+import { GrOverview } from "react-icons/gr";
 import {
   HiOutlineBellAlert,
   HiOutlineClipboardDocumentList,
@@ -16,7 +16,6 @@ import { DrawerMenuItem, WorkspaceMode } from "@/shared/types";
 
 const iconMap = {
   overview: { icon: GrOverview, className: "h-[18px] w-[18px]" },
-  onboarding: { icon: GrConfigure, className: "h-[18px] w-[18px]" },
   patients: { icon: HiOutlineUserGroup, className: "h-[22px] w-[22px]" },
   medications: { icon: PiPillLight, className: "h-[21px] w-[21px]" },
   os: { icon: HiOutlineClipboardDocumentList, className: "h-[22px] w-[22px]" },
@@ -122,28 +121,31 @@ export function AppDrawer({
 
       <div className="shrink-0 border-t border-[#eef3f7] bg-white px-4 py-4 shadow-[0_-8px_18px_rgba(15,31,56,0.04)]">
         <div className="rounded-[24px] bg-linear-to-r from-[#f9fcff] to-[#f1f7fb] p-4 ring-1 ring-border">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary-soft text-sm font-extrabold text-primary">
-              {(userName || "N").charAt(0).toUpperCase()}
+          <Link href="/perfil" onClick={onClose} className="block rounded-[18px] transition-colors hover:bg-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
+            <div className="flex items-center gap-3 p-1">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary-soft text-sm font-extrabold text-primary">
+                {(userName || "N").charAt(0).toUpperCase()}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-base font-semibold text-foreground">{userName || "Profissional"}</p>
+                <p className="mt-1 inline-flex rounded-full bg-secondary-soft px-2 py-1 text-xs font-semibold text-primary-strong">
+                  {userRole || "Enfermagem"}
+                </p>
+              </div>
             </div>
-            <div className="flex-1">
-              <p className="text-base font-semibold text-foreground">{userName || "Profissional"}</p>
-              <p className="mt-1 inline-flex rounded-full bg-secondary-soft px-2 py-1 text-xs font-semibold text-primary-strong">
-                {userRole || "Enfermagem"}
-              </p>
+            <div className="mt-3 flex items-center justify-between px-1 text-sm text-muted">
+              <span>{userUnit || "Hospital"}</span>
+              <span className="flex items-center gap-2 font-semibold text-primary-strong">
+                Perfil
+                <ArrowRightIcon className="h-4 w-4" />
+              </span>
             </div>
-          </div>
-          <div className="mt-4 flex items-center justify-between text-sm text-muted">
-            <span>{userUnit || "Hospital"}</span>
-            <div className="flex items-center gap-3">
-              {onLogout ? (
-                <button type="button" onClick={onLogout} className="font-semibold text-primary-strong">
-                  Sair
-                </button>
-              ) : null}
-              <ArrowRightIcon className="h-4 w-4 text-primary-strong" />
-            </div>
-          </div>
+          </Link>
+          {onLogout ? (
+            <button type="button" onClick={onLogout} className="mt-3 w-full rounded-[12px] px-2 py-2 text-right text-sm font-semibold text-primary-strong transition-colors hover:bg-white/70">
+              Sair
+            </button>
+          ) : null}
         </div>
       </div>
     </aside>

@@ -66,9 +66,21 @@ function formatCompletedAt(value: string | null) {
 export function OnboardingPageView({
   drawerMenu,
   steps,
+  title = "Meu perfil",
+  eyebrow = "Preferências do usuário",
+  description = "Revise seu perfil, contexto de atuação e unidade principal para manter atalhos e prioridades alinhados com a sua rotina.",
+  saveLabel = "Salvar perfil",
+  savingLabel = "Salvando perfil...",
+  successMessage = "Perfil atualizado com sucesso.",
 }: {
   drawerMenu: DrawerMenuItem[];
   steps: OnboardingStep[];
+  title?: string;
+  eyebrow?: string;
+  description?: string;
+  saveLabel?: string;
+  savingLabel?: string;
+  successMessage?: string;
 }) {
   const [wizardSteps, setWizardSteps] = useState(steps);
   const [payload, setPayload] = useState<OnboardingPayload>({
@@ -91,7 +103,7 @@ export function OnboardingPageView({
       if (!active) return;
 
       if (!response) {
-        setMessage("Não foi possível carregar seu onboarding agora.");
+        setMessage("Não foi possível carregar seu perfil agora.");
         setIsLoading(false);
         return;
       }
@@ -150,13 +162,13 @@ export function OnboardingPageView({
 
       if (!response.ok) {
         setErrors((response.payload?.errors as OnboardingErrors | undefined) || {});
-        setMessage(response.payload?.message || "Não foi possível salvar seu onboarding.");
+        setMessage(response.payload?.message || "Não foi possível salvar seu perfil.");
         return;
       }
 
       setPayload(response.payload.data);
       setWizardSteps(syncSelectedOptions(steps, response.payload.data));
-      setMessage("Onboarding atualizado com sucesso.");
+      setMessage(successMessage);
     });
   }
 
@@ -166,13 +178,13 @@ export function OnboardingPageView({
         <section className="rounded-[28px] bg-linear-to-br from-[#eefaf9] via-white to-[#f8fcff] p-5 shadow-[0_18px_32px_rgba(15,31,56,0.07)] ring-1 ring-white/80">
           <div className="space-y-3">
             <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary-strong">
-              Preferências do usuário
+              {eyebrow}
             </p>
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tight text-foreground">Meu onboarding</h1>
+                <h1 className="text-3xl font-bold tracking-tight text-foreground">{title}</h1>
                 <p className="max-w-xl text-sm leading-6 text-muted">
-                  Revise seu perfil, contexto de atuacao e unidade principal para manter atalhos e prioridades alinhados com a sua rotina.
+                  {description}
                 </p>
               </div>
               <div className="rounded-[20px] bg-white/90 px-4 py-3 text-right shadow-[0_10px_24px_rgba(15,31,56,0.05)]">
@@ -234,7 +246,7 @@ export function OnboardingPageView({
 
               <div className="flex flex-col gap-3 pt-2">
                 <PrimaryButton type="button" onClick={handleSave} disabled={isLoading || isPending || !canSave}>
-                  {isPending ? "Salvando preferências..." : "Salvar onboarding"}
+                  {isPending ? savingLabel : saveLabel}
                 </PrimaryButton>
                 <PrimaryButton href="/dashboard" variant="ghost">
                   Voltar ao painel

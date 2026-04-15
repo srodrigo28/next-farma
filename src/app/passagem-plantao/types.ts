@@ -1,5 +1,7 @@
 export interface HandoffRecordItem {
   id: string;
+  unit: string;
+  shift: string;
   shiftLabel: string;
   unitLabel: string;
   date: string;

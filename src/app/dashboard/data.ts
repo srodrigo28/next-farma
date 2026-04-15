@@ -95,16 +95,19 @@ export function getQuickAccess(): QuickAccessItem[] {
       id: "prescricao",
       title: "Nova prescrição",
       description: "Registre medicamentos, protocolos e observações do cuidado.",
+      href: "/medicamentos/prescricao/nova",
     },
     {
       id: "plantao",
       title: "Passagem de plantão",
       description: "Organize pendências e alinhe o turno com segurança.",
+      href: "/passagem-plantao/novo",
     },
     {
       id: "alertas",
       title: "Alertas clínicos",
       description: "Acompanhe vencimentos, riscos e itens prioritários.",
+      href: "/alertas",
     },
   ];
 }
@@ -116,12 +119,6 @@ export function getDrawerMenu(): DrawerMenuItem[] {
       label: "Visão geral",
       description: "Painel principal com prioridades do turno.",
       href: "/dashboard",
-    },
-    {
-      id: "onboarding",
-      label: "Meu onboarding",
-      description: "Perfil, contexto e unidade principal salvos.",
-      href: "/onboarding",
     },
     {
       id: "patients",

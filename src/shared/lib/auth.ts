@@ -19,6 +19,8 @@ export interface AuthUser {
   professional_profile?: string | null;
   work_context?: string | null;
   primary_unit?: string | null;
+  subscription_plan?: string | null;
+  is_admin?: boolean | null;
 }
 
 export interface AuthSession {
@@ -90,4 +92,5 @@ export function clearAuthSession() {
   window.localStorage.removeItem(ACCESS_TOKEN_KEY);
   window.localStorage.removeItem(CURRENT_USER_KEY);
 }
+
 
