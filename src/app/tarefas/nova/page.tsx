@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { AppScreen } from "@/shared/components/AppScreen";
+import { DatePickerField } from "@/shared/components/DatePickerField";
 import { PrimaryButton } from "@/shared/components/PrimaryButton";
 import { submitNewTask } from "../actions";
 import {
@@ -90,17 +91,13 @@ export default function NovaTarefaPage() {
             <SelectField label="Paciente" value={form.patientId} options={getTaskPatientOptions()} onChange={(event) => updateField("patientId", event.target.value)} />
             <SelectField label="Unidade" value={form.unit} options={getTaskUnitOptions()} error={errors.unit} onChange={(event) => updateField("unit", event.target.value)} />
 
-            <label className="flex flex-col gap-2.5">
-              <FieldLabel>Data e hora limite *</FieldLabel>
-              <input
-                type="text"
-                value={form.dueAt}
-                onChange={(event) => updateField("dueAt", event.target.value)}
-                placeholder="dd/mm/aaaa hh:mm"
-                className={`min-h-14 rounded-2xl border bg-white px-4 text-base text-foreground shadow-[0_8px_18px_rgba(15,31,56,0.04)] outline-none transition-all placeholder:text-muted/70 focus:ring-4 ${errors.dueAt ? "border-danger focus:border-danger focus:ring-danger/10" : "border-border focus:border-primary focus:ring-primary/10"}`}
-              />
-              <FieldError message={errors.dueAt} />
-            </label>
+            <DatePickerField
+              label="Data e hora limite *"
+              mode="datetime"
+              value={form.dueAt}
+              error={errors.dueAt}
+              onChange={(value) => updateField("dueAt", value)}
+            />
 
             <label className="flex flex-col gap-2.5">
               <FieldLabel>Notas</FieldLabel>
@@ -127,3 +124,4 @@ export default function NovaTarefaPage() {
     </AppScreen>
   );
 }
+

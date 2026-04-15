@@ -2,8 +2,8 @@ import { LoginCredentials, LoginOption } from "./types";
 
 export function getDefaultCredentials(): LoginCredentials {
   return {
-    email: "voce@nextfarma.com",
-    password: "12345678",
+    email: "",
+    password: "",
   };
 }
 
@@ -13,3 +13,4 @@ export function getLoginLinks(): LoginOption[] {
     { label: "Criar conta", href: "/cadastro" },
   ];
 }
+

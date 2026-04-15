@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { AppScreen } from "@/shared/components/AppScreen";
+import { DatePickerField } from "@/shared/components/DatePickerField";
 import { PrimaryButton } from "@/shared/components/PrimaryButton";
 import { submitPrescription } from "../../actions";
 import {
@@ -130,7 +131,13 @@ export default function NovaPrescricaoPage() {
               <SelectField label="Período" value={form.intervalUnit} options={getIntervalUnitOptions()} onChange={(event) => updateField("intervalUnit", event.target.value)} />
             </div>
 
-            <TextInput label="Início *" value={form.startAt} error={errors.startAt} onChange={(event) => updateField("startAt", event.target.value)} />
+            <DatePickerField
+              label="Início *"
+              mode="datetime"
+              value={form.startAt}
+              error={errors.startAt}
+              onChange={(value) => updateField("startAt", value)}
+            />
 
             <label className="flex flex-col gap-2.5">
               <FieldLabel>Orientações</FieldLabel>
@@ -156,3 +163,5 @@ export default function NovaPrescricaoPage() {
     </AppScreen>
   );
 }
+
+

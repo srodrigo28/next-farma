@@ -51,10 +51,14 @@ function validateLoginForm(data: LoginCredentials) {
   };
 }
 
-function buildErrorResult(payload: ApiErrorResponse | null, fallbackMessage: string): SubmitLoginResult {
+function buildErrorResult(
+  payload: ApiErrorResponse | null,
+  fallbackMessage: string,
+  errors: LoginErrors = {},
+): SubmitLoginResult {
   return {
     ok: false,
-    errors: {},
+    errors,
     message: payload?.message || fallbackMessage,
   };
 }
@@ -81,6 +85,17 @@ export async function submitLogin(data: LoginCredentials): Promise<SubmitLoginRe
   });
 
   if (!response.ok) {
+    if (response.status === 401) {
+      return buildErrorResult(
+        response.payload as ApiErrorResponse | null,
+        "E-mail ou senha inválidos. Confira os dados ou crie uma conta.",
+        {
+          email: "Confira o e-mail informado.",
+          password: "Confira a senha informada.",
+        },
+      );
+    }
+
     return buildErrorResult(response.payload as ApiErrorResponse | null, "Não foi possível entrar agora.");
   }
 
@@ -112,3 +127,4 @@ export async function submitGoogleLogin(credential: string): Promise<SubmitLogin
     data: response.payload.data,
   };
 }
+

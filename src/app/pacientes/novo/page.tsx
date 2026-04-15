@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { AppScreen } from "@/shared/components/AppScreen";
+import { DatePickerField } from "@/shared/components/DatePickerField";
 import { PrimaryButton } from "@/shared/components/PrimaryButton";
 import {
   getNewPatientInitialData,
@@ -227,12 +228,11 @@ export default function NovoPacientePage() {
               />
             </div>
 
-            <TextInput
+            <DatePickerField
               label="Data de internação *"
-              placeholder="dd/mm/aaaa"
               value={form.admissionDate}
               error={errors.admissionDate}
-              onChange={(event) => updateField("admissionDate", event.target.value)}
+              onChange={(value) => updateField("admissionDate", value)}
             />
 
             <SelectField
@@ -287,3 +287,4 @@ export default function NovoPacientePage() {
     </AppScreen>
   );
 }
+

@@ -52,7 +52,10 @@ export async function apiRequest<T>(
   path: string,
   init: RequestInit,
   authenticated = false,
-): Promise<{ ok: true; payload: ApiResponse<T> } | { ok: false; payload: ApiErrorResponse | null }> {
+): Promise<
+  | { ok: true; payload: ApiResponse<T>; status: number }
+  | { ok: false; payload: ApiErrorResponse | null; status: number | null }
+> {
   try {
     const response = await fetch(createApiUrl(path), {
       ...init,
@@ -64,17 +67,21 @@ export async function apiRequest<T>(
       return {
         ok: false,
         payload: payload as ApiErrorResponse,
+        status: response.status,
       };
     }
 
     return {
       ok: true,
       payload: payload as ApiResponse<T>,
+      status: response.status,
     };
   } catch {
     return {
       ok: false,
       payload: null,
+      status: null,
     };
   }
 }
+

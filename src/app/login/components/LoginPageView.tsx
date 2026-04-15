@@ -124,7 +124,7 @@ export function LoginPageView({
               name="email"
               type="email"
               autoComplete="email"
-              placeholder="voce@nextfarma.com"
+              placeholder="seu@email.com"
               value={form.email}
               error={errors.email}
               onChange={handleChange}
@@ -134,7 +134,7 @@ export function LoginPageView({
               name="password"
               type="password"
               autoComplete="current-password"
-              placeholder="12345678"
+              placeholder="Digite sua senha"
               value={form.password}
               error={errors.password}
               onChange={handleChange}
@@ -157,3 +157,4 @@ export function LoginPageView({
     </AppScreen>
   );
 }
+
