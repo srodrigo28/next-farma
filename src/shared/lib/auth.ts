@@ -16,6 +16,9 @@ export interface AuthUser {
   city?: string | null;
   state?: string | null;
   complement?: string | null;
+  professional_profile?: string | null;
+  work_context?: string | null;
+  primary_unit?: string | null;
 }
 
 export interface AuthSession {
@@ -87,3 +90,4 @@ export function clearAuthSession() {
   window.localStorage.removeItem(ACCESS_TOKEN_KEY);
   window.localStorage.removeItem(CURRENT_USER_KEY);
 }
+

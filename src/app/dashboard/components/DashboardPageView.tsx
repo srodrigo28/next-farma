@@ -7,6 +7,7 @@ import {
 } from "@/shared/components/AppIcons";
 import { AppScreen } from "@/shared/components/AppScreen";
 import { WorkspaceShell } from "@/shared/components/WorkspaceShell";
+import { AuthUser } from "@/shared/lib/auth";
 import { DashboardStat, DrawerMenuItem, QuickAccessItem } from "../types";
 
 function toneClassMap(tone: DashboardStat["tone"]) {
@@ -30,15 +31,54 @@ function getStatIcon(id: string, tone: DashboardStat["tone"]) {
   return HeartbeatIcon;
 }
 
+function getFirstName(name?: string | null) {
+  const value = String(name || "").trim();
+  return value ? value.split(/\s+/)[0] : "Profissional";
+}
+
+function formatToday() {
+  return new Intl.DateTimeFormat("pt-BR", {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(new Date());
+}
+
+function formatContext(value?: string | null) {
+  if (value === "aps") return "Atenção Primária";
+  if (value === "hospital") return "Hospital";
+  return "Contexto não informado";
+}
+
+function formatUnit(value?: string | null) {
+  const units: Record<string, string> = {
+    "unidade-emergencia": "Emergência",
+    "unidade-internacao": "Internação",
+    "unidade-terapia-intensiva": "UTI",
+    "unidade-consulta-externa": "Consulta externa",
+    "unidade-saude-mental": "Saúde mental",
+    "maternidade-uti-neonatal": "Maternidade",
+    "centro-cirurgico": "Centro cirúrgico",
+  };
+
+  return units[String(value || "")] || "Unidade não informada";
+}
+
 export function DashboardPageView({
   drawerMenu,
   stats,
   quickAccess,
+  user,
 }: {
   drawerMenu: DrawerMenuItem[];
   stats: DashboardStat[];
   quickAccess: QuickAccessItem[];
+  user: AuthUser | null;
 }) {
+  const contextLabel = formatContext(user?.work_context);
+  const unitLabel = formatUnit(user?.primary_unit);
+
   return (
     <AppScreen flush className="space-y-6">
       <WorkspaceShell items={drawerMenu}>
@@ -49,20 +89,20 @@ export function DashboardPageView({
                 Turno da manhã
               </p>
               <h1 className="mt-1 text-2xl font-bold tracking-tight text-foreground">
-                Olá, Nubio
+                Olá, {getFirstName(user?.name)}
               </h1>
-              <p className="mt-1 text-xs leading-5 text-muted">
-                Quinta-feira, 19 de março de 2026
+              <p className="mt-1 text-xs leading-5 text-muted capitalize">
+                {formatToday()}
               </p>
               <p className="text-xs leading-5 text-muted">
-                Hospital · Maternidade
+                {contextLabel} · {unitLabel}
               </p>
             </div>
             <div className="shrink-0 rounded-[18px] bg-linear-to-br from-primary-soft to-secondary-soft px-3 py-2 text-center">
               <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted">
                 Setor
               </p>
-              <p className="mt-0.5 text-sm font-semibold text-foreground">Hospital</p>
+              <p className="mt-0.5 text-sm font-semibold text-foreground">{contextLabel}</p>
             </div>
           </div>
         </section>
