@@ -5,13 +5,13 @@ import { getDrawerMenu } from "@/app/dashboard/data";
 
 const themeOptions = [
   { value: "all", label: "Todas", selected: true },
-  { value: "emergency", label: "Urgencia" },
+  { value: "emergency", label: "Urgência" },
   { value: "maternity", label: "Maternidade" },
 ];
 
 const statusOptions = [
   { value: "active", label: "Vigente", selected: true },
-  { value: "review", label: "Em revisao" },
+  { value: "review", label: "Em revisão" },
   { value: "archived", label: "Arquivado" },
 ];
 
@@ -20,7 +20,7 @@ const protocols = [
     id: "avc-ativacao",
     badge: "EM",
     category: "AVC",
-    title: "AVC - Reconhecimento e Protocolo de Ativacao",
+    title: "AVC - Reconhecimento e Protocolo de Ativação",
     subtitle: "Linha de Cuidado AVC - MS 2012",
     views: 0,
     revision: "01/2021",
@@ -29,7 +29,7 @@ const protocols = [
     id: "pcr-bls-acls",
     badge: "CFM",
     category: "PCR",
-    title: "PCR - Suporte Basico e Avancado de Vida (BLS/ACLS)",
+    title: "PCR - Suporte Básico e Avançado de Vida (BLS/ACLS)",
     subtitle: "Diretrizes AHA 2020 - adaptadas ILCOR",
     views: 0,
     revision: "11/2023",
@@ -38,8 +38,8 @@ const protocols = [
     id: "curativo-ferida-cirurgica",
     badge: "COFEN",
     category: "Curativos",
-    title: "Cuidados com Curativo de Ferida Cirurgica",
-    subtitle: "Resolucao COFEN 567/2018",
+    title: "Cuidados com Curativo de Ferida Cirúrgica",
+    subtitle: "Resolução COFEN 567/2018",
     views: 0,
     revision: "05/2024",
   },
@@ -51,8 +51,8 @@ export default function ProtocolosPage() {
       <WorkspaceShell items={getDrawerMenu()}>
         <section className="space-y-5 pb-4">
           <div>
-            <h1 className="text-4xl font-bold tracking-tight text-foreground">Protocolos clinicos</h1>
-            <p className="mt-1 text-sm text-muted">{protocols.length} protocolos disponiveis</p>
+            <h1 className="text-4xl font-bold tracking-tight text-foreground">Protocolos clínicos</h1>
+            <p className="mt-1 text-sm text-muted">{protocols.length} protocolos disponíveis</p>
           </div>
 
           <div className="space-y-3">
@@ -102,7 +102,7 @@ export default function ProtocolosPage() {
 
                 <div className="mt-4 flex items-center gap-4 text-sm text-muted">
                   <span>◌ {protocol.views}</span>
-                  <span>Revisao: {protocol.revision}</span>
+                  <span>Revisão: {protocol.revision}</span>
                 </div>
               </article>
             ))}

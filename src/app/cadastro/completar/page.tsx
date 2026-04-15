@@ -61,7 +61,7 @@ function getCompletionSteps(): CompletionStep[] {
     },
     {
       id: "address",
-      title: "Seu endereco",
+      title: "Seu endereço",
       subtitle: "Preencha o CEP e confirme os dados finais antes de entrar no painel.",
     },
   ];
@@ -91,7 +91,7 @@ function validateProfileStep(data: CompletionFormData) {
   if (!phoneDigits) {
     errors.phone = "Informe seu telefone.";
   } else if (phoneDigits.length < 10) {
-    errors.phone = "Informe um telefone valido.";
+    errors.phone = "Informe um telefone válido.";
   }
 
   return errors;
@@ -104,14 +104,14 @@ function validateAddressStep(data: CompletionFormData) {
   if (!cepDigits) {
     errors.cep = "Informe o CEP.";
   } else if (cepDigits.length !== 8) {
-    errors.cep = "Informe um CEP valido.";
+    errors.cep = "Informe um CEP válido.";
   }
   if (!data.street.trim()) errors.street = "Informe a rua.";
-  if (!data.number.trim()) errors.number = "Informe o numero.";
+  if (!data.number.trim()) errors.number = "Informe o número.";
   if (!data.neighborhood.trim()) errors.neighborhood = "Informe o bairro.";
   if (!data.city.trim()) errors.city = "Informe a cidade.";
   if (!data.state.trim()) errors.state = "Informe a UF.";
-  else if (data.state.trim().length !== 2) errors.state = "Informe uma UF valida.";
+  else if (data.state.trim().length !== 2) errors.state = "Informe uma UF válida.";
 
   return errors;
 }
@@ -239,7 +239,7 @@ export default function CompleteCadastroPage() {
 
         if (!response.ok || payload.erro) {
           setCepStatus("error");
-          setErrors((current) => ({ ...current, cep: "Nao encontramos esse CEP." }));
+          setErrors((current) => ({ ...current, cep: "Não encontramos esse CEP." }));
           return;
         }
 
@@ -261,7 +261,7 @@ export default function CompleteCadastroPage() {
       } catch {
         if (!active) return;
         setCepStatus("error");
-        setErrors((current) => ({ ...current, cep: "Nao foi possivel consultar o CEP agora." }));
+        setErrors((current) => ({ ...current, cep: "Não foi possível consultar o CEP agora." }));
       }
     }
 
@@ -323,7 +323,7 @@ export default function CompleteCadastroPage() {
       if (Object.keys(stepErrors).length > 0) {
         setErrors((current) => ({ ...current, ...stepErrors }));
         setMessageTone("error");
-        setMessage("Preencha os campos obrigatorios para continuar.");
+        setMessage("Preencha os campos obrigatórios para continuar.");
         return;
       }
 
@@ -357,7 +357,7 @@ export default function CompleteCadastroPage() {
         const payload = response.payload as ApiErrorPayload | null;
         setErrors(payload?.errors || {});
         setMessageTone("error");
-        setMessage(payload?.message || `Nao foi possivel concluir seu cadastro. Verifique a API configurada em ${getApiBaseUrl()}.`);
+        setMessage(payload?.message || `Não foi possível concluir seu cadastro. Verifique a API configurada em ${getApiBaseUrl()}.`);
         return;
       }
 
@@ -367,7 +367,7 @@ export default function CompleteCadastroPage() {
       }
 
       setMessageTone("success");
-      setMessage("Cadastro complementar concluido. Redirecionando...");
+      setMessage("Cadastro complementar concluído. Redirecionando...");
       router.push("/dashboard");
     });
   }
@@ -406,15 +406,15 @@ export default function CompleteCadastroPage() {
               <div className="space-y-4 pt-2">
                 <TextField label="Nome completo" name="name" placeholder="Seu nome" value={form.name} error={errors.name} rightAdornment={getAdornment("name")} onChange={handleChange} onBlur={handleBlur} />
                 <TextField label="Telefone" name="phone" placeholder="(11) 99999-9999" value={form.phone} error={errors.phone} inputMode="tel" maxLength={15} rightAdornment={getAdornment("phone")} onChange={handleChange} onBlur={handleBlur} />
-                <TextField label="Numero do COREN (opcional)" name="coren" placeholder="Ex: COREN-SP 123456 TE" value={form.coren} error={errors.coren} rightAdornment={getAdornment("coren")} onChange={handleChange} onBlur={handleBlur} />
+                <TextField label="Número do COREN (opcional)" name="coren" placeholder="Ex: COREN-SP 123456 TE" value={form.coren} error={errors.coren} rightAdornment={getAdornment("coren")} onChange={handleChange} onBlur={handleBlur} />
               </div>
             ) : (
               <div className="space-y-4 pt-2">
                 <TextField label="CEP" name="cep" placeholder="00000-000" value={form.cep} error={errors.cep} inputMode="numeric" maxLength={9} rightAdornment={getAdornment("cep")} onChange={handleChange} onBlur={handleBlur} />
                 <TextField label="Rua" name="street" placeholder="Rua, avenida ou travessa" value={form.street} error={errors.street} rightAdornment={getAdornment("street")} onChange={handleChange} onBlur={handleBlur} />
                 <div className="grid gap-4 min-[360px]:grid-cols-[1fr_1fr]">
-                  <TextField label="Numero" name="number" placeholder="123" value={form.number} error={errors.number} inputMode="numeric" rightAdornment={getAdornment("number")} onChange={handleChange} onBlur={handleBlur} />
-                  <TextField label="Complemento" name="complement" placeholder="Apto, bloco, referencia" value={form.complement} error={errors.complement} rightAdornment={getAdornment("complement")} onChange={handleChange} onBlur={handleBlur} />
+                  <TextField label="Número" name="number" placeholder="123" value={form.number} error={errors.number} inputMode="numeric" rightAdornment={getAdornment("number")} onChange={handleChange} onBlur={handleBlur} />
+                  <TextField label="Complemento" name="complement" placeholder="Apto, bloco, referência" value={form.complement} error={errors.complement} rightAdornment={getAdornment("complement")} onChange={handleChange} onBlur={handleBlur} />
                 </div>
                 <TextField label="Bairro" name="neighborhood" placeholder="Seu bairro" value={form.neighborhood} error={errors.neighborhood} rightAdornment={getAdornment("neighborhood")} onChange={handleChange} onBlur={handleBlur} />
                 <div className="grid gap-4 min-[360px]:grid-cols-[1.4fr_0.8fr]">
@@ -428,7 +428,7 @@ export default function CompleteCadastroPage() {
 
             <div className="space-y-3 pt-2">
               <PrimaryButton type="submit" disabled={isPending}>
-                {isLastStep ? (isPending ? "Concluindo..." : "Concluir cadastro") : "Proximo"}
+                {isLastStep ? (isPending ? "Concluindo..." : "Concluir cadastro") : "Próximo"}
               </PrimaryButton>
               {currentStep > 0 ? (
                 <PrimaryButton variant="ghost" onClick={() => setCurrentStep((value) => value - 1)}>

@@ -195,7 +195,7 @@ export default function NovoPacientePage() {
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <TextInput
-                label="Prontuário / CNS"
+                label="Prontuário / CNS *"
                 placeholder="Informe o prontuário"
                 value={form.recordId}
                 error={errors.recordId}
@@ -212,14 +212,14 @@ export default function NovoPacientePage() {
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <TextInput
-                label="Leito"
+                label="Leito *"
                 placeholder="Ex: 204-B"
                 value={form.bed}
                 error={errors.bed}
                 onChange={(event) => updateField("bed", event.target.value)}
               />
               <TextInput
-                label="Setor/Ala"
+                label="Setor/Ala *"
                 placeholder="Ex: Clínica Médica"
                 value={form.sector}
                 error={errors.sector}

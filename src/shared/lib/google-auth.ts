@@ -37,7 +37,7 @@ export function getGoogleClientId() {
 
 export function loadGoogleIdentityScript() {
   if (typeof window === "undefined") {
-    return Promise.reject(new Error("Login com Google indisponivel no servidor."));
+    return Promise.reject(new Error("Login com Google indisponível no servidor."));
   }
 
   if (window.google?.accounts?.id) {
@@ -52,7 +52,7 @@ export function loadGoogleIdentityScript() {
     const existingScript = document.querySelector<HTMLScriptElement>(`script[src="${GOOGLE_IDENTITY_SCRIPT_URL}"]`);
     if (existingScript) {
       existingScript.addEventListener("load", () => resolve(), { once: true });
-      existingScript.addEventListener("error", () => reject(new Error("Nao foi possivel carregar o login do Google.")), { once: true });
+      existingScript.addEventListener("error", () => reject(new Error("Não foi possível carregar o login do Google.")), { once: true });
       return;
     }
 
@@ -61,7 +61,7 @@ export function loadGoogleIdentityScript() {
     script.async = true;
     script.defer = true;
     script.onload = () => resolve();
-    script.onerror = () => reject(new Error("Nao foi possivel carregar o login do Google."));
+    script.onerror = () => reject(new Error("Não foi possível carregar o login do Google."));
     document.head.appendChild(script);
   });
 
@@ -78,7 +78,7 @@ export async function requestGoogleCredential() {
 
   const googleIdentity = window.google?.accounts?.id;
   if (!googleIdentity) {
-    throw new Error("Login com Google indisponivel neste navegador.");
+    throw new Error("Login com Google indisponível neste navegador.");
   }
 
   return new Promise<string>((resolve, reject) => {
@@ -94,7 +94,7 @@ export async function requestGoogleCredential() {
         settled = true;
 
         if (!response.credential) {
-          reject(new Error("O Google nao retornou uma credencial valida."));
+          reject(new Error("O Google não retornou uma credencial válida."));
           return;
         }
 
@@ -113,7 +113,7 @@ export async function requestGoogleCredential() {
       }
 
       settled = true;
-      reject(new Error("Nao foi possivel abrir o login do Google. Verifique o dominio configurado e tente novamente."));
+      reject(new Error("Não foi possível abrir o login do Google. Verifique o domínio configurado e tente novamente."));
     });
   });
 }

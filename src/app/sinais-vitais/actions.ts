@@ -35,7 +35,7 @@ export async function submitVitalRecord(data: NewVitalRecordFormData) {
     return {
       ok: false,
       errors: result.errors,
-      message: "Revise os campos obrigatorios antes de salvar.",
+      message: "Revise os campos obrigatórios antes de salvar.",
     };
   }
 
@@ -64,7 +64,7 @@ export async function submitVitalRecord(data: NewVitalRecordFormData) {
     return {
       ok: false,
       errors: mapApiErrors(payload?.errors),
-      message: payload?.message || "Nao foi possivel salvar os sinais vitais.",
+      message: payload?.message || "Não foi possível salvar os sinais vitais.",
     };
   }
 

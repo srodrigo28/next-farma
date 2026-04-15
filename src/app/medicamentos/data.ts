@@ -45,7 +45,7 @@ function getFallbackPatientOptions(): MedicationOption[] {
 
 export function getMedicationTabs(): MedicationTab[] {
   return [
-    { id: "next-2h", label: "Prox. 2h", selected: true },
+    { id: "next-2h", label: "Próx. 2h", selected: true },
     { id: "today", label: "Hoje" },
   ];
 }
@@ -121,7 +121,7 @@ export function getRouteOptions(): MedicationOption[] {
 export function getFrequencyOptions(): MedicationOption[] {
   return [
     { value: "fixed", label: "Fixa" },
-    { value: "if-needed", label: "Se necessario" },
+    { value: "if-needed", label: "Se necessário" },
   ];
 }
 

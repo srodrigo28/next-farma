@@ -52,8 +52,8 @@ function AlertCard({
 function EmptyState() {
   return (
     <div className="rounded-[24px] border border-white/70 bg-white/92 px-6 py-10 text-center shadow-[0_14px_28px_rgba(15,31,56,0.05)]">
-      <p className="text-lg font-semibold text-foreground">Nenhum alerta clinico no momento.</p>
-      <p className="mt-2 text-sm text-muted">As proximas medicacoes e prioridades vao aparecer aqui.</p>
+      <p className="text-lg font-semibold text-foreground">Nenhum alerta clínico no momento.</p>
+      <p className="mt-2 text-sm text-muted">As próximas medicações e prioridades vão aparecer aqui.</p>
     </div>
   );
 }
@@ -79,13 +79,13 @@ export function AlertasPageView({ alerts }: { alerts: AlertItem[] }) {
             </div>
             <p className="text-sm text-muted">
               {alerts.length} alerta(s) ativo(s)
-              {highPriorityCount ? ` - ${highPriorityCount} de alta vigilancia` : ""}
+              {highPriorityCount ? ` - ${highPriorityCount} de alta vigilância` : ""}
             </p>
           </div>
 
           <div className="space-y-2">
             <p className="text-lg font-semibold uppercase tracking-[0.12em] text-danger">
-              Monitoramento clinico
+              Monitoramento clínico
             </p>
             {feedback ? <p className="text-sm font-medium text-primary">{feedback}</p> : null}
           </div>

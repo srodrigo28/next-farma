@@ -81,7 +81,7 @@ export async function submitLogin(data: LoginCredentials): Promise<SubmitLoginRe
   });
 
   if (!response.ok) {
-    return buildErrorResult(response.payload as ApiErrorResponse | null, "Nao foi possivel entrar agora.");
+    return buildErrorResult(response.payload as ApiErrorResponse | null, "Não foi possível entrar agora.");
   }
 
   return {
@@ -102,7 +102,7 @@ export async function submitGoogleLogin(credential: string): Promise<SubmitLogin
   });
 
   if (!response.ok) {
-    return buildErrorResult(response.payload as ApiErrorResponse | null, "Nao foi possivel entrar com Google agora.");
+    return buildErrorResult(response.payload as ApiErrorResponse | null, "Não foi possível entrar com Google agora.");
   }
 
   return {

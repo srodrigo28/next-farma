@@ -89,7 +89,7 @@ export function LoginPageView({
 
       finishLogin(result.data.access_token, result.data.user);
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Nao foi possivel entrar com Google agora.");
+      setMessage(error instanceof Error ? error.message : "Não foi possível entrar com Google agora.");
     } finally {
       setIsGooglePending(false);
     }
@@ -104,7 +104,7 @@ export function LoginPageView({
             <h1 className="text-4xl py-7 font-bold tracking-tight text-foreground">
               Bem-vindo
             </h1>
-            <p className="text-lg text-muted">Entre para continuar seu plantao.</p>
+            <p className="text-lg text-muted">Entre para continuar seu plantão.</p>
           </div>
         </div>
 

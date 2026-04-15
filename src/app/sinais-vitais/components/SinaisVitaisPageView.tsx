@@ -64,7 +64,7 @@ export function SinaisVitaisPageView({ records }: { records: VitalRecordItem[] }
             </div>
             <PrimaryButton href="/sinais-vitais/novo" className="max-w-[190px] gap-2 bg-foreground hover:bg-surface-strong">
               <PlusIcon className="h-4 w-4" />
-              Cadastre-se
+              Novo registro
             </PrimaryButton>
           </div>
 

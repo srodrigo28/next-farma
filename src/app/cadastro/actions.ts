@@ -24,7 +24,7 @@ function validateRegisterForm(data: RegisterFormData) {
   if (!phoneDigits) {
     errors.phone = "Informe seu telefone.";
   } else if (phoneDigits.length < 10) {
-    errors.phone = "Informe um telefone valido.";
+    errors.phone = "Informe um telefone válido.";
   }
 
   if (!data.password.trim()) {
@@ -42,7 +42,7 @@ function validateRegisterForm(data: RegisterFormData) {
   if (!cepDigits) {
     errors.cep = "Informe o CEP.";
   } else if (cepDigits.length !== 8) {
-    errors.cep = "Informe um CEP valido.";
+    errors.cep = "Informe um CEP válido.";
   }
 
   if (!data.street.trim()) {
@@ -50,7 +50,7 @@ function validateRegisterForm(data: RegisterFormData) {
   }
 
   if (!data.number.trim()) {
-    errors.number = "Informe o numero.";
+    errors.number = "Informe o número.";
   }
 
   if (!data.neighborhood.trim()) {
@@ -112,7 +112,7 @@ export async function submitRegister(data: RegisterFormData) {
       errors: (payload?.errors as RegisterFormErrors | undefined) || {},
       message:
         payload?.message ||
-        `Nao foi possivel concluir o cadastro. Verifique a API configurada em ${getApiBaseUrl()}.`,
+        `Não foi possível concluir o cadastro. Verifique a API configurada em ${getApiBaseUrl()}.`,
     };
   }
 

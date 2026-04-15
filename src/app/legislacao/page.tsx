@@ -6,30 +6,30 @@ import { getDrawerMenu } from "@/app/dashboard/data";
 const categories = [
   { id: "all", label: "Todas" },
   { id: "coren", label: "COREN/COFEN" },
-  { id: "tecnica", label: "Notas tecnicas" },
-  { id: "seguranca", label: "Seguranca do paciente" },
+  { id: "tecnica", label: "Notas técnicas" },
+  { id: "seguranca", label: "Segurança do paciente" },
 ];
 
 const items = [
   {
     id: "legal-1",
     category: "COREN/COFEN",
-    title: "Exercicio profissional e responsabilidades da equipe",
-    summary: "Base de consulta para condutas, atribuicoes e limites tecnicos no cuidado assistencial.",
+    title: "Exercício profissional e responsabilidades da equipe",
+    summary: "Base de consulta para condutas, atribuições e limites técnicos no cuidado assistencial.",
     source: "Conselho Federal de Enfermagem",
     updatedAt: "Atualizado em 12/03/2026",
   },
   {
     id: "legal-2",
-    category: "Seguranca do paciente",
-    title: "Protocolos institucionais e referencias regulatorias",
+    category: "Segurança do paciente",
+    title: "Protocolos institucionais e referências regulatórias",
     summary: "Organize normas internas e documentos oficiais usados na rotina da unidade.",
-    source: "Nucleo de qualidade",
+    source: "Núcleo de qualidade",
     updatedAt: "Atualizado em 08/03/2026",
   },
 ];
 
-export default function LegislacaoPage() {
+export default function LegislaçãoPage() {
   return (
     <AppScreen flush>
       <WorkspaceShell items={getDrawerMenu()}>
@@ -38,10 +38,10 @@ export default function LegislacaoPage() {
             <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-[20px] bg-primary-soft text-primary-strong shadow-[0_10px_24px_rgba(15,143,176,0.10)]">
               <BookIcon className="h-7 w-7" />
             </div>
-            <p className="text-sm font-bold uppercase tracking-[0.24em] text-primary-strong">Legislacao</p>
+            <p className="text-sm font-bold uppercase tracking-[0.24em] text-primary-strong">Legislação</p>
             <h1 className="mt-2 text-4xl font-bold tracking-tight text-foreground">Base normativa</h1>
             <p className="mt-3 text-base leading-7 text-muted">
-              Centralize resolucoes, notas tecnicas e referencias legais relevantes para o dia a dia assistencial.
+              Centralize resoluções, notas técnicas e referências legais relevantes para o dia a dia assistencial.
             </p>
           </section>
 

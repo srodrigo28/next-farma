@@ -35,7 +35,7 @@ export function ApiStatusBadge() {
       ? "API verificando"
       : status === "online"
         ? "API online"
-        : "API indisponivel";
+        : "API indisponível";
 
   const className =
     status === "checking"

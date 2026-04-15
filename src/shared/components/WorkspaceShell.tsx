@@ -69,7 +69,7 @@ export function WorkspaceShell({
   if (isCheckingSession || !session) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#f4f8fb] text-sm font-semibold text-muted">
-        Carregando sessao...
+        Carregando sessão...
       </div>
     );
   }

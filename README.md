@@ -43,5 +43,13 @@ Por isso a variavel obrigatoria no frontend e `NEXT_PUBLIC_GOOGLE_CLIENT_ID`.
 npm run dev
 npm run lint
 npm run build
+npm run test:patients
+npm run test:patients:unit
+npm run test:patients:integration
 ```
 
+## Testes de cadastro de paciente
+
+- `npm run test:patients:unit` valida a logica do formulario e o mapeamento de payload/erros do cadastro de paciente.
+- `npm run test:patients:integration` sobe uma API temporaria em memoria e verifica o payload do web criando paciente e recebendo erro de duplicidade.
+- `npm run test:patients` executa os dois fluxos.

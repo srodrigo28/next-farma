@@ -10,7 +10,7 @@ export async function submitHandoffNote(data: NewHandoffNoteFormData) {
     return {
       ok: false,
       errors: result.errors,
-      message: "Revise os campos obrigatorios antes de salvar.",
+      message: "Revise os campos obrigatórios antes de salvar.",
     };
   }
 
@@ -35,13 +35,13 @@ export async function submitHandoffNote(data: NewHandoffNoteFormData) {
     return {
       ok: false,
       errors: result.errors,
-      message: payload?.message || "Nao foi possivel salvar a passagem de plantao.",
+      message: payload?.message || "Não foi possível salvar a passagem de plantão.",
     };
   }
 
   return {
     ok: true,
     errors: {},
-    message: "Passagem de plantao salva com sucesso.",
+    message: "Passagem de plantão salva com sucesso.",
   };
 }

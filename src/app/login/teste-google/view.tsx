@@ -31,7 +31,7 @@ function maskClientId(clientId: string) {
 }
 
 function maskCredential(credential: string) {
-  if (!credential) return "(nao recebida)";
+  if (!credential) return "(não recebida)";
   if (credential.length <= 24) return credential;
   return `${credential.slice(0, 12)}...${credential.slice(-12)}`;
 }
@@ -118,9 +118,9 @@ export function GoogleLoginDebugView() {
         <div className="space-y-3 text-sm text-foreground">
           <p><strong>Etapa:</strong> {state.step}</p>
           <p><strong>Mensagem:</strong> {state.message}</p>
-          <p><strong>Origin:</strong> {state.origin || "(indisponivel)"}</p>
+          <p><strong>Origin:</strong> {state.origin || "(indisponível)"}</p>
           <p><strong>Client ID:</strong> {maskClientId(state.clientId)}</p>
-          <p><strong>Credential:</strong> {state.credentialPreview || "(nao recebida)"}</p>
+          <p><strong>Credential:</strong> {state.credentialPreview || "(não recebida)"}</p>
           <p><strong>API:</strong> {state.apiMessage || "(sem resposta ainda)"}</p>
         </div>
       </section>

@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": ".tmp-tests",
+    "rootDir": ".",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es2020",
+    "types": ["node"]
+  },
+  "include": [
+    "src/app/pacientes/types.ts",
+    "src/app/pacientes/schema.ts",
+    "src/app/pacientes/submitNewPatient.shared.ts",
+    "src/shared/types/api.ts",
+    "src/app/pacientes/patientRegistration.test.ts",
+    "src/app/pacientes/patientRegistration.integration.test.ts"
+  ]
+}

@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:patients": "node scripts/run-patient-registration-tests.mjs",
+    "test:patients:unit": "node scripts/run-patient-registration-tests.mjs unit",
+    "test:patients:integration": "node scripts/run-patient-registration-tests.mjs integration"
   },
   "dependencies": {
     "motion": "^12.38.0",

@@ -37,7 +37,7 @@ export async function submitPrescription(data: PrescriptionFormData) {
     return {
       ok: false,
       errors: result.errors,
-      message: "Revise os campos obrigatorios antes de criar a prescricao.",
+      message: "Revise os campos obrigatórios antes de criar a prescrição.",
     };
   }
 
@@ -65,13 +65,13 @@ export async function submitPrescription(data: PrescriptionFormData) {
     return {
       ok: false,
       errors: mapApiErrors(payload?.errors),
-      message: payload?.message || "Nao foi possivel criar a prescricao.",
+      message: payload?.message || "Não foi possível criar a prescrição.",
     };
   }
 
   return {
     ok: true,
     errors: {},
-    message: "Prescricao criada com sucesso.",
+    message: "Prescrição criada com sucesso.",
   };
 }

@@ -11,8 +11,20 @@ export function validateNewPatientForm(data: NewPatientFormData) {
     errors.fullName = "Informe o nome completo do paciente.";
   }
 
+  if (!data.recordId.trim()) {
+    errors.recordId = "Informe o prontuário ou CNS.";
+  }
+
   if (!data.sex.trim()) {
     errors.sex = "Selecione o sexo do paciente.";
+  }
+
+  if (!data.bed.trim()) {
+    errors.bed = "Informe o leito do paciente.";
+  }
+
+  if (!data.sector.trim()) {
+    errors.sector = "Informe o setor ou ala.";
   }
 
   if (!data.admissionDate.trim()) {

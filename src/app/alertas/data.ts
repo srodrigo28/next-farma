@@ -20,15 +20,15 @@ function buildDelayLabel(priority?: string) {
     return priority;
   }
 
-  return "Proxima administracao";
+  return "Próxima administração";
 }
 
 function buildCategory(priority?: string) {
   if (priority) {
-    return "Alta vigilancia";
+    return "Alta vigilância";
   }
 
-  return "Medicacoes nas proximas 2h";
+  return "Medicações nas próximas 2h";
 }
 
 export async function getAlerts(): Promise<AlertItem[]> {
