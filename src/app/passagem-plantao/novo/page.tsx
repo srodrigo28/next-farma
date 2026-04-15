@@ -90,10 +90,11 @@ export default function NovaNotaPassagemPage() {
         ) : null}
 
         <div className="space-y-3">
-          <PrimaryButton>{isSubmitting ? "Salvando..." : "Salvar"}</PrimaryButton>
+          <PrimaryButton type="submit" disabled={isSubmitting}>{isSubmitting ? "Salvando..." : "Salvar"}</PrimaryButton>
           <Link href="/passagem-plantao" className="block text-center text-sm font-semibold text-muted">Cancelar</Link>
         </div>
       </form>
     </AppScreen>
   );
 }
+

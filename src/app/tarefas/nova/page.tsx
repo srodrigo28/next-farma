@@ -117,11 +117,12 @@ export default function NovaTarefaPage() {
         ) : null}
 
         <div className="space-y-3">
-          <PrimaryButton>{isSubmitting ? "Criando..." : "Criar tarefa"}</PrimaryButton>
+          <PrimaryButton type="submit" disabled={isSubmitting}>{isSubmitting ? "Criando..." : "Criar tarefa"}</PrimaryButton>
           <Link href="/tarefas" className="block text-center text-sm font-semibold text-muted">Cancelar</Link>
         </div>
       </form>
     </AppScreen>
   );
 }
+
 

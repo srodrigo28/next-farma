@@ -142,10 +142,11 @@ export default function NovoSinalVitalPage() {
         ) : null}
 
         <div className="space-y-3">
-          <PrimaryButton>{isSubmitting ? "Salvando..." : "Salvar registro"}</PrimaryButton>
+          <PrimaryButton type="submit" disabled={isSubmitting}>{isSubmitting ? "Salvando..." : "Salvar registro"}</PrimaryButton>
           <Link href="/sinais-vitais" className="block text-center text-sm font-semibold text-muted">Cancelar</Link>
         </div>
       </form>
     </AppScreen>
   );
 }
+

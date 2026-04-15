@@ -1,6 +1,68 @@
-import { OnboardingStep, RegisterFormData, RegisterStep } from "./types";
+import { OnboardingStep, RegisterFormData, RegisterStep, SelectOption } from "./types";
 
-export function getOnboardingSteps(): OnboardingStep[] {
+export interface CadastroUnit {
+  name: string;
+  slug: string;
+  icon?: string | null;
+}
+
+const unitOptionMetadata: Record<string, Pick<SelectOption, "description" | "icon">> = {
+  "unidade-emergencia": {
+    description: "Atendimento imediato, urgência e emergência.",
+    icon: "hospital",
+  },
+  "unidade-internacao": {
+    description: "Leitos clínicos, cirúrgicos e acompanhamento contínuo.",
+    icon: "clipboard",
+  },
+  "unidade-terapia-intensiva": {
+    description: "Cuidados intensivos e monitorização contínua.",
+    icon: "heartbeat",
+  },
+  "unidade-consulta-externa": {
+    description: "Ambulatório, consultas e acompanhamento programado.",
+    icon: "shield",
+  },
+  "unidade-saude-mental": {
+    description: "Atenção psicossocial e cuidado em saúde mental.",
+    icon: "graduation-cap",
+  },
+  "maternidade-uti-neonatal": {
+    description: "Obstetrícia, neonatologia e cuidado neonatal intensivo.",
+    icon: "heartbeat",
+  },
+  "centro-cirurgico": {
+    description: "Centro operatório, recuperação e apoio cirúrgico.",
+    icon: "wrench",
+  },
+};
+
+const fallbackUnits: CadastroUnit[] = [
+  { slug: "unidade-emergencia", name: "Unidade de Emergência", icon: "🏥" },
+  { slug: "unidade-internacao", name: "Unidade de Internação", icon: "🛏️" },
+  { slug: "unidade-terapia-intensiva", name: "Unidade de Terapia Intensiva (UTI)", icon: "❤️" },
+  { slug: "unidade-consulta-externa", name: "Unidade de Consulta Externa", icon: "👩‍⚕️" },
+  { slug: "unidade-saude-mental", name: "Unidade de Saúde Mental", icon: "🧠" },
+  { slug: "maternidade-uti-neonatal", name: "Maternidade e U.T.I neonatal", icon: "👶" },
+  { slug: "centro-cirurgico", name: "Centro Cirúrgico", icon: "🧑‍⚕️" },
+];
+
+function buildUnitOptions(units?: CadastroUnit[]): SelectOption[] {
+  const source = units?.length ? units : fallbackUnits;
+
+  return source.map((unit) => {
+    const metadata = unitOptionMetadata[unit.slug];
+
+    return {
+      id: unit.slug,
+      title: `${unit.icon ? `${unit.icon} ` : ""}${unit.name}`,
+      description: metadata?.description ?? "Unidade cadastrada para seleção no perfil.",
+      icon: metadata?.icon ?? "hospital",
+    };
+  });
+}
+
+export function getOnboardingSteps(units?: CadastroUnit[]): OnboardingStep[] {
   return [
     {
       id: "profile",
@@ -50,57 +112,14 @@ export function getOnboardingSteps(): OnboardingStep[] {
       id: "unit",
       title: "Sua unidade",
       subtitle: "Selecione a unidade ou o setor",
-      options: [
-        {
-          id: "unidade-emergencia",
-          title: "🏥 Unidade de Emergência",
-          description: "Atendimento imediato, urgência e emergência.",
-          icon: "hospital",
-        },
-        {
-          id: "unidade-internacao",
-          title: "🛏️ Unidade de Internação",
-          description: "Leitos clínicos, cirúrgicos e acompanhamento contínuo.",
-          icon: "clipboard",
-        },
-        {
-          id: "unidade-terapia-intensiva",
-          title: "❤️ Unidade de Terapia Intensiva (UTI)",
-          description: "Cuidados intensivos e monitorização contínua.",
-          icon: "heartbeat",
-        },
-        {
-          id: "unidade-consulta-externa",
-          title: "👩‍⚕️ Unidade de Consulta Externa",
-          description: "Ambulatório, consultas e acompanhamento programado.",
-          icon: "shield",
-        },
-        {
-          id: "unidade-saude-mental",
-          title: "🧠 Unidade de Saúde Mental",
-          description: "Atenção psicossocial e cuidado em saúde mental.",
-          icon: "graduation-cap",
-        },
-        {
-          id: "maternidade-uti-neonatal",
-          title: "👶 Maternidade e U.T.I neonatal",
-          description: "Obstetrícia, neonatologia e cuidado neonatal intensivo.",
-          icon: "heartbeat",
-        },
-        {
-          id: "centro-cirurgico",
-          title: "🧑‍⚕️ Centro Cirúrgico",
-          description: "Centro operatório, recuperação e apoio cirúrgico.",
-          icon: "wrench",
-        },
-      ],
+      options: buildUnitOptions(units),
     },
   ];
 }
 
-export function getRegisterSteps(): RegisterStep[] {
+export function getRegisterSteps(units?: CadastroUnit[]): RegisterStep[] {
   return [
-    ...getOnboardingSteps(),
+    ...getOnboardingSteps(units),
     {
       id: "account",
       title: "Crie sua conta",

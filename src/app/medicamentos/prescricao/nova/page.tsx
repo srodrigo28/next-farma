@@ -156,12 +156,13 @@ export default function NovaPrescricaoPage() {
         ) : null}
 
         <div className="space-y-3">
-          <PrimaryButton>{isSubmitting ? "Salvando..." : "Criar + gerar horários"}</PrimaryButton>
+          <PrimaryButton type="submit" disabled={isSubmitting}>{isSubmitting ? "Salvando..." : "Criar + gerar horários"}</PrimaryButton>
           <Link href="/medicamentos" className="block text-center text-sm font-semibold text-muted">Cancelar</Link>
         </div>
       </form>
     </AppScreen>
   );
 }
+
 
 

@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { motion } from "motion/react";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { AppScreen } from "@/shared/components/AppScreen";
+import { CheckIcon, PatientsIcon } from "@/shared/components/AppIcons";
 import { DatePickerField } from "@/shared/components/DatePickerField";
 import { PrimaryButton } from "@/shared/components/PrimaryButton";
 import {
@@ -124,11 +127,65 @@ function TextAreaField({
   );
 }
 
+function SuccessRedirectCard({ seconds }: { seconds: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
+      className="overflow-hidden rounded-2xl border border-[#bdeedc] bg-[#f2fff9] p-4 shadow-[0_14px_28px_rgba(21,154,116,0.12)]"
+      role="status"
+      aria-live="polite"
+    >
+      <div className="flex items-center gap-4">
+        <motion.div
+          initial={{ scale: 0.72, rotate: -8 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ type: "spring", stiffness: 260, damping: 16 }}
+          className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#159a74] text-white shadow-[0_12px_22px_rgba(21,154,116,0.28)]"
+        >
+          <motion.span
+            className="absolute inset-0 rounded-2xl border border-[#159a74]/30"
+            animate={{ scale: [1, 1.28], opacity: [0.45, 0] }}
+            transition={{ duration: 1.4, repeat: Infinity, ease: "easeOut" }}
+          />
+          <CheckIcon className="h-7 w-7" />
+        </motion.div>
+
+        <div className="min-w-0 flex-1 space-y-1">
+          <p className="text-sm font-bold text-[#0d6f55]">Paciente cadastrado com sucesso.</p>
+          <p className="text-sm leading-5 text-[#245b4d]">Abrindo a lista de pacientes em {seconds}s.</p>
+        </div>
+
+        <motion.div
+          animate={{ x: [0, 4, 0] }}
+          transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+          className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-[#159a74] ring-1 ring-[#ccefe3] min-[360px]:flex"
+        >
+          <PatientsIcon className="h-5 w-5" />
+        </motion.div>
+      </div>
+
+      <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-[#d7f5ec]">
+        <motion.div
+          className="h-full rounded-full bg-[#159a74]"
+          initial={{ width: "100%" }}
+          animate={{ width: "0%" }}
+          transition={{ duration: 4, ease: "linear" }}
+        />
+      </div>
+    </motion.div>
+  );
+}
+
 export default function NovoPacientePage() {
+  const router = useRouter();
   const [form, setForm] = useState<NewPatientFormData>(getNewPatientInitialData());
   const [errors, setErrors] = useState<NewPatientFormErrors>({});
   const [feedback, setFeedback] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const [redirectSeconds, setRedirectSeconds] = useState(4);
   const [unitOptions, setUnitOptions] = useState<PatientSelectOption[]>([{ value: "", label: "Selecionar" }]);
   const sexOptions = getPatientSexOptions();
 
@@ -149,7 +206,25 @@ export default function NovoPacientePage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!isRedirecting) return;
+
+    const intervalId = window.setInterval(() => {
+      setRedirectSeconds((current) => Math.max(current - 1, 0));
+    }, 1000);
+    const timeoutId = window.setTimeout(() => {
+      router.push("/pacientes");
+    }, 4000);
+
+    return () => {
+      window.clearInterval(intervalId);
+      window.clearTimeout(timeoutId);
+    };
+  }, [isRedirecting, router]);
+
   function updateField<Key extends keyof NewPatientFormData>(key: Key, value: NewPatientFormData[Key]) {
+    if (isRedirecting) return;
+
     setForm((current) => ({ ...current, [key]: value }));
     setErrors((current) => ({ ...current, [key]: undefined }));
     setFeedback("");
@@ -157,6 +232,8 @@ export default function NovoPacientePage() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (isSubmitting || isRedirecting) return;
+
     setIsSubmitting(true);
 
     const result = await submitNewPatient(form);
@@ -166,7 +243,8 @@ export default function NovoPacientePage() {
     setIsSubmitting(false);
 
     if (result.ok) {
-      setForm(getNewPatientInitialData());
+      setRedirectSeconds(4);
+      setIsRedirecting(true);
     }
   }
 
@@ -271,14 +349,18 @@ export default function NovoPacientePage() {
           </div>
         </section>
 
-        {feedback ? (
+        {isRedirecting ? (
+          <SuccessRedirectCard seconds={redirectSeconds} />
+        ) : feedback ? (
           <p className={`text-sm font-medium ${hasErrors ? "text-danger" : "text-success"}`}>
             {feedback}
           </p>
         ) : null}
 
         <div className="space-y-3">
-          <PrimaryButton>{isSubmitting ? "Salvando..." : "Cadastrar paciente"}</PrimaryButton>
+          <PrimaryButton type="submit" disabled={isSubmitting || isRedirecting}>
+            {isSubmitting ? "Salvando..." : isRedirecting ? "Redirecionando..." : "Cadastrar paciente"}
+          </PrimaryButton>
           <Link href="/pacientes" className="block text-center text-sm font-semibold text-muted">
             Cancelar
           </Link>
