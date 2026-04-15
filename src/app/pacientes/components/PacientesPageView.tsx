@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowRightIcon, PlusIcon, SearchIcon } from "@/shared/components/AppIcons";
 import { AppScreen } from "@/shared/components/AppScreen";
 import { PrimaryButton } from "@/shared/components/PrimaryButton";
@@ -7,20 +8,25 @@ import { PatientListItem, PatientUnitOption } from "../types";
 
 function PatientRow({ patient }: { patient: PatientListItem }) {
   return (
-    <article className="rounded-[24px] border border-white/70 bg-white/92 p-4 shadow-[0_14px_28px_rgba(15,31,56,0.05)]">
+    <Link
+      href={`/pacientes/${patient.id}`}
+      className="block rounded-[24px] border border-white/70 bg-white/92 p-4 shadow-[0_14px_28px_rgba(15,31,56,0.05)] transition-all hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-[0_18px_34px_rgba(15,31,56,0.08)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/15"
+      aria-label={`Abrir dados de ${patient.name}`}
+    >
       <div className="flex items-center gap-3">
         <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary-soft text-sm font-bold text-primary-strong">
           {patient.name.charAt(0).toUpperCase()}
         </div>
         <div className="min-w-0 flex-1">
           <p className="text-lg font-semibold text-foreground">{patient.name}</p>
-          <p className="mt-1 text-sm text-muted">
-            Leito {patient.bed} · {patient.ageLabel} · Internado: {patient.admissionDate}
-          </p>
+          <div className="mt-1 flex items-center justify-between gap-3 text-sm text-muted">
+            <span>Leito {patient.bed}</span>
+            <span className="text-right">{patient.admissionDate}</span>
+          </div>
         </div>
         <ArrowRightIcon className="h-4 w-4 text-muted" />
       </div>
-    </article>
+    </Link>
   );
 }
 
@@ -80,3 +86,4 @@ export function PacientesPageView({
     </AppScreen>
   );
 }
+

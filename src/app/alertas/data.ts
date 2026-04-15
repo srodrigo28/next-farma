@@ -32,7 +32,7 @@ function buildCategory(priority?: string) {
 }
 
 export async function getAlerts(): Promise<AlertItem[]> {
-  const payload = await apiGet<ApiMedicationSchedule>("/api/v1/medications/schedule?window=2h");
+  const payload = await apiGet<ApiMedicationSchedule>("/api/v1/medications/schedule?window=2h", undefined, true);
   if (!payload) {
     return [];
   }
@@ -48,3 +48,4 @@ export async function getAlerts(): Promise<AlertItem[]> {
     category: buildCategory(item.priority),
   }));
 }
+

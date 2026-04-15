@@ -47,10 +47,10 @@ function getFallbackDashboardStats(): DashboardStat[] {
 
 export async function getDashboardStats(): Promise<DashboardStat[]> {
   const [schedulePayload, prescriptionsPayload, vitalSignsPayload, patientsPayload] = await Promise.all([
-    apiGet<ApiMedicationSchedule>("/api/v1/medications/schedule?window=2h"),
-    apiGet<CountPayload>("/api/v1/prescriptions/count"),
-    apiGet<CountPayload>("/api/v1/vital-signs/count"),
-    apiGet<CountPayload>("/api/v1/patients/count"),
+    apiGet<ApiMedicationSchedule>("/api/v1/medications/schedule?window=2h", undefined, true),
+    apiGet<CountPayload>("/api/v1/prescriptions/count", undefined, true),
+    apiGet<CountPayload>("/api/v1/vital-signs/count", undefined, true),
+    apiGet<CountPayload>("/api/v1/patients/count", undefined, true),
   ]);
 
   if (!schedulePayload || !prescriptionsPayload || !vitalSignsPayload || !patientsPayload) {
@@ -180,3 +180,4 @@ export function getDrawerMenu(): DrawerMenuItem[] {
     },
   ];
 }
+

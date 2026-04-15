@@ -51,7 +51,7 @@ export function getMedicationTabs(): MedicationTab[] {
 }
 
 export async function getMedicationSchedules(): Promise<MedicationScheduleItem[]> {
-  const payload = await apiGet<ApiMedicationSchedule>("/api/v1/medications/schedule?window=2h");
+  const payload = await apiGet<ApiMedicationSchedule>("/api/v1/medications/schedule?window=2h", undefined, true);
   if (!payload) {
     return [];
   }
@@ -67,7 +67,7 @@ export async function getMedicationSchedules(): Promise<MedicationScheduleItem[]
 }
 
 export async function getPrescriptionPatientOptions(): Promise<MedicationOption[]> {
-  const payload = await apiGet<ApiPatient[]>("/api/v1/patients");
+  const payload = await apiGet<ApiPatient[]>("/api/v1/patients", undefined, true);
   if (!payload) {
     return getFallbackPatientOptions();
   }
@@ -146,3 +146,5 @@ export function getNewPrescriptionInitialData(): PrescriptionFormData {
     notes: "",
   };
 }
+
+

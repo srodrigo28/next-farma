@@ -38,7 +38,7 @@ export async function getVitalRecords(): Promise<VitalRecordItem[]> {
 }
 
 export async function getVitalPatientOptions(): Promise<PatientOption[]> {
-  const payload = await apiGet<ApiPatient[]>("/api/v1/patients");
+  const payload = await apiGet<ApiPatient[]>("/api/v1/patients", undefined, true);
   if (!payload) {
     return [{ value: "", label: "Selecionar" }];
   }
@@ -64,3 +64,4 @@ export function getNewVitalRecordInitialData(): NewVitalRecordFormData {
     notes: "",
   };
 }
+

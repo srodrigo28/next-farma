@@ -1,5 +1,5 @@
 import { ApiErrorResponse } from "../../shared/types/api";
-import { NewPatientFormData, NewPatientFormErrors } from "./types";
+import { NewPatientFormData, NewPatientFormErrors, PatientDetails } from "./types";
 
 const FIELD_MAP: Record<string, keyof NewPatientFormErrors> = {
   full_name: "fullName",
@@ -29,6 +29,21 @@ export function buildNewPatientPayload(data: NewPatientFormData) {
   };
 }
 
+export function mapPatientApiToForm(patient: PatientDetails): NewPatientFormData {
+  return {
+    fullName: patient.full_name,
+    recordId: patient.record_id,
+    sex: patient.sex,
+    bed: patient.bed,
+    sector: patient.sector,
+    admissionDate: patient.admission_date,
+    unit: patient.unit,
+    allergies: patient.allergies || "",
+    notes: patient.notes || "",
+    isTrainingPatient: patient.is_training_patient,
+  };
+}
+
 export function mapNewPatientApiErrors(errors?: Record<string, string>): NewPatientFormErrors {
   if (!errors) return {};
 
@@ -47,10 +62,6 @@ export function buildNewPatientErrorResult(payload: ApiErrorResponse | null) {
   return {
     ok: false as const,
     errors: mapNewPatientApiErrors(payload?.errors),
-    message: payload?.message || "Não foi possível cadastrar o paciente.",
+    message: payload?.message || "Não foi possível salvar o paciente.",
   };
 }
-
-
-
-

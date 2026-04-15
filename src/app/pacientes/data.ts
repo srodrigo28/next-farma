@@ -46,7 +46,7 @@ function formatPatientMetaLabel(sex: string) {
 }
 
 export async function getPatientUnits(): Promise<PatientUnitOption[]> {
-  const payload = await apiGet<ApiUnit[]>("/api/v1/units");
+  const payload = await apiGet<ApiUnit[]>("/api/v1/units", undefined, true);
   const units = asArray<ApiUnit>(payload?.data);
 
   if (!payload || units.length === 0) {
@@ -60,7 +60,7 @@ export async function getPatientUnits(): Promise<PatientUnitOption[]> {
 }
 
 export async function getPatients(): Promise<PatientListItem[]> {
-  const payload = await apiGet<ApiPatient[]>("/api/v1/patients");
+  const payload = await apiGet<ApiPatient[]>("/api/v1/patients", undefined, true);
   const patients = asArray<ApiPatient>(payload?.data);
 
   if (!payload) {
@@ -87,7 +87,7 @@ export function getPatientSexOptions(): PatientSelectOption[] {
 }
 
 export async function getPatientFormUnitOptions(): Promise<PatientSelectOption[]> {
-  const payload = await apiGet<ApiUnit[]>("/api/v1/units");
+  const payload = await apiGet<ApiUnit[]>("/api/v1/units", undefined, true);
   const units = asArray<ApiUnit>(payload?.data);
 
   if (!payload || units.length === 0) {
@@ -114,3 +114,4 @@ export function getNewPatientInitialData(): NewPatientFormData {
     isTrainingPatient: false,
   };
 }
+

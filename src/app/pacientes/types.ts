@@ -20,6 +20,20 @@ export interface PatientSelectOption {
   icon?: string;
 }
 
+export interface PatientDetails {
+  id: number;
+  full_name: string;
+  record_id: string;
+  sex: string;
+  bed: string;
+  sector: string;
+  admission_date: string;
+  unit: string;
+  allergies: string;
+  notes: string;
+  is_training_patient: boolean;
+}
+
 export interface NewPatientFormData {
   fullName: string;
   recordId: string;
@@ -34,4 +48,3 @@ export interface NewPatientFormData {
 }
 
 export type NewPatientFormErrors = Partial<Record<keyof NewPatientFormData, string>>;
-
